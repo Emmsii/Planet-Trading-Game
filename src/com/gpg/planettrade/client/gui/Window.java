@@ -3,6 +3,7 @@ package com.gpg.planettrade.client.gui;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.opengl.PixelFormat;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -25,7 +26,7 @@ public class Window {
 		try {
 			Display.setDisplayMode(new DisplayMode(w, h));
 			Display.setTitle(title);
-			Display.create();
+			Display.create(new PixelFormat(8, 8, 0, 8)); // Anti-aliasing ([Alpha bits], [Depth bits], [Stencil bits], [Samples]) (8xAA)
 			windowOpen = true;
 		}
 		catch (LWJGLException e)
