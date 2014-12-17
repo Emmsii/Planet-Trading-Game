@@ -11,6 +11,7 @@ import com.gpg.planettrade.client.component.Component;
 import com.gpg.planettrade.client.component.TextButton;
 import com.gpg.planettrade.client.menu.Menu;
 import com.gpg.planettrade.client.menu.PlanetMenu;
+import com.gpg.planettrade.client.util.Keyboard;
 import com.gpg.planettrade.client.util.Mouse;
 import com.gpg.planettrade.client.util.Text;
 import com.gpg.planettrade.core.Globals;
@@ -22,8 +23,8 @@ public class StoragePopup extends Popup{
 	private Storage storage;
 	private List<Component> components = new ArrayList<Component>();
 	
-	public StoragePopup(int x, int y, Mouse mouse, Menu menu, Storage storage) {
-		super(x, y, mouse, menu);
+	public StoragePopup(int x, int y, Mouse mouse, Menu menu, Keyboard key, Storage storage) {
+		super(x, y, mouse, key, menu);
 		this.storage = storage;
 				
 		for(int i = 0; i < storage.containers.size(); i++) components.add(new TextButton(0, 0, 45, 20, i, "Sell"));
@@ -40,7 +41,7 @@ public class StoragePopup extends Popup{
 			if(button.isPressed()){
 				if(button.getId() == -1) closed = true;
 				else{
-					SellPopup sellPop = new SellPopup(x, y, mouse, menu);
+					SellPopup sellPop = new SellPopup(x, y, mouse, key, menu);
 					sellPop.init(storage.containers.get(button.getId()));
 					((PlanetMenu) menu).popup = sellPop;
 					closed = true;

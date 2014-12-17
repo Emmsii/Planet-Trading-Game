@@ -7,12 +7,17 @@ import com.gpg.planettrade.client.util.Keyboard;
 import com.gpg.planettrade.client.util.Text;
 
 public class TextField extends Component{
+	
+	public static final int JUST_NUMBERS = 0;
+	public static final int JUST_LETTERS = 1;
+	public static final int BOTH = 2;
 
 	protected String text = "";
 	protected int maxLength;
-	private Keyboard key;
+	protected int type;
+	protected Keyboard key;
 	
-	public TextField(int x, int y, int maxLength, Keyboard key){
+	public TextField(int x, int y, int maxLength, int type, Keyboard key){
 		this.x = x;
 		this.y = y;
 		this.maxLength = maxLength;
@@ -27,6 +32,19 @@ public class TextField extends Component{
 
 	@Override
 	public void update() {
+		if(type == JUST_LETTERS) doLetters();
+		if(type == JUST_NUMBERS) doNumbers();
+		if(type == BOTH){
+			doNumbers();
+			doLetters();
+		}
+							
+		if(text.length() > 0) if(key.backSpace.pressed) text = text.substring(0, text.length() - 1);
+			
+		key.release();
+	}
+	
+	private void doLetters(){
 		if(key.a.pressed) press("a");
 		if(key.b.pressed) press("b");
 		if(key.c.pressed) press("c");
@@ -52,17 +70,33 @@ public class TextField extends Component{
 		if(key.w.pressed) press("w");
 		if(key.x.pressed) press("x");
 		if(key.y.pressed) press("y");
-		if(key.z.pressed) press("z");		
-				
-		if(text.length() > 0){
-			if(key.backSpace.pressed) text = text.substring(0, text.length() - 1);
-		}
+		if(key.z.pressed) press("z");	
+		if(key.space.pressed) press(" ");
+	}
+	
+	private void doNumbers(){
+		if(key.zero.pressed) press("0");
+		if(key.one.pressed) press("1");
+		if(key.two.pressed) press("2");
+		if(key.three.pressed) press("3");
+		if(key.four.pressed) press("4");
+		if(key.five.pressed) press("5");
+		if(key.six.pressed) press("6");
+		if(key.seven.pressed) press("7");
+		if(key.eight.pressed) press("8");
+		if(key.nine.pressed) press("9");
 	}
 	
 	private void press(String msg){
-		System.out.println("pressed");
 		if(text.length() >= maxLength) return;
 		text = text + msg;
 	}
-
+	
+	public String getText(){
+		return text;
+	}
+	
+	public void clear(){
+		text = "";
+	}
 }

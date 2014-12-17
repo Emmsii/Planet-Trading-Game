@@ -18,6 +18,7 @@ import com.gpg.planettrade.client.menu.popup.BuildStoragePopup;
 import com.gpg.planettrade.client.menu.popup.Popup;
 import com.gpg.planettrade.client.menu.popup.StoragePopup;
 import com.gpg.planettrade.client.util.GameTime;
+import com.gpg.planettrade.client.util.Keyboard;
 import com.gpg.planettrade.client.util.Mouse;
 import com.gpg.planettrade.client.util.Text;
 import com.gpg.planettrade.core.Globals;
@@ -31,8 +32,8 @@ public class PlanetMenu extends Menu{
 
 	public Popup popup = null;
 	
-	public PlanetMenu(Mouse mouse, MainComponent main) {
-		super(mouse, main);
+	public PlanetMenu(Mouse mouse, Keyboard key, MainComponent main) {
+		super(mouse, key, main);
 		components = new ArrayList<Component> ();
 		components.add(new TextButton(10, 675, 50, 20, 0, "Back"));
 		components.add(new TextButton(425, 164, 94, 20, 1, "Build Factory"));
@@ -62,16 +63,16 @@ public class PlanetMenu extends Menu{
 					
 					if(button.getId() == 1){
 						//Pressed BUILD FACTORY BUTTON.
-						if(popup == null) popup = new BuildFactoryPopup(410, 180, mouse, this);
+						if(popup == null) popup = new BuildFactoryPopup(410, 180, mouse, key, this);
 					}
 					
 					if(button.getId() == 2){
-						if(popup == null) popup = new BuildStoragePopup(410, 250, mouse, this);
+						if(popup == null) popup = new BuildStoragePopup(410, 250, mouse, key, this);
 					}
 					
 					if(button.getId() >= 100){
 						if(Globals.currentPlanet.storage.get(button.getId() - 100) == null) Log.warn("Trying to get null storage depo: " + (button.getId() - 100));
-						else if(popup == null) popup = new StoragePopup(410, 180, mouse, this, Globals.currentPlanet.storage.get(button.getId() - 100));
+						else if(popup == null) popup = new StoragePopup(410, 180, mouse, this, key, Globals.currentPlanet.storage.get(button.getId() - 100));
 					}
 	
 				}

@@ -11,6 +11,7 @@ import com.gpg.planettrade.client.MainComponent;
 import com.gpg.planettrade.client.component.Button;
 import com.gpg.planettrade.client.component.Component;
 import com.gpg.planettrade.client.component.TextButton;
+import com.gpg.planettrade.client.util.Keyboard;
 import com.gpg.planettrade.client.util.Mouse;
 import com.gpg.planettrade.client.util.Text;
 import com.gpg.planettrade.core.Globals;
@@ -20,8 +21,8 @@ public class PlanetSelectMenu extends Menu{
 
 	public List<Planet> ownedPlanets;
 	
-	public PlanetSelectMenu(Mouse mouse, MainComponent main) {
-		super(mouse, main);
+	public PlanetSelectMenu(Mouse mouse, Keyboard key, MainComponent main) {
+		super(mouse, key, main);
 		init();
 	}
 	
