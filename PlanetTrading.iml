@@ -28,13 +28,20 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="lwjgl.jar">
+      <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/lib/jar/lwjgl.jar!/" />
         </CLASSES>
-        <JAVADOC>
-          <root url="file:/C:/Eclipse/Workspaces/PlanetTradingGame/lib/doc/javadoc/" />
-        </JAVADOC>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/jar/disruptor.jar!/" />
+        </CLASSES>
+        <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
