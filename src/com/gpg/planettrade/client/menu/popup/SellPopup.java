@@ -16,11 +16,23 @@ import com.gpg.planettrade.core.planet.storage.Container;
 public class SellPopup extends Popup{
 
 	private Container container;
+	private int amount;
 	
 	public SellPopup(int x, int y, Mouse mouse, Menu menu) {
 		super(x, y, mouse, menu);
 		
 		components.add(new TextButton(x + 370, y, 30, 20, -1, "X"));
+		
+		components.add(new TextButton(x + 80, y + 160, 47, 20, 1, "+10"));
+		components.add(new TextButton(x + 130, y + 160, 40, 20, 2, "-10"));
+		components.add(new TextButton(x + 70, y + 185, 57, 20, 3, "+100"));
+		components.add(new TextButton(x + 130, y + 185, 50, 20, 4, "-100"));
+		components.add(new TextButton(x + 70, y + 210, 57, 20, 5, "+1000"));
+		components.add(new TextButton(x + 130, y + 210, 57, 20, 6, "-1000"));
+		
+		components.add(new TextButton(x + 105, y + 235, 45, 20, 7, "Max"));
+		
+		components.add(new TextButton(x + 300, y + 50, 43, 20, 0, "Sell"));
 		
 	}
 	
@@ -39,6 +51,41 @@ public class SellPopup extends Popup{
 			if(button.isPressed()){
 				if(button.getId() == -1) closed = true;
 				
+				if(button.getId() == 0){
+					//Sell
+				}
+				
+				if(button.pressTime == 8){
+					if(button.getId() == 1){
+						if(amount + 10 <= container.amount) amount += 10;
+						else amount = container.amount;
+					}
+					if(button.getId() == 3){
+						if(amount + 100 <= container.amount) amount += 100;
+						else amount = container.amount;
+					}
+					if(button.getId() == 5){
+						if(amount + 1000 <= container.amount) amount += 1000;
+						else amount = container.amount;
+					}
+					
+					if(button.getId() == 2) {
+						if(amount - 10 >= 0) amount -= 10;
+						else amount = 0;
+					}
+					if(button.getId() == 4) {
+						if(amount - 100 >= 0) amount -= 100;
+						else amount = 0;
+					}
+					if(button.getId() == 6) {
+						if(amount - 1000 >= 0) amount -= 1000;
+						else amount = 0;
+					}
+				}
+				
+				if(button.getId() == 7){
+					amount = container.amount;
+				}
 			}
 		}
 	}
@@ -52,11 +99,13 @@ public class SellPopup extends Popup{
 		
 		Text.render("Sell Goods", x + 20, y + 25, 18, Font.BOLD, g);
 		
-		Text.render(container.type.name, x + 20, y + 50, 15, Font.BOLD, g);
-		Text.render(Globals.formatInt(container.amount) + " units", x + 20, y + 65, 15, Font.BOLD, new Color(150, 150, 150), g);
-		Text.render("Can sell for:", x + 20, y + 90, 12, Font.BOLD, g);
-		Text.render(container.getWorth(), x + 20, y + 113, 25, Font.BOLD, new Color(81, 151, 201), g);
-		Text.render(Globals.toCredits(container.type.value) + " each", x + 20, y + 127, 12, Font.BOLD, new Color(81, 151, 201), g);
+		Text.render(Globals.formatInt(amount) + "", x + 200, y + 75, 15, Font.BOLD, new Color(150, 150, 150), g); 
+		
+//		Text.render(container.type.name, x + 20, y + 50, 15, Font.BOLD, g);
+//		Text.render(Globals.formatInt(container.amount) + " units", x + 20, y + 65, 15, Font.BOLD, new Color(150, 150, 150), g);
+//		Text.render("Can sell for:", x + 20, y + 90, 12, Font.BOLD, g);
+//		Text.render(container.getWorth(), x + 20, y + 113, 25, Font.BOLD, new Color(81, 151, 201), g);
+//		Text.render(Globals.toCredits(container.type.value) + " each", x + 20, y + 127, 12, Font.BOLD, new Color(81, 151, 201), g);
 		
 		for(Component c : components) c.render(g);
 	}

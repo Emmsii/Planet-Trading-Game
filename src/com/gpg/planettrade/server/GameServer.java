@@ -51,6 +51,9 @@ public class GameServer {
 				server.stop();
 				System.exit(0);
 			}
+			if(command.equalsIgnoreCase("kick")){
+				
+			}
 		}
 	}
 	
