@@ -1,2 +1,100 @@
 Planet-Trading-Game
 ===================
+
+
+# Marketplace
+- The Marketplace Screen
+  - This screen shows all trades.
+  - The main page shows ALL the newest trades that have been placed (like /r/new).
+  - The main page is split into two. Planet Trades and Goods Trades.
+  - All trades have a time limit.
+    - Player can choose to rase and lower time limit.
+      - Has min and max time limit.
+  - Trades that aren't sold are removed, the player will get their items back.
+  - Filters
+    - Can filter trades by region/sector/star system.
+    - Can filter by time left.
+    - Can filter by price/quantity.
+    - Can filter by item/name/type.
+    - Can filter by seller.
+  - Trade info to display.
+    - Planets
+      - Planet name
+      - Location (could load map)
+      - List of buildings/upgrades/resources/stored resources.
+    - Goods
+      - Quantity
+      - Price each
+    - All Trades
+      - Price
+      - Time left
+      - Seller
+- Submiting a Trade
+  - Planet Trading
+    - You can only sell a planet if you own more than one planet.
+    - If you have all but one of your planets up for trade, you cannot sell the last planet you own.
+    - Planet cost is calculated by the buildings, upgrades and resources on it.
+    - While a planet is up for sale, EVERYTHING WILL STOP.
+    - Nothing will be processed, goods cannot enter or leave the planet.
+    - Lockdown.
+    - Will stay locked down till its sold or noone buys it.
+    - Sell button creates PlanetTrade object.
+      - Stores planet, seller, price and start time.
+  - Goods Trading
+    - Players place goods for sale from whatever storage depo it is in.
+    - They choose the quantity of goods to sell.
+    - The price has a min/max value based off global marketplace stats.
+      - Min and max price is set every 12h based off stats from the previous 12h of selling.
+      - Starting price and min/max increment is set by server config.
+      - May set floor and ceiling price as well, they are limiter values. Cannot go over or under.
+    - Player chooses quantity and price per unit, presses SELL button.
+    - Sell button creates new TradeOffer object.
+      - Stores item, price, quantity, seller and start time.
+    - The goods are removed from storage and moved to the 'marketplace'.
+- Making a trade
+  - A player must buy an item before the time runs out.
+  - The buyer can choose to either buy all of the goods or a portion.
+    - If a portion is selected, the amount is removed from the trade.
+    - The seller receives a portion of the credits.
+    - The price of the item will not change.
+  - Once the trade is complete the items will transfer from the 'marketplace' to the buyer.
+  - The seller will receive their credits in their Stored Credits.
+  - The trade is removed from the marketplace.
+- Misc
+  - The marketplace folder stores all data on trades.
+    - Only stores trades that are complete, not offers that fail to sell.
+    - Sell offer packets are saved to the marketplace folder.
+    - All transactions will be logged.
+     - Who sold what, and how much, for how much, to who, when.
+    - Logs go into a temporary folder, this holds 12h worth of transactions.
+     - Server will go over the transactions and calculate the new prices of goods. 
+    - The 12h logs are then either moved to a perminant log folder for storage OR deleted.
+       - Choose to save trade logs perminantly from server config.
+  - Stats
+    - Hourly/daily/weekly stats.
+    - Total credits exchanged.
+    - Total goods/planets exchanged.
+    - Most goods sold in one transaction.
+    - Most expensive transaction.
+    - Player that spent the most (possibly don't want to give away players financial information).
+    - GRAPHS!
+  - Item Lookup
+    - Shows stats for certain items (not to buy them)
+    - Current price
+    - Min/max price
+    - Average prices over time
+    - Quantity sold
+
+# Chat
+- Global Chat
+  - One big chat channel.
+- Area Chat
+  - Specific chat channels for regions, sectors and star systems.
+- Custom Chat
+  - Chat channels that players create.
+  - They give it a name and they join it.
+  - They then give other people the name to join.
+  - Can make it public or private.
+  - Public custom channels are listed.
+  - Private channels can only be joined if you have the name.
+  - Custom channels are removed when the last person leaves.
