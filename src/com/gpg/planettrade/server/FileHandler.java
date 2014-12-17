@@ -15,6 +15,7 @@ import java.util.List;
 import com.esotericsoftware.minlog.Log;
 import com.gpg.planettrade.core.Globals;
 import com.gpg.planettrade.core.Player;
+import com.gpg.planettrade.core.TradeOffer;
 import com.gpg.planettrade.core.planet.Planet;
 import com.gpg.planettrade.core.planet.factory.Factory;
 import com.gpg.planettrade.core.planet.resource.Resource;
@@ -45,14 +46,17 @@ public class FileHandler {
 			file.mkdirs();
 		}
 		
-		file = new File("data/");
+		file = new File("marketplace/");
+		if(!file.exists()){
+			Log.info("Marketplace folder doesn't exist, creating now.");
+			file.mkdirs();
+		}
 		
+		file = new File("data/");
 		if(!file.exists()){
 			Log.info("Data folder doesn't exist, creating now.");
 			file.mkdirs();
-		}else{
-			return;
-		}
+		}else return;	
 		
 		for(int y = 0; y < Globals.galaxySize; y++){
 			for(int x = 0; x < Globals.galaxySize; x++){
@@ -130,6 +134,10 @@ public class FileHandler {
 		systemsCreated++;
 	}
 	
+	/*
+	 * Planet Methods
+	 */
+	
 	private static void createPlanet(String location, int id, String subname){
 		File file = new File(location);
 		ObjectOutputStream oos = null;
@@ -191,7 +199,6 @@ public class FileHandler {
 	}
 	
 	public static void savePlanet(Planet p){
-//		Log.info("saving planet file.");
 		File file = new File(p.filePath);
 		if(!file.exists()){
 			Log.warn("Cannot save planet file, file doesn't exist.");
@@ -259,6 +266,33 @@ public class FileHandler {
 		
 		return result;
 	}
+	
+	/*
+	 * Market Methods
+	 */
+		
+	public void saveTradeOffer(TradeOffer trade){
+		File file = new File("marketplace/" + trade.hashCode() + ".dat");
+
+		try {
+			FileOutputStream out = new FileOutputStream(file);
+			if(!file.exists()) file.createNewFile();
+			ObjectOutputStream oos = new ObjectOutputStream(out);
+			oos.writeObject(trade);
+			oos.flush();
+			oos.close();
+			out.flush();
+			out.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/*
+	 * Resources Methods
+	 */
 	
 	public static Factory[] loadFactories(){
 		Factory[] result = null;

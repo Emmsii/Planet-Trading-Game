@@ -15,6 +15,7 @@ import com.gpg.planettrade.core.Network.Time;
 import com.gpg.planettrade.core.Player;
 import com.gpg.planettrade.core.planet.factory.FactoryManager;
 import com.gpg.planettrade.core.planet.resource.ResourceManager;
+import com.gpg.planettrade.server.market.MarketplaceManager;
 
 public class GameServer {
 
@@ -30,6 +31,7 @@ public class GameServer {
 	public GameServer() throws IOException{	
 		ResourceManager.init();
 		FactoryManager.init();
+		MarketplaceManager.init();
 		FileHandler.createFolderStructure();
 		
 		server = new Server(10250, 10250){

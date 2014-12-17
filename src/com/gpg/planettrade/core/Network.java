@@ -37,7 +37,8 @@ public class Network {
 		k.register(Factory.class);
 		k.register(Storage.class);
 		k.register(Factory[].class);
-		k.register(Container.class);	
+		k.register(Container.class);
+		k.register(TradeOffer.class);
 		
 		//Register misc
 		k.register(ArrayList.class);
