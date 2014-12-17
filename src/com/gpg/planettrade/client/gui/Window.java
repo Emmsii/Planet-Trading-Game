@@ -1,4 +1,4 @@
-package com.gpg.planettrade.gui;
+package com.gpg.planettrade.client.gui;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;

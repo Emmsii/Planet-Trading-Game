@@ -1,4 +1,4 @@
-package com.gpg.planettrade.gui;
+package com.gpg.planettrade.client.gui;
 
 public class Test {
 
