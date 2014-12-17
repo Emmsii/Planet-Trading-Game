@@ -9,6 +9,7 @@ import com.gpg.planettrade.client.component.Component;
 import com.gpg.planettrade.client.component.TextButton;
 import com.gpg.planettrade.client.menu.Menu;
 import com.gpg.planettrade.client.menu.PlanetMenu;
+import com.gpg.planettrade.client.util.Keyboard;
 import com.gpg.planettrade.client.util.Mouse;
 import com.gpg.planettrade.client.util.Text;
 import com.gpg.planettrade.core.Globals;
@@ -16,8 +17,8 @@ import com.gpg.planettrade.core.planet.storage.Storage;
 
 public class BuildStoragePopup extends Popup{
 	
-	public BuildStoragePopup(int x, int y, Mouse mouse, Menu menu) {
-		super(x, y, mouse, menu);
+	public BuildStoragePopup(int x, int y, Mouse mouse, Keyboard key, Menu menu) {
+		super(x, y, mouse, key, menu);
 		
 		components.add(new TextButton(0, 0, 50, 20, 0, "Build"));
 		components.add(new TextButton(x + 370, y, 30, 20, -1, "X"));

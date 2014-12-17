@@ -7,7 +7,7 @@ public class Button extends Component{
 	protected final int w, h;
 	protected String text;
 	protected boolean hover = false;
-	protected int pressTime = 0;
+	public int pressTime = 0;
 	
 	protected int mouseX, mouseY, mouseB;
 	

@@ -225,16 +225,16 @@ public class MainComponent extends Canvas implements Runnable{
 		 */
 		switch(state){
 			case 1:
-				planetSelectMenu = new PlanetSelectMenu(mouse, this);
+				planetSelectMenu = new PlanetSelectMenu(mouse, key, this);
 				if(Globals.ownedPlanets != null) planetSelectMenu.updateOwnedPlanets(Globals.ownedPlanets);
 				this.state.setState(state);
 				break;
 			case 2:
-				planetMenu = new PlanetMenu(mouse, this);
+				planetMenu = new PlanetMenu(mouse, key, this);
 				this.state.setState(state);
 				break;
 			case 3:
-				marketplace = new Marketplace(mouse, this);
+				marketplace = new Marketplace(mouse, key, this);
 				this.state.setState(state);
 				break;
 		}

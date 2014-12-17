@@ -30,20 +30,6 @@ public class Keyboard implements KeyListener{
 			}else pressed = false;
 			
 		}		
-//		public int getNumPressed(){
-//			return presses;
-//		}
-//		
-//		public boolean isPressed(){
-//			return pressed;
-//		}
-//		
-//		public void toggle(boolean isPressed){
-//			pressed = isPressed;
-//			if(pressed){
-//				numPressed++;
-//			}
-//		}
 	}
 	
 	public List<Key> keys = new ArrayList<Key>();
@@ -141,16 +127,16 @@ public class Keyboard implements KeyListener{
 		if(keyCode == KeyEvent.VK_Y) y.toggle(isPressed);
 		if(keyCode == KeyEvent.VK_Z) z.toggle(isPressed);
 		
-		if(keyCode == KeyEvent.VK_0) zero.toggle(isPressed);
-		if(keyCode == KeyEvent.VK_1) one.toggle(isPressed);
-		if(keyCode == KeyEvent.VK_2) two.toggle(isPressed);
-		if(keyCode == KeyEvent.VK_3) three.toggle(isPressed);
-		if(keyCode == KeyEvent.VK_4) four.toggle(isPressed);
-		if(keyCode == KeyEvent.VK_5) five.toggle(isPressed);
-		if(keyCode == KeyEvent.VK_6) six.toggle(isPressed);
-		if(keyCode == KeyEvent.VK_7) seven.toggle(isPressed);
-		if(keyCode == KeyEvent.VK_8) eight.toggle(isPressed);
-		if(keyCode == KeyEvent.VK_9) nine.toggle(isPressed);
+		if(keyCode == KeyEvent.VK_0 || keyCode == KeyEvent.VK_NUMPAD0) zero.toggle(isPressed);
+		if(keyCode == KeyEvent.VK_1 || keyCode == KeyEvent.VK_NUMPAD1) one.toggle(isPressed);
+		if(keyCode == KeyEvent.VK_2 || keyCode == KeyEvent.VK_NUMPAD2) two.toggle(isPressed);
+		if(keyCode == KeyEvent.VK_3 || keyCode == KeyEvent.VK_NUMPAD3) three.toggle(isPressed);
+		if(keyCode == KeyEvent.VK_4 || keyCode == KeyEvent.VK_NUMPAD4) four.toggle(isPressed);
+		if(keyCode == KeyEvent.VK_5 || keyCode == KeyEvent.VK_NUMPAD5) five.toggle(isPressed);
+		if(keyCode == KeyEvent.VK_6 || keyCode == KeyEvent.VK_NUMPAD6) six.toggle(isPressed);
+		if(keyCode == KeyEvent.VK_7 || keyCode == KeyEvent.VK_NUMPAD7) seven.toggle(isPressed);
+		if(keyCode == KeyEvent.VK_8 || keyCode == KeyEvent.VK_NUMPAD8) eight.toggle(isPressed);
+		if(keyCode == KeyEvent.VK_9 || keyCode == KeyEvent.VK_NUMPAD9) nine.toggle(isPressed);
 		
 		if(keyCode == KeyEvent.VK_SHIFT) shift.toggle(isPressed);
 		if(keyCode == KeyEvent.VK_SPACE) space.toggle(isPressed);

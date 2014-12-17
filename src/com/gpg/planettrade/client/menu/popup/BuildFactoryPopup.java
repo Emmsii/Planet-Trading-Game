@@ -9,6 +9,7 @@ import com.gpg.planettrade.client.component.Component;
 import com.gpg.planettrade.client.component.TextButton;
 import com.gpg.planettrade.client.menu.Menu;
 import com.gpg.planettrade.client.menu.PlanetMenu;
+import com.gpg.planettrade.client.util.Keyboard;
 import com.gpg.planettrade.client.util.Mouse;
 import com.gpg.planettrade.client.util.Text;
 import com.gpg.planettrade.core.Globals;
@@ -17,8 +18,8 @@ import com.gpg.planettrade.core.planet.factory.FactoryManager;
 
 public class BuildFactoryPopup extends Popup{
 	
-	public BuildFactoryPopup(int x, int y, Mouse mouse, Menu menu) {
-		super(x, y, mouse, menu);
+	public BuildFactoryPopup(int x, int y, Mouse mouse, Keyboard key, Menu menu) {
+		super(x, y, mouse, key, menu);
 		
 		for(int i = 0; i < FactoryManager.factories.length; i++) components.add(new TextButton(0, 0, 50, 20, i, "Build"));
 		components.add(new TextButton(x + 370, y, 30, 20, -1, "X"));
