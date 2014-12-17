@@ -68,7 +68,7 @@ public class FileHandler {
 		Log.info("Created " + foldersCreated + " folders in " + ((System.currentTimeMillis() - start) / 1000) + " seconds. (" + String.format("%.2f", size) + "mb)");
 		Log.info("Regions: " + regions + " | Sectors: " + sectors + " | Systems: " + systemsCreated + " | Planets: " + planetsCreated + " | Chance for system: " + Globals.systemFactor + " out of 30.");
 		Log.info("Planet Types - Terran: " + terran + " (" + calcPer(terran) + "%)" +
-				            " |  Water: " + water + " ("+ calcPer(water) + "%)" +
+				            " | Water: " + water + " ("+ calcPer(water) + "%)" +
 				             " | Lava: " + lava + " (" + calcPer(lava) + "%)" +
 				             " | Desert: " + desert + " (" + calcPer(desert) + "%)" +
 				             " | Gas: " + gas + " (" + calcPer(gas) + "%)");
@@ -126,7 +126,7 @@ public class FileHandler {
 			foldersCreated++;
 		}
 		
-		int r = Globals.random.nextInt(4) + 1;
+		int r = Globals.random.nextInt(7) + 1;
 		for(int i = 0; i < r; i++){
 			createPlanet(location + "/ss" + sx + "_" + sy + "/p" + i + ".dat", i, "r0" + regionX + "0" + regionY + "_s0" + sectorX + "0" + sectorY + "_s0" + sx + "0" + sy + "_p" + i);
 		}
@@ -271,9 +271,8 @@ public class FileHandler {
 	 * Market Methods
 	 */
 		
-	public void saveTradeOffer(TradeOffer trade){
-		File file = new File("marketplace/" + trade.hashCode() + ".dat");
-
+	public static boolean saveTradeOffer(TradeOffer trade){
+		File file = new File("marketplace/" + trade.hashCode() + ".dat");		
 		try {
 			FileOutputStream out = new FileOutputStream(file);
 			if(!file.exists()) file.createNewFile();
@@ -283,11 +282,17 @@ public class FileHandler {
 			oos.close();
 			out.flush();
 			out.close();
+			return true;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return false;
+	}
+	
+	public static TradeOffer loadOffer(){
+		return null;
 	}
 	
 	/*

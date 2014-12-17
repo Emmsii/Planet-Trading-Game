@@ -29,7 +29,7 @@ public class Network {
 		k.register(TakeCredits.class);
 		k.register(GiveCredits.class);
 		k.register(UpdatePlanet.class);
-		
+				
 		//Register classes
 		k.register(Player.class);
 		k.register(Planet.class);
@@ -39,7 +39,7 @@ public class Network {
 		k.register(Factory[].class);
 		k.register(Container.class);
 		k.register(TradeOffer.class);
-		
+					
 		//Register misc
 		k.register(ArrayList.class);
 		k.register(int[].class);
@@ -89,3 +89,4 @@ public class Network {
 		public int amount;
 	}
 }
+

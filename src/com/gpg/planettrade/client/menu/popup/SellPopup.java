@@ -9,19 +9,25 @@ import com.gpg.planettrade.client.component.Component;
 import com.gpg.planettrade.client.component.TextButton;
 import com.gpg.planettrade.client.component.TextField;
 import com.gpg.planettrade.client.menu.Menu;
+import com.gpg.planettrade.client.menu.PlanetMenu;
+import com.gpg.planettrade.client.util.GameTime;
 import com.gpg.planettrade.client.util.Keyboard;
 import com.gpg.planettrade.client.util.Mouse;
 import com.gpg.planettrade.client.util.Text;
 import com.gpg.planettrade.core.Globals;
+import com.gpg.planettrade.core.TradeOffer;
 import com.gpg.planettrade.core.planet.storage.Container;
+import com.gpg.planettrade.core.planet.storage.Storage;
 
 public class SellPopup extends Popup{
 
 	private Container container;
+	private Storage storage;
 	private int amount;
 	
-	public SellPopup(int x, int y, Mouse mouse, Keyboard key, Menu menu) {
+	public SellPopup(int x, int y, Mouse mouse, Keyboard key, Menu menu, Storage storage) {
 		super(x, y, mouse, key, menu);
+		this.storage = storage;
 		
 		components.add(new TextButton(x + 370, y, 30, 20, -1, "X"));
 		
@@ -63,7 +69,15 @@ public class SellPopup extends Popup{
 				if(button.getId() == -1) closed = true;
 				
 				if(button.getId() == 0){
-					//Sell
+					TradeOffer offer = new TradeOffer();
+					offer.placedBy = Globals.username;
+					offer.timePlaced = GameTime.currentTimeSeconds;
+					offer.priceEach = container.type.value;
+					offer.quantity = amount;
+					offer.type = container.type.type;
+					((PlanetMenu) menu).newTradeOffer(offer, storage);
+					closed = true;
+					return;
 				}
 				
 				if(button.pressTime == 8){

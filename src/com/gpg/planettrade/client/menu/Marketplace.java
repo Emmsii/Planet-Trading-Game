@@ -7,13 +7,14 @@ import com.gpg.planettrade.client.util.Keyboard;
 import com.gpg.planettrade.client.util.Mouse;
 
 public class Marketplace extends Menu{
+	
+	/*
+	 * TODO:
+	 * List all trades.
+	 */
 
 	public Marketplace(Mouse mouse, Keyboard key, MainComponent main) {
 		super(mouse, key, main);
-	}
-	
-	public void sell(){
-		
 	}
 
 	@Override

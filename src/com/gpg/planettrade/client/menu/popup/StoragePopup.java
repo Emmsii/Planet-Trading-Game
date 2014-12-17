@@ -41,7 +41,7 @@ public class StoragePopup extends Popup{
 			if(button.isPressed()){
 				if(button.getId() == -1) closed = true;
 				else{
-					SellPopup sellPop = new SellPopup(x, y, mouse, key, menu);
+					SellPopup sellPop = new SellPopup(x, y, mouse, key, menu, storage);
 					sellPop.init(storage.containers.get(button.getId()));
 					((PlanetMenu) menu).popup = sellPop;
 					closed = true;

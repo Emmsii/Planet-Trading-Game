@@ -13,7 +13,7 @@ public class Globals {
 	public static int galaxySize = 3;
 	public static int regionSize = 3;
 	public static int sectorSize = 5;
-	public static int systemFactor = 2;
+	public static int systemFactor = 3;
 	
 	public static int startingCredits = 50000;
 	public static int startingPlanets = 10;

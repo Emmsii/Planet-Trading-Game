@@ -11,6 +11,7 @@ import com.gpg.planettrade.core.Network.StoredCredits;
 import com.gpg.planettrade.core.Network.TakeCredits;
 import com.gpg.planettrade.core.Network.UpdatePlanet;
 import com.gpg.planettrade.core.Player;
+import com.gpg.planettrade.core.TradeOffer;
 import com.gpg.planettrade.server.GameServer.PlayerConnection;
 
 public class ServerListener extends Listener{
@@ -78,6 +79,14 @@ public class ServerListener extends Listener{
 			StoredCredits storedCredits = new StoredCredits();
 			storedCredits.credits = FileHandler.loadPlayer(player.name).storedCredits;
 			c.sendTCP(storedCredits);
+			return;
+		}
+		
+		if(o instanceof TradeOffer){
+			TradeOffer offer = (TradeOffer) o;
+			if(!FileHandler.saveTradeOffer(offer)){
+				Log.warn("Could not save trade offer to data folder.");
+			}
 			return;
 		}
 	}
