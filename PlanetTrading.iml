@@ -28,16 +28,35 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="lwjgl.jar">
+      <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/jar/lwjgl.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/jar/lwjgl_util.jar!/" />
         </CLASSES>
-        <JAVADOC>
-          <root url="file:/C:/Eclipse/Workspaces/PlanetTradingGame/lib/doc/javadoc/" />
-        </JAVADOC>
+        <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="x64" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/jar/lwjgl.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/lwjgl-source-2.9.1.zip!/src/generated" />
+          <root url="jar://$MODULE_DIR$/lwjgl-source-2.9.1.zip!/src/java" />
+          <root url="jar://$MODULE_DIR$/lwjgl-source-2.9.1.zip!/src/templates" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/jar/jinput.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
