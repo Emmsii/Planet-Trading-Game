@@ -262,7 +262,7 @@ public class FileHandler {
 	
 	public static Factory[] loadFactories(){
 		Factory[] result = null;
-		File file = new File(FileHandler.class.getResource("/factories").getFile());
+		File file = new File("res/factories");
 		if(!file.exists()){
 			Log.error("Cannot find factory folder at " + file.getPath());
 			System.exit(1);
@@ -303,8 +303,8 @@ public class FileHandler {
 	
 	public static Resource[] loadResources(){
 		Resource[] result = null;
-		
-		File file = new File(FileHandler.class.getResource("/resources").getFile());
+
+		File file = new File("res/resources");
 		
 		if(!file.exists()){
 			Log.error("Cannot find resources folder at " + file.getPath());
@@ -404,7 +404,7 @@ public class FileHandler {
 	}
 	
 	private static String getRandomPlanetName(){
-		File file = new File(FileHandler.class.getResource("/planet_names.txt").getFile());
+		File file = new File("res/planet_names.txt");
 		if(!file.exists()) return "null";
 		
 		List<String> lines = new ArrayList<String>();
