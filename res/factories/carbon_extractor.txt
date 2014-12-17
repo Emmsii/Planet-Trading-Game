@@ -1,0 +1,6 @@
+name:Carbon Extractor
+description:Extracts carbon.
+type:extractor
+price:400
+input:carbon
+ups:25

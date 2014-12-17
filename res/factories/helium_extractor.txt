@@ -1,0 +1,6 @@
+name:Helium Extractor
+description:Extracts helium gas.
+type:extractor
+price:500
+input:helium
+ups:40

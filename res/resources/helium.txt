@@ -1,0 +1,6 @@
+name:Helium
+description:A very common gas.
+type:Gas
+value:10
+spawn_chance:100
+spawn_on:0,1,2,3,4

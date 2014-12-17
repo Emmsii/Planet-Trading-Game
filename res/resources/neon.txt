@@ -1,0 +1,6 @@
+name:Neon
+description:Just another gas.
+type:Gas
+value:25
+spawn_chance:80
+spawn_on:1,2,4

@@ -1,0 +1,6 @@
+name:Explodium
+description:The element of surprise.
+type:Gas
+value:400
+spawn_chance:1
+spawn_on:2

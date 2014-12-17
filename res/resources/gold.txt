@@ -1,0 +1,6 @@
+name:Gold
+description:A shiney metal.
+type:Metal
+value:250
+spawn_chance:25
+spawn_on:0,2,3

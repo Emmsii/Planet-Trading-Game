@@ -1,0 +1,6 @@
+name:Iron
+description:Rock hard.
+type:Metal
+value:75
+spawn_chance:75
+spawn_on:0,2

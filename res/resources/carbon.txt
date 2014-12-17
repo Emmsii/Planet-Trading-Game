@@ -1,0 +1,6 @@
+name:Carbon
+description:Just another metal.
+type:Metal
+value:25
+spawn_chance:80
+spawn_on:0,1,3

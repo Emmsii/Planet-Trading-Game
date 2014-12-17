@@ -1,0 +1,6 @@
+name:Gold Extractor
+description:Extracts gold.
+type:extractor
+price:1200
+input:gold
+ups:15

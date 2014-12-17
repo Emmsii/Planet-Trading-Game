@@ -1,0 +1,6 @@
+name:Nitrogen
+description:Hit the nos.
+type:Gas
+value:50
+spawn_chance:50
+spawn_on:0,1,2,3,4

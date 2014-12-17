@@ -1,0 +1,6 @@
+name:Oxygen
+description:Eat fresh.
+type:Gas
+value:40
+spawn_chance:60
+spawn_on:0,1,3,4

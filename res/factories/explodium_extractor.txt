@@ -1,0 +1,6 @@
+name:Explodium Extractor
+description:Extracts the rare gas, explodium.
+type:extractor
+price:3000
+input:explodium
+ups:5

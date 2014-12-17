@@ -1,0 +1,6 @@
+name:Iron Extractor
+description:Extracts iron.
+type:extractor
+price:600
+input:iron
+ups:30
