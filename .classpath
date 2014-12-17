@@ -7,7 +7,7 @@
 	<classpathentry kind="lib" path="lib/jar/lwjgl.jar">
 		<attributes>
 			<attribute name="javadoc_location" value="file:/C:/Eclipse/Workspaces/PlanetTradingGame/lib/doc/javadoc/"/>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="PlanetTradingGame/lib/native/windows"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="PlanetTradingGame/lib/native/windows/x64"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="output" path="bin"/>

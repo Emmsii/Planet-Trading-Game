@@ -11,6 +11,9 @@ import java.awt.image.BufferStrategy;
 
 import javax.swing.JFrame;
 
+import org.lwjgl.Sys;
+
+import com.esotericsoftware.minlog.Log;
 import com.gpg.planettrade.client.menu.Marketplace;
 import com.gpg.planettrade.client.menu.PlanetMenu;
 import com.gpg.planettrade.client.menu.PlanetSelectMenu;
@@ -46,6 +49,8 @@ public class MainComponent extends Canvas implements Runnable{
 	private Marketplace marketplace;
 	
 	public MainComponent(){
+		Log.info("LWJGL Version" + Sys.getVersion());
+		
 		gameClient = new GameClient(this);
 		mouse = new Mouse();
 		key = new Keyboard();
