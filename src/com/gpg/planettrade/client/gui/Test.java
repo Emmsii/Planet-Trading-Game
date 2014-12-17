@@ -1,16 +1,34 @@
 package com.gpg.planettrade.client.gui;
 
-public class Test {
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.glEnd;
+import static org.lwjgl.opengl.GL11.glVertex2f;
+
+public class Test implements GUI {
 
 	public static void main(String[] args)
 	{
-		Window window = new Window(1280, 720, "Planet Trading Game");
-		window.start();
+		Window mainWindow = new Window(1280, 720, "Planet Trading Game");
+		mainWindow.start(new Test());
+	}
 
-		while (window.isOpen())
+	public void render()
+	{
+		glLoadIdentity();
+
+		glColor3f(0.25f, 0.75f, 0.5f);
+
+		glTranslatef(64, 64, 0);
+		glRotatef(45,0,0,1);
+
+		glBegin(GL_QUADS);
 		{
-			// Game / Render Loops
+			glVertex2f(0,0);
+			glVertex2f(0,64);
+			glVertex2f(64,64);
+			glVertex2f(64,0);
 		}
+		glEnd();
 	}
 
 }
