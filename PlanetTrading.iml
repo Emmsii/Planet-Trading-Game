@@ -43,9 +43,9 @@
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$MODULE_DIR$/lwjgl-source-2.9.1.zip!/src/generated" />
-          <root url="jar://$MODULE_DIR$/lwjgl-source-2.9.1.zip!/src/java" />
-          <root url="jar://$MODULE_DIR$/lwjgl-source-2.9.1.zip!/src/templates" />
+          <root url="jar://$MODULE_DIR$/lib/lwjgl-source-2.9.1.zip!/src/generated" />
+          <root url="jar://$MODULE_DIR$/lib/lwjgl-source-2.9.1.zip!/src/java" />
+          <root url="jar://$MODULE_DIR$/lib/lwjgl-source-2.9.1.zip!/src/templates" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -56,6 +56,17 @@
         </CLASSES>
         <JAVADOC />
         <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/jar/slick-util.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/lib/slick-util-src.zip!/" />
+        </SOURCES>
       </library>
     </orderEntry>
   </component>
