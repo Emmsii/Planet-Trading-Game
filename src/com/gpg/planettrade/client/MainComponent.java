@@ -166,7 +166,7 @@ public class MainComponent extends Canvas implements Runnable{
 		if(aa) this.antiAliasing(g);
 		
 		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, WIDTH + 2, HEIGHT + 2);
+		g.fillRect(0, 0, WIDTH + 20, HEIGHT + 20);
 		g.setFont(new Font("Arial", Font.BOLD, 12));
 		g.setColor(Color.WHITE);
 					
