@@ -18,7 +18,6 @@ public class MultiTest {
 	 * 00:02  INFO: Finished all with 6 threads in 2.891 seconds
 	 * 00:03  INFO: Finished all with 7 threads in 3.568 seconds
 	 * 00:02  INFO: Finished all with 8 threads in 2.928 seconds
-	 * 00:02  INFO: Finished all with 8 threads in 2.92 seconds
 	 */
 	
 	private static final int THREADS = Runtime.getRuntime().availableProcessors();
