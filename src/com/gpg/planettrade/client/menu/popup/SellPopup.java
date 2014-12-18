@@ -15,7 +15,7 @@ import com.gpg.planettrade.client.util.Keyboard;
 import com.gpg.planettrade.client.util.Mouse;
 import com.gpg.planettrade.client.util.Text;
 import com.gpg.planettrade.core.Globals;
-import com.gpg.planettrade.core.TradeOffer;
+import com.gpg.planettrade.core.GoodsOffer;
 import com.gpg.planettrade.core.planet.storage.Container;
 import com.gpg.planettrade.core.planet.storage.Storage;
 
@@ -69,13 +69,14 @@ public class SellPopup extends Popup{
 				if(button.getId() == -1) closed = true;
 				
 				if(button.getId() == 0){
-					TradeOffer offer = new TradeOffer();
+					GoodsOffer offer = new GoodsOffer();
 					offer.placedBy = Globals.username;
 					offer.timePlaced = GameTime.currentTimeSeconds;
+					offer.length = 60; 
 					offer.priceEach = container.type.value;
 					offer.quantity = amount;
-					offer.type = container.type.type;
-					((PlanetMenu) menu).newTradeOffer(offer, storage);
+					offer.type = container.type.name;
+					((PlanetMenu) menu).newGoodsOffer(offer, storage);
 					closed = true;
 					return;
 				}

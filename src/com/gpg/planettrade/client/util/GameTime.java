@@ -3,6 +3,10 @@ package com.gpg.planettrade.client.util;
 
 public class GameTime {
 
+	public static final long HOUR = 3600;
+	public static final long DAY = 86400;
+	public static final long WEEK = 2074000;
+	
 	public static long serverTimeSeconds;
 	public static long secondsPassed;
 	public static long currentTimeSeconds;

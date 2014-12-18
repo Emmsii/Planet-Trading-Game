@@ -7,6 +7,7 @@ import com.esotericsoftware.minlog.Log;
 import com.gpg.planettrade.client.util.GameTime;
 import com.gpg.planettrade.core.Globals;
 import com.gpg.planettrade.core.Network.AddPlayer;
+import com.gpg.planettrade.core.Network.ChatMessage;
 import com.gpg.planettrade.core.Network.Factories;
 import com.gpg.planettrade.core.Network.OwnedPlanets;
 import com.gpg.planettrade.core.Network.RemovePlayer;
@@ -66,6 +67,12 @@ public class ClientListener extends Listener{
 		if(o instanceof Factories){
 			Factories fact = (Factories) o;
 			FactoryManager.factories = fact.factories;
+			return;
+		}
+		
+		if(o instanceof ChatMessage){
+			ChatMessage msg = (ChatMessage) o;
+			main.addMessage(msg);
 			return;
 		}
 	}

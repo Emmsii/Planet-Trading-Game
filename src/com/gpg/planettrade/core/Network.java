@@ -30,6 +30,7 @@ public class Network {
 		k.register(TakeCredits.class);
 		k.register(GiveCredits.class);
 		k.register(UpdatePlanet.class);
+		k.register(ChatMessage.class);
 				
 		//Register classes
 		k.register(Player.class);
@@ -40,6 +41,8 @@ public class Network {
 		k.register(Factory[].class);
 		k.register(Container.class);
 		k.register(TradeOffer.class);
+		k.register(PlanetOffer.class);
+		k.register(GoodsOffer.class);
 					
 		//Register misc
 		k.register(ArrayList.class);
@@ -88,6 +91,11 @@ public class Network {
 	
 	public static class GiveCredits{
 		public int amount;
+	}
+	
+	public static class ChatMessage{
+		public String from;
+		public String text;
 	}
 }
 
