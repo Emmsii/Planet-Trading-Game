@@ -40,22 +40,24 @@ public class FileHandler {
 	private static int foldersCreated;
 	private static double size = 0;
 	
+	private static final String DATA_FOLDER = "data/";
+	
 	public static void createFolderStructure(){
 		double start = System.currentTimeMillis();
 		
-		File file = new File("players/");
+		File file = new File(DATA_FOLDER + "players/");
 		if(!file.exists()){
 			Log.info("Players folder doesn't exist, creating now.");
 			file.mkdirs();
 		}
 		
-		file = new File("marketplace/");
+		file = new File(DATA_FOLDER + "marketplace/");
 		if(!file.exists()){
 			Log.info("Marketplace folder doesn't exist, creating now.");
 			file.mkdirs();
 		}
 		
-		file = new File("data/");
+		file = new File(DATA_FOLDER + "galaxy/");
 		if(!file.exists()){
 			Log.info("Data folder doesn't exist, creating now.");
 			file.mkdirs();
@@ -81,7 +83,7 @@ public class FileHandler {
 	private static void createRegion(int x, int y){
 		String rx = Integer.toString(x);
 		String ry = Integer.toString(y);
-		File file = new File("data/", "r" + rx + "_" + ry);
+		File file = new File(DATA_FOLDER + "galaxy/", "r" + rx + "_" + ry);
 		if(!file.exists()){
 			file.mkdirs();
 			foldersCreated++;
@@ -90,7 +92,7 @@ public class FileHandler {
 		
 		for(int sy = 0; sy < Globals.regionSize; sy++){
 			for(int sx = 0; sx < Globals.regionSize; sx++){
-				createSector("data/r" + rx + "_" + ry + "/", sx, sy, x, y);
+				createSector(DATA_FOLDER + "galaxy/r" + rx + "_" + ry + "/", sx, sy, x, y);
 			}
 		}
 		regions++;
@@ -225,7 +227,7 @@ public class FileHandler {
 	 */
 	
 	public static boolean savePlayer(Player p){
-		File file = new File("players/" + p.name.toLowerCase() + ".dat");
+		File file = new File(DATA_FOLDER + "players/" + p.name.toLowerCase() + ".dat");
 		
 		try {
 			FileOutputStream out = new FileOutputStream(file);
@@ -247,7 +249,7 @@ public class FileHandler {
 	
 	public static Player loadPlayer(String name){
 		Player result = null;
-		File file = new File("players/" + name.toLowerCase() + ".dat");
+		File file = new File(DATA_FOLDER + "players/" + name.toLowerCase() + ".dat");
 		
 		try {
 			FileInputStream in = new FileInputStream(file);
@@ -271,7 +273,7 @@ public class FileHandler {
 	 */
 		
 	public static boolean saveTradeOffer(TradeOffer trade){
-		File file = new File("marketplace/" + trade.hashCode() + ".dat");		
+		File file = new File(DATA_FOLDER + "marketplace/" + trade.hashCode() + ".dat");		
 		try {
 			FileOutputStream out = new FileOutputStream(file);
 			if(!file.exists()) file.createNewFile();
@@ -467,9 +469,7 @@ public class FileHandler {
 	public static List<Planet> getOwnedPlanets(String name){
 		Player player = loadPlayer(name);
 		List<Planet> result = new ArrayList<Planet>();
-		
 		for(String location : player.ownedPlanets) result.add(loadPlanet(location));
-				
 		return result;
 	}
 	
@@ -483,7 +483,7 @@ public class FileHandler {
 		while(true){
 			while(true){
 				while(true){
-					String randomSector = "data/r" + Globals.random.nextInt(Globals.galaxySize) + "_" + Globals.random.nextInt(Globals.galaxySize) + 
+					String randomSector = DATA_FOLDER + "galaxy/r" + Globals.random.nextInt(Globals.galaxySize) + "_" + Globals.random.nextInt(Globals.galaxySize) + 
 											  "/s" + Globals.random.nextInt(Globals.sectorSize) + "_" + Globals.random.nextInt(Globals.sectorSize) + "/";
 					
 					randomSectorFolder = new File(randomSector);
@@ -536,12 +536,11 @@ public class FileHandler {
 	}
 	
 	public static int getPlayerId(){
-		File file = new File("players/");
+		File file = new File(DATA_FOLDER + "players/");
 		if(!file.exists()) return -1;
 		return file.listFiles().length;
 	}
 	
-
 	private static float calcPer(int a){
 		return (float) ((a * 100) / planetsCreated);
 	}
