@@ -72,7 +72,7 @@ public class SellPopup extends Popup{
 					GoodsOffer offer = new GoodsOffer();
 					offer.placedBy = Globals.username;
 					offer.timePlaced = GameTime.currentTimeSeconds;
-					offer.length = GameTime.HOUR * Globals.random.nextInt(12) + 1; //Two hours in seconds.
+					offer.length = 60; 
 					offer.priceEach = container.type.value;
 					offer.quantity = amount;
 					offer.type = container.type.name;

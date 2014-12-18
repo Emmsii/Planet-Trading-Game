@@ -43,6 +43,13 @@ public class Marketplace extends Menu{
 		goods = FileHandler.loadGoodsOffers();
 		planets = FileHandler.loadPlanetOffers();
 		
+		/*
+		 * TODO:
+		 * The hell are you doing! DON'T LOAD IN OFFERS FROM A FILE!!!
+		 * THEY ARE ON THE SERVER! NOT THE CLIENT!
+		 * moron...
+		 */
+		
 		Log.info("Goods Offers Found: " + goods.size());
 		Log.info("Planet Offers Found: " + planets.size());
 		
@@ -62,11 +69,11 @@ public class Marketplace extends Menu{
 		
 		for(int i = 0; i < goods.size(); i++){
 			GoodsOffer g = goods.get(i);
-			if(Math.abs(GameTime.currentTimeSeconds - (g.timePlaced - g.length)) <= 0){
+			if(g.ended){
 				//Trade has ended, 
 				for(int j = components.size() - 1; j >= 0; j--){
 					Button button = (Button) components.get(j);
-					if(button.getId() == j) components.remove(j);
+					if(button.getId() == i) components.remove(j);
 				}
 			}
 		}
@@ -89,8 +96,10 @@ public class Marketplace extends Menu{
 			Text.render(Globals.formatInt(o.quantity), xPos + 180, yPos + 30 + (i * 55), 15, Font.BOLD, new Color(150, 150, 150), g);
 			
 			Text.render("Time Left", xPos + 280, yPos + 15 + (i * 55), 12, Font.BOLD, g);
+			
 			long time = Math.abs(GameTime.currentTimeSeconds - (o.timePlaced + o.length));
-			if(time > 0) Text.render(GameTime.getTimeString(time), xPos + 280, yPos + 30 + (i * 55), 15, Font.BOLD, new Color(150, 150, 150), g);
+			if(time == 0) o.ended = true;
+			if(!o.ended) Text.render(GameTime.getTimeString(time), xPos + 280, yPos + 30 + (i * 55), 15, Font.BOLD, new Color(150, 150, 150), g);
 			else Text.render("ENDED", xPos + 280, yPos + 30 + (i * 55), 15, Font.BOLD, new Color(179, 27, 27), g);
 			
 			Text.render(Globals.toCredits(o.priceEach * o.quantity), xPos + 380, yPos + 20 + (i * 55), 18, Font.BOLD, new Color(81, 151, 201), g);

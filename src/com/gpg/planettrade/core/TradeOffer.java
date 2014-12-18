@@ -9,5 +9,6 @@ public class TradeOffer implements Serializable{
 	public String placedBy;
 	public long timePlaced;
 	public long length;
+	public boolean ended;
 
 }
