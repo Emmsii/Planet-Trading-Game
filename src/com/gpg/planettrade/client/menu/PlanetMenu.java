@@ -22,9 +22,9 @@ import com.gpg.planettrade.client.util.Keyboard;
 import com.gpg.planettrade.client.util.Mouse;
 import com.gpg.planettrade.client.util.Text;
 import com.gpg.planettrade.core.Globals;
+import com.gpg.planettrade.core.GoodsOffer;
 import com.gpg.planettrade.core.Network.TakeCredits;
 import com.gpg.planettrade.core.Network.UpdatePlanet;
-import com.gpg.planettrade.core.TradeOffer;
 import com.gpg.planettrade.core.planet.factory.Factory;
 import com.gpg.planettrade.core.planet.resource.Resource;
 import com.gpg.planettrade.core.planet.storage.Container;
@@ -215,7 +215,7 @@ public class PlanetMenu extends Menu{
 		}
 	}
 	
-	public void newTradeOffer(TradeOffer offer, Storage storage){
+	public void newGoodsOffer(GoodsOffer offer, Storage storage){
 		if(offer == null){
 			Log.warn("Cannot create null trade offer.");
 			return;

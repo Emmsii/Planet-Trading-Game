@@ -59,7 +59,7 @@ public class MainComponent extends Canvas implements Runnable{
 		addMouseMotionListener(mouse);
 		addKeyListener(key);
 		
-		switchState(1);
+		switchState(3);
 	}
 	
 	public static void main(String[] args){

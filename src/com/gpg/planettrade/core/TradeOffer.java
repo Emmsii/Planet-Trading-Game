@@ -8,10 +8,6 @@ public class TradeOffer implements Serializable{
 	
 	public String placedBy;
 	public long timePlaced;
-	
-	public int quantity;
-	
-	//TODO Maybe use resource instead of string type.
-	public String type;
-	public int priceEach;
+	public long length;
+
 }

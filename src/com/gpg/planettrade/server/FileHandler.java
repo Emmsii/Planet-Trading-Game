@@ -17,6 +17,8 @@ import java.util.Properties;
 
 import com.esotericsoftware.minlog.Log;
 import com.gpg.planettrade.core.Globals;
+import com.gpg.planettrade.core.GoodsOffer;
+import com.gpg.planettrade.core.PlanetOffer;
 import com.gpg.planettrade.core.Player;
 import com.gpg.planettrade.core.TradeOffer;
 import com.gpg.planettrade.core.planet.Planet;
@@ -273,7 +275,10 @@ public class FileHandler {
 	 */
 		
 	public static boolean saveTradeOffer(TradeOffer trade){
-		File file = new File(DATA_FOLDER + "marketplace/" + trade.hashCode() + ".dat");		
+		String name = Integer.toString(trade.hashCode());
+		if(trade instanceof GoodsOffer) name = "goods_" + name;
+		else if(trade instanceof PlanetOffer) name = "planet_" + name;
+		File file = new File(DATA_FOLDER + "marketplace/" + name + ".trade");		
 		try {
 			FileOutputStream out = new FileOutputStream(file);
 			if(!file.exists()) file.createNewFile();
@@ -292,8 +297,68 @@ public class FileHandler {
 		return false;
 	}
 	
-	public static TradeOffer loadOffer(){
-		return null;
+	public static List<GoodsOffer> loadGoodsOffers(){
+		List<GoodsOffer> result = new ArrayList<GoodsOffer>();
+		File file = new File(DATA_FOLDER + "/marketplace");
+		if(!file.exists()){
+			Log.warn("Couldn't find marketplace folder.");
+			return null;
+		}
+		
+		File[] filesFound = file.listFiles();
+		for(int i = 0; i < filesFound.length; i++){
+			File f = filesFound[i];
+			if(f.getName().startsWith("goods_")){
+				result.add((GoodsOffer) loadTradeOffer(f.getPath()));
+			}
+		}
+		return result;
+		//list files in folder
+		//only list files that start with goods_
+	}
+	
+	public static List<PlanetOffer> loadPlanetOffers(){
+		List<PlanetOffer> result = new ArrayList<PlanetOffer>();
+		File file = new File(DATA_FOLDER + "/marketplace");
+		if(!file.exists()){
+			Log.warn("Couldn't find marketplace folder.");
+			return null;
+		}
+		
+		File[] filesFound = file.listFiles();
+		for(int i = 0; i < filesFound.length; i++){
+			File f = filesFound[i];
+			if(f.getName().startsWith("planet_")){
+				result.add((PlanetOffer) loadTradeOffer(f.getPath()));
+			}
+		}
+		return result;
+		//list files in folder
+		//only list files that start with goods_
+	}
+	
+	public static TradeOffer loadTradeOffer(String location){
+		TradeOffer result = null;
+		File file = new File(location);
+		
+		try {
+			FileInputStream in = new FileInputStream(file);
+			ObjectInputStream ois = new ObjectInputStream(in);
+			result = (TradeOffer) ois.readObject();
+			ois.close();
+			in.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return null;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		} catch (ClassNotFoundException e) {
+			Log.warn("Couldn't load trade offer properly " + location);
+			e.printStackTrace();
+			return null;
+		}
+		return result;
 	}
 	
 	/*
