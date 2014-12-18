@@ -58,6 +58,7 @@ public class GameServer {
 				System.exit(0);
 				continue;
 			}
+			
 			if(command.startsWith("config")){
 				String[] split = command.split("\\s+");
 				if(split.length == 1){
@@ -69,17 +70,76 @@ public class GameServer {
 					Globals.init(FileHandler.loadPropertiesFile());
 					continue;
 				}
-			}
-			if(command.startsWith("galaxy")){
+				Log.info("Usage: config reload | config delete | config start");
 				continue;
 			}
+			
+			if(command.startsWith("kick")){
+				String[] split = command.split("\\s+");
+				if(split.length == 1){
+					Log.info("Usage: kick all | kick [playername]");
+					continue;
+				}
+				
+				if(split[1].equalsIgnoreCase("all")){
+					for(Connection c : server.getConnections()) c.close();
+					Log.info("All players have been kicked.");
+					continue;
+				}else{
+					boolean kicked = false;
+					for(Connection c : server.getConnections()){
+						PlayerConnection pc = (PlayerConnection) c;
+						if(pc.player.name.equalsIgnoreCase(split[1])){
+							Log.info(pc.player.name + " has been kicked.");
+							pc.close();
+							kicked = true;
+							break;
+						}
+					}
+					if(!kicked){
+						Log.info("Could not find player " + split[1]);
+						continue;
+					}
+					continue;
+				}
+			}
+			
+			if(command.startsWith("ban")){
+				String split[] = command.split("\\s+");
+				if(split.length == 1){
+					Log.info("Usage: ban [playername] [time]");
+					Log.info("Time value is in seconds (optional).");
+					continue;
+				}
+				if(split.length == 2){
+					//kick player
+					//add player to bans list
+				}
+				if(split.length == 3){
+					//kick player
+					//add player to bans list
+					//add time of ban to ban list.
+				}
+				continue;
+			}
+			
+			if(command.equalsIgnoreCase("list")){
+				String result = "";
+				for(Connection c : server.getConnections()){
+					PlayerConnection pc = (PlayerConnection) c;
+					result = result + pc.player.name + ", ";
+				}
+				Log.info("Connected Players [" + server.getConnections().length + "] " + result);
+				continue;
+			}
+			
 			if(command.equalsIgnoreCase("?") || command.equalsIgnoreCase("help")){
 				Log.info("Server Commands\n" +
 						"stop - Stops the server safely.\n" +
 						"kick all, [playername] - Kicks all players or certain players.\n" +
 						"ban [playername] [time] - Bans a player, time value is optional (in seconds)." +
 						"config reload - Reloads the config file.\n" +
-						"galaxy factories stop - Stops all factories in the galaxy processing.");
+						"list - Shows list of connected player.");
 				continue;
 			}
 			

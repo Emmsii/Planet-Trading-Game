@@ -125,7 +125,7 @@ public class MainComponent extends Canvas implements Runnable{
 					ups = updates;
 					msp = 1000.0 / frames;
 					renderPing = ping;
-					System.out.println(fps + "fps, " + ups + "ups | " + msp + "ms per frame.");
+//					System.out.println(fps + "fps, " + ups + "ups | " + msp + "ms per frame.");
 					lastFrameTime += 1000;
 					frames = 0;
 					updates = 0;
