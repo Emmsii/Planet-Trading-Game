@@ -222,7 +222,7 @@ public class PlanetMenu extends Menu{
 		}
 
 		for(Container c : storage.containers){
-			if(c.type.type.equalsIgnoreCase(offer.type)){
+			if(c.type.name.equalsIgnoreCase(offer.type)){
 				Log.info("Removing Resources");
 				Log.info("Taking " + offer.quantity + " from " + c.amount);
 				Log.info("Trade container: " + offer.type + " from " + c.type.type);
