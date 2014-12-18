@@ -2,6 +2,7 @@ package com.gpg.planettrade.core;
 
 import java.text.NumberFormat;
 import java.util.List;
+import java.util.Properties;
 import java.util.Random;
 
 import com.gpg.planettrade.core.planet.Planet;
@@ -10,15 +11,27 @@ public class Globals {
 
 	public static Random random = new Random();
 	
-	public static int galaxySize = 3;
-	public static int regionSize = 3;
-	public static int sectorSize = 5;
-	public static int systemFactor = 3;
+	public static int galaxySize;
+	public static int regionSize;
+	public static int sectorSize;
+	public static int systemFactor;
 	
-	public static int startingCredits = 50000;
-	public static int startingPlanets = 10;
+	public static int startingCredits;
+	public static int startingPlanets;
 	
-	public static int resourceFrequency = 4;
+	public static int resourceMultiplier;
+	
+	public static void init(Properties prop){
+		galaxySize = Integer.parseInt(prop.getProperty("galaxy_size"));
+		regionSize = Integer.parseInt(prop.getProperty("region_size"));
+		sectorSize = Integer.parseInt(prop.getProperty("sector_size"));
+		systemFactor = Integer.parseInt(prop.getProperty("system_factor"));
+		
+		startingCredits = Integer.parseInt(prop.getProperty("starting_credits"));
+		startingPlanets = Integer.parseInt(prop.getProperty("starting_planets"));
+		
+		resourceMultiplier = Integer.parseInt(prop.getProperty("resource_multiplier"));
+	}
 	
 	/*
 	 * Client Locals

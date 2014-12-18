@@ -23,7 +23,7 @@ public class Player implements Serializable{
 		this.storedCredits = storedCredits;
 		
 		//Will make sure player doesn't get previously owned planet.
-		while(ownedPlanets.size() <= Globals.startingPlanets){
+		while(ownedPlanets.size() < Globals.startingPlanets){
 			String p = FileHandler.findRandomPlanet(false);
 			boolean same = false;
 			for(String s : ownedPlanets) if(s.equalsIgnoreCase(p)) same = true;
