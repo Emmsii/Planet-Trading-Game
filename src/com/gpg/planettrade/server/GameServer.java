@@ -6,6 +6,8 @@ import java.util.Scanner;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Server;
+import com.esotericsoftware.minlog.Log;
+import com.gpg.planettrade.core.Globals;
 import com.gpg.planettrade.core.Network;
 import com.gpg.planettrade.core.Network.AddPlayer;
 import com.gpg.planettrade.core.Network.Factories;
@@ -29,6 +31,8 @@ public class GameServer {
 	}
 	
 	public GameServer() throws IOException{	
+		FileHandler.createPropertiesFile(false);
+		Globals.init(FileHandler.loadPropertiesFile());
 		ResourceManager.init();
 		FactoryManager.init();
 		MarketplaceManager.init();
@@ -52,10 +56,34 @@ public class GameServer {
 			if(command.equalsIgnoreCase("stop")){
 				server.stop();
 				System.exit(0);
+				continue;
 			}
-			if(command.equalsIgnoreCase("kick")){
-				
+			if(command.startsWith("config")){
+				String[] split = command.split("\\s+");
+				if(split.length == 1){
+					Log.info("Usage: config reload | config delete | config start");
+					continue;
+				}
+				if(split[1].equalsIgnoreCase("reload")){
+					Log.info("Reloading config file. Note, values that affect galaxy generation wont make any changes.");
+					Globals.init(FileHandler.loadPropertiesFile());
+					continue;
+				}
 			}
+			if(command.startsWith("galaxy")){
+				continue;
+			}
+			if(command.equalsIgnoreCase("?") || command.equalsIgnoreCase("help")){
+				Log.info("Server Commands\n" +
+						"stop - Stops the server safely.\n" +
+						"kick all, [playername] - Kicks all players or certain players.\n" +
+						"ban [playername] [time] - Bans a player, time value is optional (in seconds)." +
+						"config reload - Reloads the config file.\n" +
+						"galaxy factories stop - Stops all factories in the galaxy processing.");
+				continue;
+			}
+			
+			Log.info("That command doesn't exist. Try using 'help' or '?' for a list of commands.");
 		}
 	}
 	

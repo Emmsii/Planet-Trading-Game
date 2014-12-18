@@ -59,7 +59,7 @@ public class Planet implements Serializable{
 				r = Math.random() * 100;
 				if(r < res.spawnChance){
 					if(!alreadyHasResource(res)) continue;
-					res.amount = (int) (((Globals.random.nextInt(4500 * size) + 500) * (size * 0.654)) * Globals.resourceFrequency);
+					res.amount = (int) (((Globals.random.nextInt(4500 * size) + 500) * (size * 0.654)) * Globals.resourceMultiplier);
 					resources.add(res);
 				}
 			}

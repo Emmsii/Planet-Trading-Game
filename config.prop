@@ -1,0 +1,9 @@
+#Thu Dec 18 00:05:19 GMT 2014
+port=25565
+starting_credits=50000
+sector_size=5
+galaxy_size=3
+starting_planets=10
+system_factor=3
+resource_multiplier=4
+region_size=3

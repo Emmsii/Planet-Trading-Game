@@ -10,10 +10,11 @@ import com.gpg.planettrade.core.planet.factory.Factory;
 import com.gpg.planettrade.core.planet.resource.Resource;
 import com.gpg.planettrade.core.planet.storage.Container;
 import com.gpg.planettrade.core.planet.storage.Storage;
+import com.gpg.planettrade.server.FileHandler;
 
 public class Network {
 
-	public static final int PORT = 25565;
+	public static final int PORT = FileHandler.getPort();
 	
 	public static void register(EndPoint endPoint){
 		Kryo k = endPoint.getKryo();
