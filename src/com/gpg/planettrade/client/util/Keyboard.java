@@ -5,6 +5,8 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.esotericsoftware.minlog.Log;
+
 public class Keyboard implements KeyListener{
 
 	public class Key{
@@ -142,7 +144,6 @@ public class Keyboard implements KeyListener{
 		if(keyCode == KeyEvent.VK_SPACE) space.toggle(isPressed);
 		if(keyCode == KeyEvent.VK_BACK_SPACE) backSpace.toggle(isPressed);
 		if(keyCode == KeyEvent.VK_ENTER) enter.toggle(isPressed);
-
 	}
 	
 }

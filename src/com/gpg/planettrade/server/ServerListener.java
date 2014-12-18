@@ -5,6 +5,7 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 import com.esotericsoftware.minlog.Log;
 import com.gpg.planettrade.core.Globals;
+import com.gpg.planettrade.core.Network.ChatMessage;
 import com.gpg.planettrade.core.Network.Login;
 import com.gpg.planettrade.core.Network.RemovePlayer;
 import com.gpg.planettrade.core.Network.StoredCredits;
@@ -87,6 +88,14 @@ public class ServerListener extends Listener{
 			if(!FileHandler.saveTradeOffer(offer)){
 				Log.warn("Could not save trade offer to data folder.");
 			}
+			return;
+		}
+		
+		if(o instanceof ChatMessage){
+			ChatMessage msg = (ChatMessage) o;
+			if(msg.from == null || msg.text == null) return;
+			if(msg.text.trim().length() == 0) return;
+			server.sendToAllTCP(msg);
 			return;
 		}
 	}

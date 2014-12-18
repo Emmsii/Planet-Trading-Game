@@ -17,12 +17,15 @@ import com.esotericsoftware.minlog.Log;
 import com.gpg.planettrade.client.menu.Marketplace;
 import com.gpg.planettrade.client.menu.PlanetMenu;
 import com.gpg.planettrade.client.menu.PlanetSelectMenu;
+import com.gpg.planettrade.client.menu.popup.ChatPopup;
+import com.gpg.planettrade.client.menu.popup.Popup;
 import com.gpg.planettrade.client.util.GameState;
 import com.gpg.planettrade.client.util.GameTime;
 import com.gpg.planettrade.client.util.Keyboard;
 import com.gpg.planettrade.client.util.Mouse;
 import com.gpg.planettrade.client.util.Text;
 import com.gpg.planettrade.core.Globals;
+import com.gpg.planettrade.core.Network.ChatMessage;
 
 public class MainComponent extends Canvas implements Runnable{
 
@@ -48,6 +51,8 @@ public class MainComponent extends Canvas implements Runnable{
 	private PlanetMenu planetMenu;
 	private Marketplace marketplace;
 	
+	private Popup popup = null;
+	
 	public MainComponent(){
 		Log.info("LWJGL Version" + Sys.getVersion());
 		
@@ -58,6 +63,8 @@ public class MainComponent extends Canvas implements Runnable{
 		addMouseListener(mouse);
 		addMouseMotionListener(mouse);
 		addKeyListener(key);
+		
+		popup = new ChatPopup(WIDTH - 300, HEIGHT - 300, mouse, key, null, this);
 		
 		switchState(1);
 	}
@@ -151,6 +158,8 @@ public class MainComponent extends Canvas implements Runnable{
 			default:
 				break;
 		}
+		
+		if(popup != null) popup.update();
 		key.release();
 	}
 		
@@ -207,6 +216,8 @@ public class MainComponent extends Canvas implements Runnable{
 			default:
 				break;
 		}
+		
+		if(popup != null) popup.render(g);
 				
 		g.dispose();
 		bs.show();
@@ -237,6 +248,14 @@ public class MainComponent extends Canvas implements Runnable{
 				marketplace = new Marketplace(mouse, key, this);
 				this.state.setState(state);
 				break;
+		}
+	}
+	
+	public void addMessage(ChatMessage msg){
+		if(popup != null){
+			if(popup instanceof ChatPopup){
+				((ChatPopup) popup).addMessage(msg.from + ": " + msg.text);
+			}
 		}
 	}
 }
