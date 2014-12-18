@@ -1,6 +1,7 @@
 package com.gpg.planettrade.client.gui;
 
 import org.lwjgl.LWJGLException;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.PixelFormat;
@@ -25,7 +26,7 @@ public class Window {
 
 		gui.initLoop();
 
-		double delta = 1;
+		double delta = 0.0001;
 		double nextTime = (double) System.nanoTime() / 1000000000.0;
 		double maxTimeDiff = 0.5;
 		int skippedFrames = 1;
@@ -73,8 +74,10 @@ public class Window {
 			}
 
 			Display.update();
+			Display.sync(144);
 		}
 
+		Keyboard.destroy();
 		Display.destroy();
 	}
 
@@ -83,7 +86,9 @@ public class Window {
 		try {
 			Display.setDisplayMode(new DisplayMode(w, h));
 			Display.setTitle(title);
+			Display.setVSyncEnabled(true);
 			Display.create(new PixelFormat(8, 8, 0, 8)); // Anti-aliasing ([Alpha bits], [Depth bits], [Stencil bits], [Samples]) (8xAA)
+			Keyboard.create();
 		}
 		catch (LWJGLException e)
 		{
@@ -110,9 +115,7 @@ public class Window {
 		glOrtho(0, Display.getWidth(), Display.getHeight(), 0, -1, 1); // Set to orthographic view, covering the screen, in 2D (rendering anything from z-1 to z1)
 		glMatrixMode(GL_MODELVIEW); // Return to model view matrix
 
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Set clear colour to black
-
-		glDisable(GL_DEPTH_TEST); // Disable the depth test because we're in 2D
+		glClearColor(0.0f, 0.0f, 0.0f, 0.0f); // Set clear colour to black
 	}
 
 }
