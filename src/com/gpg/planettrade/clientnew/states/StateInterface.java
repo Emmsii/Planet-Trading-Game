@@ -4,7 +4,7 @@ import com.gpg.planettrade.clientnew.gui.FontRenderer;
 
 public interface StateInterface {
 
-	public void update();
+	public void update(StateInterface activeState);
 	public void render(FontRenderer font);
 
 }

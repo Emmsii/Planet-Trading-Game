@@ -1,25 +1,17 @@
 package com.gpg.planettrade.clientnew;
 
 import com.gpg.planettrade.clientnew.gui.FontRenderer;
-import com.gpg.planettrade.clientnew.states.ConnectionState;
-import com.gpg.planettrade.clientnew.states.MainMenuState;
 import com.gpg.planettrade.clientnew.states.StateInterface;
 import com.gpg.planettrade.clientnew.states.States;
 import org.lwjgl.LWJGLException;
-import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.PixelFormat;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import static org.lwjgl.opengl.GL11.*;
 
 public class Client {
-
-	private static final Logger log = Logger.getLogger(Client.class.getName());
 
 	private final String TITLE = "Planet Trading Game";
 	private final int WIDTH = 1280;
@@ -36,15 +28,15 @@ public class Client {
 
 	private void update()
 	{
-		activeState.update();
+		activeState.update(activeState);
 	}
 
 	private void render()
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		font.headerFont(24f).drawString(32, 32, "Hello world!");
-		font.bodyFont(14f).drawString(32, 64, "This is the body text!");
+//		font.headerFont(24f).drawString(32, 32, "Hello world!");
+//		font.bodyFont(14f).drawString(32, 64, "This is the body text!");
 
 		activeState.render(font);
 	}
@@ -66,7 +58,6 @@ public class Client {
 		try {
 			Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
 			Display.setTitle(TITLE);
-			log.log(Level.FINE, "LWJGL Version: " + Sys.getVersion());
 			Display.setResizable(false);
 			Display.setVSyncEnabled(true);
 			Display.create(new PixelFormat(8, 8, 0, 8)); // Anti-aliasing ([Alpha bits], [Depth bits], [Stencil bits], [Samples]) (8xAA)
