@@ -1,4 +1,4 @@
-package com.gpg.planettrade.client.gui;
+package com.gpg.planettrade.clientnew.gui;
 
 import java.awt.Font;
 import java.io.InputStream;
