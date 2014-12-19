@@ -5,11 +5,12 @@ import com.gpg.planettrade.clientnew.states.StateInterface;
 import com.gpg.planettrade.clientnew.states.States;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.PixelFormat;
 
-import static org.lwjgl.opengl.GL11.*;
+import org.lwjgl.opengl.GL11;
 
 public class Client {
 
@@ -33,12 +34,17 @@ public class Client {
 
 	private void render()
 	{
-		glClear(GL_COLOR_BUFFER_BIT);
+		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 
-//		font.headerFont(24f).drawString(32, 32, "Hello world!");
-//		font.bodyFont(14f).drawString(32, 64, "This is the body text!");
+		GL11.glBegin(GL11.GL_QUADS);
+			GL11.glColor4f(0.5f, 1.0f, 1.0f, 1f);
+			GL11.glVertex2i(100, 100);
+			GL11.glVertex2i(200, 100);
+			GL11.glVertex2i(100, 200);
+			GL11.glVertex2i(200, 200);
+		GL11.glEnd();
 
-		activeState.render(font);
+		activeState.render();
 	}
 
 	private void destroy()
@@ -62,6 +68,7 @@ public class Client {
 			Display.setVSyncEnabled(true);
 			Display.create(new PixelFormat(8, 8, 0, 8)); // Anti-aliasing ([Alpha bits], [Depth bits], [Stencil bits], [Samples]) (8xAA)
 			Keyboard.create();
+			Mouse.create();
 		}
 		catch (LWJGLException e)
 		{
@@ -74,8 +81,8 @@ public class Client {
 
 		while (!Display.isCloseRequested())
 		{
-			update();
 			render();
+			update();
 
 			Display.update();
 			Display.sync(144);
@@ -86,24 +93,26 @@ public class Client {
 
 	private void initGL()
 	{
-		glEnable(GL_TEXTURE_2D);
-		glShadeModel(GL_SMOOTH);
-		glDisable(GL_DEPTH_TEST);
-		glDisable(GL_LIGHTING);
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		GL11.glDisable(GL11.GL_LIGHTING);
 
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-		glClearDepth(1);
+		GL11.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		GL11.glClearDepth(1);
 
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+//		GL11.glEnable(GL11.GL_BLEND);
+//		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL11.glEnable(GL11.GL_ALPHA_TEST);
+		GL11.glAlphaFunc(GL11.GL_GREATER, 0.1f);
 
-		glViewport(0, 0, WIDTH, HEIGHT);
-		glMatrixMode(GL_MODELVIEW);
+		GL11.glViewport(0, 0, WIDTH, HEIGHT);
+		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 
-		glMatrixMode(GL_PROJECTION); // Select Projection mode as current matrix
-		glLoadIdentity(); // Clear current matrix
-		glOrtho(0, Display.getWidth(), Display.getHeight(), 0, -1, 1); // Set to orthographic view, covering the screen, in 2D (rendering anything from z-1 to z1)
-		glMatrixMode(GL_MODELVIEW); // Return to model view matrix
+		GL11.glMatrixMode(GL11.GL_PROJECTION); // Select Projection mode as current matrix
+		GL11.glLoadIdentity(); // Clear current matrix
+		GL11.glOrtho(0, Display.getWidth(), Display.getHeight(), 0, -1, 1); // Set to orthographic view, covering the screen, in 2D (rendering anything from z-1 to z1)
+		GL11.glMatrixMode(GL11.GL_MODELVIEW); // Return to model view matrix
 	}
 
 }

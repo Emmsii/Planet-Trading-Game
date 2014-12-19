@@ -1,6 +1,6 @@
 package com.gpg.planettrade.clientnew.gui;
 
-public abstract class GUIElement {
+public class GUIElement {
 
 	public FontRenderer font = new FontRenderer();
 

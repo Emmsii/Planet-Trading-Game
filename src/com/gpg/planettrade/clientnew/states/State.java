@@ -1,7 +1,9 @@
 package com.gpg.planettrade.clientnew.states;
 
-public class State {
+import com.gpg.planettrade.clientnew.gui.FontRenderer;
 
-	private States state = States.CONNECTION_STATE;
+public abstract class State {
+
+	protected FontRenderer font = new FontRenderer();
 
 }
