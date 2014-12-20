@@ -74,13 +74,23 @@ public class ChatPopup extends Popup{
 	}
 	
 	public void addMessage(String text){
-		Log.info("ADDING TEXT!");
-		for(int i = 0; i < messages.length; i++){
-			if(messages[i] == null){
-				messages[i] = text;
-				return;
-			}
-		}
+		
+		
+//		public void addLog(String a){
+//			for(int i = (3 - 1); i >= 0; i--) log[i + 1] = log[i];
+//			log[0] = a;
+//		}
+		
+		for(int i = messages.length - 2; i >= 0; i--) messages[i + 1] = messages[i];
+		messages[0] = text;
+		
+//		for(int i = 0; i < messages.length; i++){
+//			if(messages[i] == null){
+//				messages[i] = text;
+//				return;
+//			}
+//			//Messages are full, shift everything over one make messages[0] top
+//		}
 	}
 
 }

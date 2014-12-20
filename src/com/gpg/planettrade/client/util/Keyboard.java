@@ -10,9 +10,6 @@ import com.esotericsoftware.minlog.Log;
 public class Keyboard implements KeyListener{
 
 	public class Key{
-//		public int numPressed;
-//		public boolean pressed = false;
-
 		public int presses, absorbs;
 		public boolean down, pressed;
 		
@@ -62,6 +59,33 @@ public class Keyboard implements KeyListener{
 	public Key x = new Key();
 	public Key y = new Key();
 	public Key z = new Key();
+	
+	public Key A = new Key();
+	public Key B = new Key();
+	public Key C = new Key();
+	public Key D = new Key();
+	public Key E = new Key();
+	public Key F = new Key();
+	public Key G = new Key();
+	public Key H = new Key();
+	public Key I = new Key();
+	public Key J = new Key();
+	public Key K = new Key();
+	public Key L = new Key();
+	public Key M = new Key();
+	public Key N = new Key();
+	public Key O = new Key();
+	public Key P = new Key();
+	public Key Q = new Key();
+	public Key R = new Key();
+	public Key S = new Key();
+	public Key T = new Key();
+	public Key U = new Key();
+	public Key V = new Key();
+	public Key W = new Key();
+	public Key X = new Key();
+	public Key Y = new Key();
+	public Key Z = new Key();
 	
 	public Key zero = new Key();
 	public Key one = new Key();
@@ -128,6 +152,37 @@ public class Keyboard implements KeyListener{
 		if(keyCode == KeyEvent.VK_X) x.toggle(isPressed);
 		if(keyCode == KeyEvent.VK_Y) y.toggle(isPressed);
 		if(keyCode == KeyEvent.VK_Z) z.toggle(isPressed);
+		
+		if(keyCode == KeyEvent.VK_A && keyCode == KeyEvent.VK_SHIFT){
+			Log.info("CAPS A");
+			A.toggle(isPressed);
+		}
+		if(keyCode == KeyEvent.VK_B && keyCode == KeyEvent.VK_SHIFT) B.toggle(isPressed);
+		if(keyCode == KeyEvent.VK_C && keyCode == KeyEvent.VK_SHIFT) C.toggle(isPressed);
+		if(keyCode == KeyEvent.VK_D && keyCode == KeyEvent.VK_SHIFT) D.toggle(isPressed);
+		if(keyCode == KeyEvent.VK_E && keyCode == KeyEvent.VK_SHIFT) E.toggle(isPressed);
+		if(keyCode == KeyEvent.VK_F && keyCode == KeyEvent.VK_SHIFT) F.toggle(isPressed);
+		if(keyCode == KeyEvent.VK_G && keyCode == KeyEvent.VK_SHIFT) G.toggle(isPressed);
+		if(keyCode == KeyEvent.VK_H && keyCode == KeyEvent.VK_SHIFT) H.toggle(isPressed);
+		if(keyCode == KeyEvent.VK_I && keyCode == KeyEvent.VK_SHIFT) I.toggle(isPressed);
+		if(keyCode == KeyEvent.VK_J && keyCode == KeyEvent.VK_SHIFT) J.toggle(isPressed);
+		if(keyCode == KeyEvent.VK_K && keyCode == KeyEvent.VK_SHIFT) K.toggle(isPressed);
+		if(keyCode == KeyEvent.VK_L && keyCode == KeyEvent.VK_SHIFT) L.toggle(isPressed);
+		if(keyCode == KeyEvent.VK_M && keyCode == KeyEvent.VK_SHIFT) M.toggle(isPressed);
+		if(keyCode == KeyEvent.VK_N && keyCode == KeyEvent.VK_SHIFT) N.toggle(isPressed);
+		if(keyCode == KeyEvent.VK_O && keyCode == KeyEvent.VK_SHIFT) O.toggle(isPressed);
+		if(keyCode == KeyEvent.VK_P && keyCode == KeyEvent.VK_SHIFT) P.toggle(isPressed);
+		if(keyCode == KeyEvent.VK_Q && keyCode == KeyEvent.VK_SHIFT) Q.toggle(isPressed);
+		if(keyCode == KeyEvent.VK_R && keyCode == KeyEvent.VK_SHIFT) R.toggle(isPressed);
+		if(keyCode == KeyEvent.VK_S && keyCode == KeyEvent.VK_SHIFT) S.toggle(isPressed);
+		if(keyCode == KeyEvent.VK_T && keyCode == KeyEvent.VK_SHIFT) T.toggle(isPressed);
+		if(keyCode == KeyEvent.VK_U && keyCode == KeyEvent.VK_SHIFT) U.toggle(isPressed);
+		if(keyCode == KeyEvent.VK_V && keyCode == KeyEvent.VK_SHIFT) V.toggle(isPressed);
+		if(keyCode == KeyEvent.VK_U && keyCode == KeyEvent.VK_SHIFT) W.toggle(isPressed);
+		if(keyCode == KeyEvent.VK_X && keyCode == KeyEvent.VK_SHIFT) X.toggle(isPressed);
+		if(keyCode == KeyEvent.VK_Y && keyCode == KeyEvent.VK_SHIFT) Y.toggle(isPressed);
+		if(keyCode == KeyEvent.VK_Z && keyCode == KeyEvent.VK_SHIFT) Z.toggle(isPressed);
+		
 		
 		if(keyCode == KeyEvent.VK_0 || keyCode == KeyEvent.VK_NUMPAD0) zero.toggle(isPressed);
 		if(keyCode == KeyEvent.VK_1 || keyCode == KeyEvent.VK_NUMPAD1) one.toggle(isPressed);

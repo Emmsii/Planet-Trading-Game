@@ -93,6 +93,7 @@ public class ServerListener extends Listener{
 		
 		if(o instanceof ChatMessage){
 			ChatMessage msg = (ChatMessage) o;
+			//TODO: Chat channels
 			if(msg.from == null || msg.text == null) return;
 			if(msg.text.trim().length() == 0) return;
 			server.sendToAllTCP(msg);
