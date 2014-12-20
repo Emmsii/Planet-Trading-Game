@@ -8,7 +8,12 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 import com.gpg.planettrade.client.menu.Marketplace;
@@ -98,6 +103,8 @@ public class MainComponent extends Canvas implements Runnable{
 		int frames = 0;
 		int updates = 0;
 		long timer = System.currentTimeMillis();
+
+		init();
 		
 		while(running){
 			long thisFrame = System.nanoTime();
@@ -186,7 +193,23 @@ public class MainComponent extends Canvas implements Runnable{
 		if(popup != null) popup.update();
 		key.release();
 	}
-		
+
+	File imgSrc;
+	BufferedImage img;
+
+	private void init()
+	{
+		try
+		{
+			imgSrc = new File("res/test.png");
+			img = ImageIO.read(imgSrc);
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+
 	private void render(){
 		BufferStrategy bs = getBufferStrategy();
 		if(bs == null){
@@ -202,6 +225,8 @@ public class MainComponent extends Canvas implements Runnable{
 		g.fillRect(0, 0, WIDTH + 20, HEIGHT + 20);
 		g.setFont(new Font("Arial", Font.BOLD, 12));
 		g.setColor(Color.WHITE);
+
+		g.drawImage(img, 0, 0, null);
 					
 		//Render here
 		
