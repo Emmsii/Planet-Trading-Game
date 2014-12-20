@@ -1,51 +1,38 @@
 package com.gpg.planettrade.clientnew.gui;
 
-import java.awt.Font;
-import java.io.InputStream;
-
 import org.newdawn.slick.TrueTypeFont;
-import org.newdawn.slick.util.ResourceLoader;
+
+import java.awt.*;
+import java.io.BufferedInputStream;
+import java.io.IOException;
 
 public class FontRenderer {
 
-	private Font headerFont;
-	private Font bodyFont;
+	private TrueTypeFont headerFont;
 
-	public FontRenderer()
-	{
-		// Load header font from file
+	public FontRenderer() {
+
 		try
 		{
-			InputStream headerFontInputStream = ResourceLoader.getResourceAsStream("res/assets/fonts/kenvector_future.ttf");
-			headerFont = Font.createFont(Font.TRUETYPE_FONT, headerFontInputStream);
+			BufferedInputStream headerFontFile = new BufferedInputStream(FontRenderer.class.getResourceAsStream("assets/fonts/kenvector_future.ttf"));
+			Font startHeaderFont = Font.createFont(Font.TRUETYPE_FONT, headerFontFile);
+			Font baseHeaderFont = startHeaderFont.deriveFont(Font.PLAIN, 32);
+			headerFont = new TrueTypeFont(baseHeaderFont, true);
 		}
-		catch (Exception e)
+		catch (FontFormatException e)
+		{
+			e.printStackTrace();
+		}
+		catch (IOException e)
 		{
 			e.printStackTrace();
 		}
 
-		// Load body font from file
-		try
-		{
-			InputStream bodyFontInputStream = ResourceLoader.getResourceAsStream("res/assets/fonts/Laconic_Regular.otf");
-			bodyFont = Font.createFont(Font.TRUETYPE_FONT, bodyFontInputStream);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
 	}
 
-	public TrueTypeFont headerFont(float fontSize)
+	public TrueTypeFont headerFont()
 	{
-		headerFont = headerFont.deriveFont(fontSize);
-		return new TrueTypeFont(headerFont, true);
-	}
-
-	public TrueTypeFont bodyFont(float fontSize)
-	{
-		bodyFont = bodyFont.deriveFont(fontSize);
-		return new TrueTypeFont(bodyFont, true);
+		return headerFont;
 	}
 
 }

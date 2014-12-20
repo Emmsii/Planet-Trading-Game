@@ -1,4 +1,4 @@
-package com.gpg.planettrade.clientnew.gui;
+package com.gpg.planettrade.clientbutts.gui;
 
 import org.lwjgl.opengl.GL11;
 

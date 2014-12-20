@@ -1,4 +1,4 @@
-package com.gpg.planettrade.clientnew.util;
+package com.gpg.planettrade.clientbutts.util;
 
 import org.lwjgl.LWJGLException;
 

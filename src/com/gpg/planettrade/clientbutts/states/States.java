@@ -1,4 +1,4 @@
-package com.gpg.planettrade.clientnew.states;
+package com.gpg.planettrade.clientbutts.states;
 
 public enum States {
 	CONNECTION_STATE (new ConnectionState()),

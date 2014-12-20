@@ -1,22 +1,20 @@
 package com.gpg.planettrade.clientnew.states;
 
-import com.gpg.planettrade.clientnew.gui.Button;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 
 public class ConnectionState extends State implements StateInterface {
 
-	Button button = new Button(10, 10, "Button");
-
 	@Override
-	public void update(StateInterface activeState)
+	public void update(GameContainer gameContainer, int delta, StateInterface activeState)
 	{
-		button.update();
+		//
 	}
 
 	@Override
-	public void render()
+	public void render(GameContainer gameContainer, Graphics graphics)
 	{
-		font.headerFont(32f).drawString(32, 32, "Login & Connect");
-
-		button.render();
+		font.headerFont().drawString(32, 32, "Hello World");
 	}
+
 }
