@@ -54,8 +54,13 @@ public class Marketplace extends Menu{
 		Log.info("Planet Offers Found: " + planets.size());
 		
 		components = new ArrayList<Component>();
-		for(int i = 0; i < goods.size(); i++){
-			components.add(new TextButton(xPos + 475, yPos + 8 + (i * 55), 43, 20, i, "Buy"));
+		resetButtons();
+		
+		for(GoodsOffer g : goods){
+			if(g.timePlaced + g.length >= GameTime.currentTimeSeconds){
+				g.ended = true;
+				
+			}
 		}
 	}
 	
@@ -65,6 +70,10 @@ public class Marketplace extends Menu{
 			Button button = (Button) c;
 			button.setMouse(mouse.getX(), mouse.getY(), mouse.getButton());
 			button.update();
+			
+			if(button.isPressed()){
+				
+			}
 		}
 		
 		for(int i = 0; i < goods.size(); i++){
@@ -73,7 +82,10 @@ public class Marketplace extends Menu{
 				//Trade has ended, 
 				for(int j = components.size() - 1; j >= 0; j--){
 					Button button = (Button) components.get(j);
-					if(button.getId() == i) components.remove(j);
+					if(button.getId() == i){
+						components.remove(j);
+						resetButtons();
+					}
 				}
 			}
 		}
@@ -81,7 +93,6 @@ public class Marketplace extends Menu{
 
 	@Override
 	public void render(Graphics g) {
-
 		for(int i = 0; i < goods.size(); i++){
 			GoodsOffer o = goods.get(i);			
 			g.drawRect(xPos, yPos + (i * 55), 530, 35);
@@ -107,6 +118,13 @@ public class Marketplace extends Menu{
 		}
 		
 		for(Component c : components) c.render(g);
+	}
+	
+	private void resetButtons(){
+		components.clear();
+		for(int i = 0; i < goods.size(); i++){
+			if(!goods.get(i).ended) components.add(new TextButton(xPos + 475, yPos + 8 + (i * 55), 43, 20, i, "Buy"));
+		}
 	}
 
 }

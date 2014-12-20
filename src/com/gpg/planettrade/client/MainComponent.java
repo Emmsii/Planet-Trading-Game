@@ -11,7 +11,6 @@ import java.awt.image.BufferStrategy;
 
 import javax.swing.JFrame;
 
-import com.esotericsoftware.minlog.Log;
 import com.gpg.planettrade.client.menu.Marketplace;
 import com.gpg.planettrade.client.menu.PlanetMenu;
 import com.gpg.planettrade.client.menu.PlanetSelectMenu;
@@ -62,7 +61,7 @@ public class MainComponent extends Canvas implements Runnable{
 		
 		popup = new ChatPopup(WIDTH - 300, HEIGHT - 300, mouse, key, null, this);
 		
-		switchState(1);
+		switchState(3);
 	}
 	
 	public static void main(String[] args){
@@ -93,49 +92,78 @@ public class MainComponent extends Canvas implements Runnable{
 	}
 	
 	public void run() {
-		double nsPerFrame = 1000000000.0 / 60.0;
-		double unprocessedTime = 0;
-		double maxSkipFrames = 10;
-		
-		long lastTime = System.nanoTime();
-		long lastFrameTime = System.currentTimeMillis();
+		double uns = 1000000000.0 / 60.0;
+		long lastFrame = System.nanoTime();
+		double delta = 0;
 		int frames = 0;
 		int updates = 0;
+		long timer = System.currentTimeMillis();
+		
 		while(running){
-			long now = System.nanoTime();
-			double passedTime = (now - lastTime) / nsPerFrame;
-			lastTime = now;
-			
-			if(passedTime < -maxSkipFrames) passedTime = -maxSkipFrames;
-			if(passedTime > maxSkipFrames) passedTime  = maxSkipFrames;
-			
-			unprocessedTime += passedTime;
-			
-			boolean render = false;
-			while(unprocessedTime > 1){
-				unprocessedTime -= 1;
+			long thisFrame = System.nanoTime();
+			delta += (thisFrame - lastFrame) / uns;
+			lastFrame = thisFrame;
+			while(delta >= 1){
 				update();
 				updates++;
-				render = true;
-				
-				if(render){
-					render();
-					frames++;
-				}
-				
-				if(System.currentTimeMillis() > lastFrameTime + 1000){
-					fps = frames;
-					ups = updates;
-					msp = 1000.0 / frames;
-					renderPing = ping;
-//					System.out.println(fps + "fps, " + ups + "ups | " + msp + "ms per frame.");
-					lastFrameTime += 1000;
-					frames = 0;
-					updates = 0;
-					
-				}
+				delta--;
+			}
+			render();
+			frames++;
+			if(System.currentTimeMillis() - timer >= 1000){
+				fps = frames;
+				ups = updates;
+				msp = 1000.0 / frames;
+				timer += 1000;
+//				System.out.println(frames + " fps, " + updates + "ups");
+				frames = 0;
+				updates = 0;
 			}
 		}
+		
+//		double nsPerFrame = 1000000000.0 / 60.0;
+//		double unprocessedTime = 0;
+//		double maxSkipFrames = 10;
+//		
+//		long lastTime = System.nanoTime();
+//		long lastFrameTime = System.currentTimeMillis();
+//		int frames = 0;
+//		int updates = 0;
+//		while(running){
+//			long now = System.nanoTime();
+//			double passedTime = (now - lastTime) / nsPerFrame;
+//			lastTime = now;
+//			
+//			if(passedTime < -maxSkipFrames) passedTime = -maxSkipFrames;
+//			if(passedTime > maxSkipFrames) passedTime  = maxSkipFrames;
+//			
+//			unprocessedTime += passedTime;
+//			
+//			boolean render = false;
+//			while(unprocessedTime > 1){
+//				unprocessedTime -= 1;
+//				update();
+//				updates++;
+//				render = true;
+//				
+//				if(render){
+//					render();
+//					frames++;
+//				}
+//				
+//				if(System.currentTimeMillis() > lastFrameTime + 1000){
+//					fps = frames;
+//					ups = updates;
+//					msp = 1000.0 / frames;
+//					renderPing = ping;
+////					System.out.println(fps + "fps, " + ups + "ups | " + msp + "ms per frame.");
+//					lastFrameTime += 1000;
+//					frames = 0;
+//					updates = 0;
+//					
+//				}
+//			}
+//		}
 	}
 
 	private void update(){
