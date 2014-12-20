@@ -61,11 +61,11 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/jar/slick-util.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/jar/slick.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$MODULE_DIR$/lib/slick-util-src.zip!/" />
+          <root url="jar://$MODULE_DIR$/lib/slick-source.zip!/src" />
         </SOURCES>
       </library>
     </orderEntry>
