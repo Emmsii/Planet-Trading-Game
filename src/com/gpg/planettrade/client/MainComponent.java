@@ -1,15 +1,10 @@
 package com.gpg.planettrade.client;
 
-import java.awt.Canvas;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -196,15 +191,22 @@ public class MainComponent extends Canvas implements Runnable{
 
 	File imgSrc;
 	BufferedImage img;
+	Font font;
 
 	private void init()
 	{
 		try
 		{
+			font = Font.createFont(Font.TRUETYPE_FONT, new FileInputStream("res/assets/fonts/Laconic_Regular.otf"));
+			font = font.deriveFont(32f);
 			imgSrc = new File("res/test.png");
 			img = ImageIO.read(imgSrc);
 		}
 		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		catch (FontFormatException e)
 		{
 			e.printStackTrace();
 		}
@@ -220,13 +222,16 @@ public class MainComponent extends Canvas implements Runnable{
 		
 		Graphics g = bs.getDrawGraphics();
 		if(aa) this.antiAliasing(g);
-		
+
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, WIDTH + 20, HEIGHT + 20);
+
+		g.setFont(font);
+		g.drawString("Test", 300, 300);
+		g.drawImage(img, 0, 0, null);
+
 		g.setFont(new Font("Arial", Font.BOLD, 12));
 		g.setColor(Color.WHITE);
-
-		g.drawImage(img, 0, 0, null);
 					
 		//Render here
 		
