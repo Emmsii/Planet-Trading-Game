@@ -1,12 +1,19 @@
 package com.gpg.planettrade.client;
 
-import java.awt.*;
+import java.awt.Canvas;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
+import java.awt.RenderingHints;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -30,7 +37,7 @@ public class MainComponent extends Canvas implements Runnable{
 	public static final int WIDTH = 1280;
 	public static final int HEIGHT = 720;
 	public static final String NAME = "Name";
-		
+	
 	private boolean aa = true;
 	private boolean running = false;
 	private int fps = 0;
@@ -194,22 +201,17 @@ public class MainComponent extends Canvas implements Runnable{
 	Font font;
 	GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 
-	private void init()
-	{
-		try
-		{
+	private void init(){
+		Text.init();
+		try{
 			font = Font.createFont(Font.TRUETYPE_FONT, new FileInputStream("res/assets/fonts/kenvector_future.ttf"));
 			ge.registerFont(font);
 
 			imgSrc = new File("res/test.png");
 			img = ImageIO.read(imgSrc);
-		}
-		catch (IOException e)
-		{
+		}catch (IOException e){
 			e.printStackTrace();
-		}
-		catch (FontFormatException e)
-		{
+		}catch (FontFormatException e){
 			e.printStackTrace();
 		}
 	}
@@ -232,10 +234,8 @@ public class MainComponent extends Canvas implements Runnable{
 		g.setColor(Color.WHITE);
 
 		g.setFont(font.deriveFont(32f)); // For the sake of FPS, font sizes should probably set on init (and cached?)
-		g.drawString("Awwww shit son, have <100!", 300, 300);
-		g.drawImage(img, 0, 50, null);
+//		g.drawString("Awwww shit son, have <100!", 300, 300);
 
-		g.setFont(new Font("Arial", Font.PLAIN, 12));
 
 		//Render here
 		
