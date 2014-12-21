@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.image.BufferStrategy;
 
 import javax.swing.JFrame;
@@ -167,10 +168,7 @@ public class MainComponent extends Canvas implements Runnable{
 		g.fillRect(0, 0, WIDTH + 20, HEIGHT + 20);
 
 		g.setColor(Color.WHITE);
-		g.setFont(new Font("Arial", 12, Font.BOLD));
 
-		//Render here
-		
 		//Temp, render list of usernames connected.
 //		g.drawRect(3, 47, 105, 17 * gameClient.players.size());
 //		for(int i = 0; i < gameClient.players.size(); i++){
