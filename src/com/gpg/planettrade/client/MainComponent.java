@@ -192,13 +192,15 @@ public class MainComponent extends Canvas implements Runnable{
 	File imgSrc;
 	BufferedImage img;
 	Font font;
+	GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 
 	private void init()
 	{
 		try
 		{
-			font = Font.createFont(Font.TRUETYPE_FONT, new FileInputStream("res/assets/fonts/Laconic_Regular.otf"));
-			font = font.deriveFont(32f);
+			font = Font.createFont(Font.TRUETYPE_FONT, new FileInputStream("res/assets/fonts/kenvector_future.ttf"));
+			ge.registerFont(font);
+
 			imgSrc = new File("res/test.png");
 			img = ImageIO.read(imgSrc);
 		}
@@ -214,6 +216,7 @@ public class MainComponent extends Canvas implements Runnable{
 
 	private void render(){
 		BufferStrategy bs = getBufferStrategy();
+
 		if(bs == null){
 			createBufferStrategy(3);
 			requestFocus();
@@ -226,13 +229,14 @@ public class MainComponent extends Canvas implements Runnable{
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, WIDTH + 20, HEIGHT + 20);
 
-		g.setFont(font);
-		g.drawString("Test", 300, 300);
-		g.drawImage(img, 0, 0, null);
-
-		g.setFont(new Font("Arial", Font.BOLD, 12));
 		g.setColor(Color.WHITE);
-					
+
+		g.setFont(font.deriveFont(32f)); // For the sake of FPS, font sizes should probably set on init (and cached?)
+		g.drawString("Awwww shit son, have <100!", 300, 300);
+		g.drawImage(img, 0, 50, null);
+
+		g.setFont(new Font("Arial", Font.PLAIN, 12));
+
 		//Render here
 		
 		//Temp, render list of usernames connected.
