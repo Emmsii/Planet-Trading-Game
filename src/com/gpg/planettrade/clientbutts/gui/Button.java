@@ -26,7 +26,7 @@ public class Button extends GUIElement {
 	@Override
 	public void render()
 	{
-		this.labelWidth = font.bodyFont(14f).getWidth(label);
+//		this.labelWidth = font.bodyFont(14f).getWidth(label);
 
 		GL11.glColor4f(0, 0, 1.0f, 1f);
 		GL11.glBegin(GL11.GL_QUADS);
@@ -36,7 +36,7 @@ public class Button extends GUIElement {
 			GL11.glVertex2i(x + this.labelWidth, y + 20);
 		GL11.glEnd();
 
-		font.bodyFont(14f).drawString(x + 10, y + 10, label);
+//		font.bodyFont(14f).drawString(x + 10, y + 10, label);
 	}
 
 }

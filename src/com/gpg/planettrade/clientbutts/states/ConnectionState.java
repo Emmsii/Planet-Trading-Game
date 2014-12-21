@@ -15,7 +15,7 @@ public class ConnectionState extends State implements StateInterface {
 	@Override
 	public void render()
 	{
-		font.headerFont(32f).drawString(32, 32, "Login & Connect");
+//		font.headerFont(32f).drawString(32, 32, "Login & Connect");
 
 		button.render();
 	}
