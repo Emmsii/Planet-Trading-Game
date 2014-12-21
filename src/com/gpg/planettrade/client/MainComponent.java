@@ -1,14 +1,6 @@
 package com.gpg.planettrade.client;
 
-import java.awt.Canvas;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GraphicsEnvironment;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -205,6 +197,7 @@ public class MainComponent extends Canvas implements Runnable{
 		Text.init();
 		try{
 			font = Font.createFont(Font.TRUETYPE_FONT, new FileInputStream("res/assets/fonts/kenvector_future.ttf"));
+			font = font.deriveFont(32f);
 			ge.registerFont(font);
 
 			imgSrc = new File("res/test.png");
@@ -233,8 +226,17 @@ public class MainComponent extends Canvas implements Runnable{
 
 		g.setColor(Color.WHITE);
 
-		g.setFont(font.deriveFont(32f)); // For the sake of FPS, font sizes should probably set on init (and cached?)
-//		g.drawString("Awwww shit son, have <100!", 300, 300);
+//		g.setFont(font.deriveFont(32f)); // For the sake of FPS, font sizes should probably set on init (and cached?)
+		g.setFont(font);
+		String str = "Awwww shit son, have <100!";
+		FontMetrics fm = g.getFontMetrics(font);
+		int sw = fm.stringWidth(str);
+		g.drawString(str, 300, 300);
+
+		g.setFont(new Font("Arial", Font.PLAIN, 12));
+		g.drawString("Width: " + sw, 300, 340);
+
+		g.fillRect(300, 350, sw, 10);
 
 
 		//Render here
