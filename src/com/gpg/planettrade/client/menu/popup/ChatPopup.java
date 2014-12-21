@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 
-import com.esotericsoftware.minlog.Log;
 import com.gpg.planettrade.client.MainComponent;
 import com.gpg.planettrade.client.component.Component;
 import com.gpg.planettrade.client.component.TextField;

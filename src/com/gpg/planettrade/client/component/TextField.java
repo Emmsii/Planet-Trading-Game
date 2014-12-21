@@ -3,7 +3,6 @@ package com.gpg.planettrade.client.component;
 import java.awt.Font;
 import java.awt.Graphics;
 
-import com.esotericsoftware.minlog.Log;
 import com.gpg.planettrade.client.util.Keyboard;
 import com.gpg.planettrade.client.util.Text;
 
@@ -33,6 +32,7 @@ public class TextField extends Component{
 
 	@Override
 	public void update() {
+		//Cannot be else if.
 		if(type == JUST_LETTERS) doLetters();
 		if(type == JUST_NUMBERS) doNumbers();
 		if(type == JUST_NUMBERS) doBoth();
@@ -69,33 +69,6 @@ public class TextField extends Component{
 		if(key.x.pressed) press("x");
 		if(key.y.pressed) press("y");
 		if(key.z.pressed) press("z");	
-		
-		if(key.A.pressed) press("A");
-		if(key.B.pressed) press("B");
-		if(key.C.pressed) press("C");
-		if(key.D.pressed) press("D");
-		if(key.E.pressed) press("E");
-		if(key.F.pressed) press("F");
-		if(key.G.pressed) press("G");
-		if(key.H.pressed) press("H");
-		if(key.I.pressed) press("I");
-		if(key.J.pressed) press("J");
-		if(key.K.pressed) press("K");
-		if(key.L.pressed) press("L");
-		if(key.M.pressed) press("M");
-		if(key.N.pressed) press("N");
-		if(key.O.pressed) press("O");
-		if(key.P.pressed) press("P");
-		if(key.Q.pressed) press("Q");
-		if(key.R.pressed) press("R");
-		if(key.S.pressed) press("S");
-		if(key.T.pressed) press("T");
-		if(key.U.pressed) press("U");
-		if(key.V.pressed) press("V");
-		if(key.W.pressed) press("W");
-		if(key.X.pressed) press("X");
-		if(key.Y.pressed) press("Y");
-		if(key.Z.pressed) press("Z");
 		
 		if(key.space.pressed) press(" ");
 		
@@ -138,33 +111,6 @@ public class TextField extends Component{
 		if(key.x.pressed) press("x");
 		if(key.y.pressed) press("y");
 		if(key.z.pressed) press("z");	
-		
-		if(key.A.pressed) press("A");
-		if(key.B.pressed) press("B");
-		if(key.C.pressed) press("C");
-		if(key.D.pressed) press("D");
-		if(key.E.pressed) press("E");
-		if(key.F.pressed) press("F");
-		if(key.G.pressed) press("G");
-		if(key.H.pressed) press("H");
-		if(key.I.pressed) press("I");
-		if(key.J.pressed) press("J");
-		if(key.K.pressed) press("K");
-		if(key.L.pressed) press("L");
-		if(key.M.pressed) press("M");
-		if(key.N.pressed) press("N");
-		if(key.O.pressed) press("O");
-		if(key.P.pressed) press("P");
-		if(key.Q.pressed) press("Q");
-		if(key.R.pressed) press("R");
-		if(key.S.pressed) press("S");
-		if(key.T.pressed) press("T");
-		if(key.U.pressed) press("U");
-		if(key.V.pressed) press("V");
-		if(key.W.pressed) press("W");
-		if(key.X.pressed) press("X");
-		if(key.Y.pressed) press("Y");
-		if(key.Z.pressed) press("Z");
 		
 		if(key.space.pressed) press(" ");
 	}

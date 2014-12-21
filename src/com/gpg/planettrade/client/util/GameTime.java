@@ -7,9 +7,9 @@ public class GameTime {
 	public static final long DAY = 86400;
 	public static final long WEEK = 2074000;
 	
-	public static long serverTimeSeconds;
-	public static long secondsPassed;
-	public static long currentTimeSeconds;
+	public static long serverTimeSeconds = -1;
+	public static long secondsPassed = -1;
+	public static long currentTimeSeconds = -1;
 	
 	public static int time;
 	

@@ -11,6 +11,8 @@ import com.gpg.planettrade.client.MainComponent;
 import com.gpg.planettrade.client.component.Button;
 import com.gpg.planettrade.client.component.Component;
 import com.gpg.planettrade.client.component.TextButton;
+import com.gpg.planettrade.client.menu.popup.BuyPopup;
+import com.gpg.planettrade.client.menu.popup.Popup;
 import com.gpg.planettrade.client.util.GameTime;
 import com.gpg.planettrade.client.util.Keyboard;
 import com.gpg.planettrade.client.util.Mouse;
@@ -21,17 +23,14 @@ import com.gpg.planettrade.core.PlanetOffer;
 import com.gpg.planettrade.server.FileHandler;
 
 public class Marketplace extends Menu{
-	
-	/*
-	 * TODO:
-	 * List all trades.
-	 */
 
 	protected List<GoodsOffer> goods;
 	protected List<PlanetOffer> planets;
 	
 	private int xPos = 50;
 	private int yPos = 80;
+	
+	private Popup popup;
 	
 	public Marketplace(Mouse mouse, Keyboard key, MainComponent main) {
 		super(mouse, key, main);
@@ -54,45 +53,51 @@ public class Marketplace extends Menu{
 		Log.info("Planet Offers Found: " + planets.size());
 		
 		components = new ArrayList<Component>();
-		resetButtons();
 		
 		for(GoodsOffer g : goods){
 			if(g.timePlaced + g.length >= GameTime.currentTimeSeconds){
+				Log.info("Placed: " + g.timePlaced);
+				Log.info("Length: " + g.length);
+				Log.info("Cuttof: " + (g.timePlaced + g.length) + " is >= " + GameTime.currentTimeSeconds);
+				Log.info("Trade has ended.");
 				g.ended = true;
-				
 			}
+			else g.ended = false;
 		}
+		
+		initButtons();
 	}
 	
 	@Override
 	public void update() {
-		for(Component c : components){
-			Button button = (Button) c;
-			button.setMouse(mouse.getX(), mouse.getY(), mouse.getButton());
-			button.update();
-			
-			if(button.isPressed()){
+		if(popup == null){
+			for(int i = components.size() - 1; i >= 0; i--){
+				Button button = (Button) components.get(i);
+				button.setMouse(mouse.getX(), mouse.getY(), mouse.getButton());
+				button.update();
 				
-			}
-		}
-		
-		for(int i = 0; i < goods.size(); i++){
-			GoodsOffer g = goods.get(i);
-			if(g.ended){
-				//Trade has ended, 
-				for(int j = components.size() - 1; j >= 0; j--){
-					Button button = (Button) components.get(j);
-					if(button.getId() == i){
-						components.remove(j);
-						resetButtons();
-					}
+				if(button.isPressed()){
+					popup = new BuyPopup(410, 250, mouse, key, this, goods.get(button.getId())); 
 				}
+			}
+		}else{
+			popup.update();
+			if(popup.isClosed()) popup = null;
+		}
+
+		for(int i = goods.size() - 1; i >= 0; i--){
+			if(goods.get(i).ended){
+				Log.info("ENDED");
+				goods.remove(i);
+				initButtons();
 			}
 		}
 	}
 
 	@Override
 	public void render(Graphics g) {
+		for(Component c : components) c.render(g);
+		
 		for(int i = 0; i < goods.size(); i++){
 			GoodsOffer o = goods.get(i);			
 			g.drawRect(xPos, yPos + (i * 55), 530, 35);
@@ -110,21 +115,20 @@ public class Marketplace extends Menu{
 			
 			long time = Math.abs(GameTime.currentTimeSeconds - (o.timePlaced + o.length));
 			if(time == 0) o.ended = true;
-			if(!o.ended) Text.render(GameTime.getTimeString(time), xPos + 280, yPos + 30 + (i * 55), 15, Font.BOLD, new Color(150, 150, 150), g);
+			if(o.ended) Text.render(GameTime.getTimeString(time), xPos + 280, yPos + 30 + (i * 55), 15, Font.BOLD, new Color(150, 150, 150), g);
 			else Text.render("ENDED", xPos + 280, yPos + 30 + (i * 55), 15, Font.BOLD, new Color(179, 27, 27), g);
 			
 			Text.render(Globals.toCredits(o.priceEach * o.quantity), xPos + 380, yPos + 20 + (i * 55), 18, Font.BOLD, new Color(81, 151, 201), g);
 			Text.render(Globals.toCredits(o.priceEach) + " each", xPos + 382, yPos + 29 + (i * 55), 10, Font.BOLD, new Color(81, 151, 201), g);
 		}
-		
-		for(Component c : components) c.render(g);
+			
+		if(popup != null) popup.render(g);
 	}
 	
-	private void resetButtons(){
+	private void initButtons(){
+		//Called when trade offers change
 		components.clear();
-		for(int i = 0; i < goods.size(); i++){
-			if(!goods.get(i).ended) components.add(new TextButton(xPos + 475, yPos + 8 + (i * 55), 43, 20, i, "Buy"));
-		}
+		for(int i = 0; i < goods.size(); i++) if(goods.get(i).ended) components.add(new TextButton(xPos + 475, yPos + 8 + (i * 55), 43, 20, i, "Buy"));
 	}
 
 }

@@ -4,20 +4,14 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GraphicsEnvironment;
 import java.awt.RenderingHints;
 import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
+import com.gpg.planettrade.client.menu.LoadingMenu;
 import com.gpg.planettrade.client.menu.Marketplace;
 import com.gpg.planettrade.client.menu.PlanetMenu;
 import com.gpg.planettrade.client.menu.PlanetSelectMenu;
@@ -51,11 +45,14 @@ public class MainComponent extends Canvas implements Runnable{
 	private Mouse mouse;
 	private Keyboard key;
 	
+	private LoadingMenu loadingMenu;
 	private PlanetSelectMenu planetSelectMenu;
 	private PlanetMenu planetMenu;
 	private Marketplace marketplace;
 	
 	private Popup popup = null;
+	
+	public final int STARTING_STATE = 3;
 	
 	public MainComponent(){
 		gameClient = new GameClient(this);
@@ -68,7 +65,7 @@ public class MainComponent extends Canvas implements Runnable{
 		
 		popup = new ChatPopup(WIDTH - 300, HEIGHT - 300, mouse, key, null, this);
 		
-		switchState(3);
+		switchState(0);
 	}
 	
 	public static void main(String[] args){
@@ -105,8 +102,6 @@ public class MainComponent extends Canvas implements Runnable{
 		int frames = 0;
 		int updates = 0;
 		long timer = System.currentTimeMillis();
-
-		init();
 		
 		while(running){
 			long thisFrame = System.nanoTime();
@@ -129,56 +124,15 @@ public class MainComponent extends Canvas implements Runnable{
 				updates = 0;
 			}
 		}
-		
-//		double nsPerFrame = 1000000000.0 / 60.0;
-//		double unprocessedTime = 0;
-//		double maxSkipFrames = 10;
-//		
-//		long lastTime = System.nanoTime();
-//		long lastFrameTime = System.currentTimeMillis();
-//		int frames = 0;
-//		int updates = 0;
-//		while(running){
-//			long now = System.nanoTime();
-//			double passedTime = (now - lastTime) / nsPerFrame;
-//			lastTime = now;
-//			
-//			if(passedTime < -maxSkipFrames) passedTime = -maxSkipFrames;
-//			if(passedTime > maxSkipFrames) passedTime  = maxSkipFrames;
-//			
-//			unprocessedTime += passedTime;
-//			
-//			boolean render = false;
-//			while(unprocessedTime > 1){
-//				unprocessedTime -= 1;
-//				update();
-//				updates++;
-//				render = true;
-//				
-//				if(render){
-//					render();
-//					frames++;
-//				}
-//				
-//				if(System.currentTimeMillis() > lastFrameTime + 1000){
-//					fps = frames;
-//					ups = updates;
-//					msp = 1000.0 / frames;
-//					renderPing = ping;
-////					System.out.println(fps + "fps, " + ups + "ups | " + msp + "ms per frame.");
-//					lastFrameTime += 1000;
-//					frames = 0;
-//					updates = 0;
-//					
-//				}
-//			}
-//		}
 	}
 
-	private void update(){
+	private void update(){	
 		key.update();
 		GameTime.update();		
 		switch(state.getState()){
+			case 0:
+				loadingMenu.update();
+				break;
 			case 1:
 				planetSelectMenu.update();
 				break;
@@ -189,31 +143,12 @@ public class MainComponent extends Canvas implements Runnable{
 				marketplace.update();
 				break;
 			default:
+				loadingMenu.update();
 				break;
 		}
 		
 		if(popup != null) popup.update();
 		key.release();
-	}
-
-	File imgSrc;
-	BufferedImage img;
-	Font font;
-	GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-
-	private void init(){
-		Text.init();
-		try{
-			font = Font.createFont(Font.TRUETYPE_FONT, new FileInputStream("res/assets/fonts/kenvector_future.ttf"));
-			ge.registerFont(font);
-
-			imgSrc = new File("res/test.png");
-			img = ImageIO.read(imgSrc);
-		}catch (IOException e){
-			e.printStackTrace();
-		}catch (FontFormatException e){
-			e.printStackTrace();
-		}
 	}
 
 	private void render(){
@@ -232,10 +167,7 @@ public class MainComponent extends Canvas implements Runnable{
 		g.fillRect(0, 0, WIDTH + 20, HEIGHT + 20);
 
 		g.setColor(Color.WHITE);
-
-		g.setFont(font.deriveFont(32f)); // For the sake of FPS, font sizes should probably set on init (and cached?)
-//		g.drawString("Awwww shit son, have <100!", 300, 300);
-
+		g.setFont(new Font("Arial", 12, Font.BOLD));
 
 		//Render here
 		
@@ -262,6 +194,9 @@ public class MainComponent extends Canvas implements Runnable{
 		g.drawRect(-1, -1, 1285, 45);
 			
 		switch(state.getState()){
+			case 0:
+				loadingMenu.render(g);
+				break;
 			case 1:
 				planetSelectMenu.render(g);
 				break;
@@ -272,6 +207,7 @@ public class MainComponent extends Canvas implements Runnable{
 				marketplace.render(g);
 				break;
 			default:
+				loadingMenu.render(g);
 				break;
 		}
 		
@@ -293,6 +229,10 @@ public class MainComponent extends Canvas implements Runnable{
 		 * States:
 		 */
 		switch(state){
+			case 0:
+				loadingMenu = new LoadingMenu(this);
+				this.state.setState(state);
+				break;
 			case 1:
 				planetSelectMenu = new PlanetSelectMenu(mouse, key, this);
 				if(Globals.ownedPlanets != null) planetSelectMenu.updateOwnedPlanets(Globals.ownedPlanets);
@@ -306,6 +246,10 @@ public class MainComponent extends Canvas implements Runnable{
 				marketplace = new Marketplace(mouse, key, this);
 				this.state.setState(state);
 				break;
+			default:
+				loadingMenu = new LoadingMenu(this);
+				break;
+					
 		}
 	}
 	
