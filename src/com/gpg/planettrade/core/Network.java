@@ -31,6 +31,8 @@ public class Network {
 		k.register(GiveCredits.class);
 		k.register(UpdatePlanet.class);
 		k.register(ChatMessage.class);
+		k.register(MarketOffers.class);
+		k.register(OffersCount.class);
 				
 		//Register classes
 		k.register(Player.class);
@@ -96,6 +98,16 @@ public class Network {
 	public static class ChatMessage{
 		public String from;
 		public String text;
+	}
+	
+	public static class OffersCount{
+		public int count;
+	}
+	
+	public static class MarketOffers{
+		public int page;
+		public int count;
+		public List<TradeOffer> offers;
 	}
 }
 

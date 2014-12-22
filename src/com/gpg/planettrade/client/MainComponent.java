@@ -7,8 +7,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.util.List;
 
 import javax.swing.JFrame;
 
@@ -25,6 +25,7 @@ import com.gpg.planettrade.client.util.Mouse;
 import com.gpg.planettrade.client.util.Text;
 import com.gpg.planettrade.core.Globals;
 import com.gpg.planettrade.core.Network.ChatMessage;
+import com.gpg.planettrade.core.TradeOffer;
 
 public class MainComponent extends Canvas implements Runnable{
 
@@ -66,6 +67,8 @@ public class MainComponent extends Canvas implements Runnable{
 		
 		popup = new ChatPopup(WIDTH - 300, HEIGHT - 300, mouse, key, null, this);
 		
+		//Start game in loading screen.
+		//Loading screen will do its checks, once its happy, it will switch state.
 		switchState(0);
 	}
 	
@@ -249,6 +252,10 @@ public class MainComponent extends Canvas implements Runnable{
 				break;
 					
 		}
+	}
+	
+	public void initMarketplace(List<TradeOffer> offers, int count){
+		marketplace.init(offers, count);
 	}
 	
 	public void addMessage(ChatMessage msg){

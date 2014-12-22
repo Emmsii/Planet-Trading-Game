@@ -7,6 +7,7 @@ import com.esotericsoftware.minlog.Log;
 import com.gpg.planettrade.core.Globals;
 import com.gpg.planettrade.core.Network.ChatMessage;
 import com.gpg.planettrade.core.Network.Login;
+import com.gpg.planettrade.core.Network.MarketOffers;
 import com.gpg.planettrade.core.Network.RemovePlayer;
 import com.gpg.planettrade.core.Network.StoredCredits;
 import com.gpg.planettrade.core.Network.TakeCredits;
@@ -97,6 +98,15 @@ public class ServerListener extends Listener{
 			if(msg.from == null || msg.text == null) return;
 			if(msg.text.trim().length() == 0) return;
 			server.sendToAllTCP(msg);
+			return;
+		}
+		
+		if(o instanceof MarketOffers){
+			MarketOffers mo = (MarketOffers) o;
+			mo.count = FileHandler.countTradeOffers();
+			mo.offers = FileHandler.loadTradeOffers(mo.page);
+			if(mo.offers == null || mo.offers.isEmpty())  return;
+			c.sendTCP(mo);
 			return;
 		}
 	}

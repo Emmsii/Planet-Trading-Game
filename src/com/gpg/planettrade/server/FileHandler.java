@@ -273,7 +273,8 @@ public class FileHandler {
 	/*
 	 * Market Methods
 	 */
-		
+
+	
 	public static boolean saveTradeOffer(TradeOffer trade){
 		String name = Integer.toString(trade.hashCode());
 		if(trade instanceof GoodsOffer) name = "goods_" + name;
@@ -297,46 +298,39 @@ public class FileHandler {
 		return false;
 	}
 	
-	public static List<GoodsOffer> loadGoodsOffers(){
-		List<GoodsOffer> result = new ArrayList<GoodsOffer>();
-		File file = new File(DATA_FOLDER + "/marketplace");
+	public static int countTradeOffers(){
+		File file = new File(DATA_FOLDER + "/marketplace/");
+		return file.listFiles().length;
+	}
+	
+	public static List<TradeOffer> loadTradeOffers(int page){
+		int maxOffersPerPage = 10;
+		List<TradeOffer> result = new ArrayList<TradeOffer>();
+		File file = new File(DATA_FOLDER + "/marketplace/");
 		if(!file.exists()){
 			Log.warn("Couldn't find marketplace folder.");
 			return null;
 		}
 		
 		File[] filesFound = file.listFiles();
-		for(int i = 0; i < filesFound.length; i++){
-			File f = filesFound[i];
-			if(f.getName().startsWith("goods_")){
-				result.add((GoodsOffer) loadTradeOffer(f.getPath()));
-			}
-		}
-		return result;
-		//list files in folder
-		//only list files that start with goods_
-	}
-	
-	public static List<PlanetOffer> loadPlanetOffers(){
-		List<PlanetOffer> result = new ArrayList<PlanetOffer>();
-		File file = new File(DATA_FOLDER + "/marketplace");
-		if(!file.exists()){
-			Log.warn("Couldn't find marketplace folder.");
-			return null;
+		
+		//If length == 0, no trade offers exist.
+		if(filesFound.length == 0) return null;
+		File[] filesToLoad = new File[maxOffersPerPage];
+		
+		for(int i = 0; i < maxOffersPerPage; i++){
+			if(i + (maxOffersPerPage * page) >= filesFound.length) break;
+			filesToLoad[i] = filesFound[i + (maxOffersPerPage * page)];
 		}
 		
-		File[] filesFound = file.listFiles();
-		for(int i = 0; i < filesFound.length; i++){
-			File f = filesFound[i];
-			if(f.getName().startsWith("planet_")){
-				result.add((PlanetOffer) loadTradeOffer(f.getPath()));
-			}
+		for(File f : filesToLoad){
+			if(f == null) continue;
+			result.add(loadTradeOffer(f.getPath()));
 		}
+		
 		return result;
-		//list files in folder
-		//only list files that start with goods_
 	}
-	
+		
 	public static TradeOffer loadTradeOffer(String location){
 		TradeOffer result = null;
 		File file = new File(location);
@@ -348,13 +342,15 @@ public class FileHandler {
 			ois.close();
 			in.close();
 		} catch (FileNotFoundException e) {
+			Log.warn("FileNotFoundException | Couldn't load trade offer properly " + location);
 			e.printStackTrace();
 			return null;
 		} catch (IOException e) {
+			Log.warn("IOException | Couldn't load trade offer properly " + location);
 			e.printStackTrace();
 			return null;
 		} catch (ClassNotFoundException e) {
-			Log.warn("Couldn't load trade offer properly " + location);
+			Log.warn("ClassNotFoundException | Couldn't load trade offer properly " + location);
 			e.printStackTrace();
 			return null;
 		}

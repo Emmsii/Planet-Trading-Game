@@ -9,6 +9,7 @@ import com.gpg.planettrade.core.Globals;
 import com.gpg.planettrade.core.Network.AddPlayer;
 import com.gpg.planettrade.core.Network.ChatMessage;
 import com.gpg.planettrade.core.Network.Factories;
+import com.gpg.planettrade.core.Network.MarketOffers;
 import com.gpg.planettrade.core.Network.OwnedPlanets;
 import com.gpg.planettrade.core.Network.RemovePlayer;
 import com.gpg.planettrade.core.Network.StoredCredits;
@@ -73,6 +74,12 @@ public class ClientListener extends Listener{
 		if(o instanceof ChatMessage){
 			ChatMessage msg = (ChatMessage) o;
 			main.addMessage(msg);
+			return;
+		}
+		
+		if(o instanceof MarketOffers){
+			MarketOffers mo = (MarketOffers) o;
+			main.initMarketplace(mo.offers, mo.count);
 			return;
 		}
 	}

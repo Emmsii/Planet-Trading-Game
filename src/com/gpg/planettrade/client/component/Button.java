@@ -8,6 +8,7 @@ public class Button extends Component{
 	protected String text;
 	protected boolean hover = false;
 	public int pressTime = 0;
+	public int waitTime = 10;
 	
 	protected int mouseX, mouseY, mouseB;
 	

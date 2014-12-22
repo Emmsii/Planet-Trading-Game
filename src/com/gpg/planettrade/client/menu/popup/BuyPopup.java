@@ -14,13 +14,19 @@ import com.gpg.planettrade.client.util.Mouse;
 import com.gpg.planettrade.client.util.Text;
 import com.gpg.planettrade.core.Globals;
 import com.gpg.planettrade.core.GoodsOffer;
+import com.gpg.planettrade.core.TradeOffer;
 
 public class BuyPopup extends Popup{
 
 	private int amount;
-	private GoodsOffer offer;
+	private TradeOffer offer;
 	
-	public BuyPopup(int x, int y, Mouse mouse, Keyboard key, Menu menu, GoodsOffer offer) {
+	/*
+	 * TODO:
+	 * Change buy popup based off trade offer type.
+	 */
+	
+	public BuyPopup(int x, int y, Mouse mouse, Keyboard key, Menu menu, TradeOffer offer) {
 		super(x, y, mouse, key, menu);
 		this.offer = offer;
 		
@@ -89,15 +95,15 @@ public class BuyPopup extends Popup{
 					}
 				}
 				
-				if(button.getId() == 7) amount = offer.quantity;
+				if(button.getId() == 7) amount = ((GoodsOffer)offer).quantity;
 				if(button.getId() == 8) amount = 0;
 				if(button.getId() == 9){
 					for(Component com : components)
 						if(com instanceof TextField){
 							if(((TextField) com).getText() == "") break;
 							int a = (int) Long.parseLong(((TextField) com).getText());
-							if(amount + a <= offer.quantity) amount = a;
-							else amount = offer.quantity;
+							if(amount + a <= ((GoodsOffer)offer).quantity) amount = a;
+							else amount = ((GoodsOffer)offer).quantity;
 							((TextField) com).clear();
 							break;
 					}
@@ -118,11 +124,11 @@ public class BuyPopup extends Popup{
 		
 		Text.render(Globals.formatInt(amount) + " units", x + 84, y + 150, 15, Font.BOLD, new Color(150, 150, 150), g); 
 		
-		Text.render(offer.type, x + 20, y + 50, 15, Font.BOLD, g);
-		Text.render(Globals.formatInt(offer.quantity) + " units", x + 20, y + 65, 15, Font.BOLD, new Color(150, 150, 150), g);
+		Text.render(((GoodsOffer)offer).type, x + 20, y + 50, 15, Font.BOLD, g);
+		Text.render(Globals.formatInt(((GoodsOffer)offer).quantity) + " units", x + 20, y + 65, 15, Font.BOLD, new Color(150, 150, 150), g);
 		Text.render("Can buy for:", x + 200, y + 150, 12, Font.BOLD, g);
-		Text.render(Globals.toCredits(amount * offer.priceEach), x + 200, y + 175, 25, Font.BOLD, new Color(81, 151, 201), g);
-		Text.render(Globals.toCredits(offer.priceEach) + " each", x + 202, y + 188, 10, Font.BOLD, new Color(81, 151, 201), g);
+		Text.render(Globals.toCredits(amount * ((GoodsOffer)offer).priceEach), x + 200, y + 175, 25, Font.BOLD, new Color(81, 151, 201), g);
+		Text.render(Globals.toCredits(((GoodsOffer)offer).priceEach) + " each", x + 202, y + 188, 10, Font.BOLD, new Color(81, 151, 201), g);
 		
 		for(Component c : components) c.render(g);
 	}

@@ -47,13 +47,12 @@ public class GameClient {
 			if(Globals.username != null && Globals.username.length() < 12) break;
 			else JOptionPane.showMessageDialog(null, "Your username must be shorter that 12 characters.");
 		}
-		
 		try {
 			client.connect(5000, host, Network.PORT);
 		} catch (IOException e) {
 			Log.warn("Cannot connect to server.");
-			e.printStackTrace();
-			System.exit(0);
+//			e.printStackTrace();
+//			System.exit(0);
 		}
 		
 		Login login = new Login();

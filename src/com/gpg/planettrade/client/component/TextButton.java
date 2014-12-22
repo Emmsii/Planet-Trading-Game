@@ -18,7 +18,7 @@ public class TextButton extends Button{
 	public void update(){
 		if(mouseX >= x && mouseX <= x + w && mouseY >= y && mouseY <= y + h){
 			hover = true;
-			if(mouseB != -1) pressTime = 10;
+			if(mouseB != -1) pressTime = waitTime;
 		}else{
 			hover = false;
 		}
