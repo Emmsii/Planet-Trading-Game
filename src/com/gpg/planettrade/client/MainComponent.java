@@ -54,7 +54,7 @@ public class MainComponent extends Canvas implements Runnable{
 	
 	private Popup popup = null;
 	
-	public final int STARTING_STATE = 3;
+	public final int STARTING_STATE = 1;
 	
 	public MainComponent(){
 		gameClient = new GameClient(this);

@@ -33,6 +33,7 @@ public class Network {
 		k.register(ChatMessage.class);
 		k.register(MarketOffers.class);
 		k.register(OffersCount.class);
+		k.register(BuyOffer.class);
 				
 		//Register classes
 		k.register(Player.class);
@@ -45,7 +46,7 @@ public class Network {
 		k.register(TradeOffer.class);
 		k.register(PlanetOffer.class);
 		k.register(GoodsOffer.class);
-					
+		
 		//Register misc
 		k.register(ArrayList.class);
 		k.register(int[].class);
@@ -108,6 +109,11 @@ public class Network {
 		public int page;
 		public int count;
 		public List<TradeOffer> offers;
+	}
+	
+	public static class BuyOffer{
+		public TradeOffer offer;
+		public int amount;
 	}
 }
 

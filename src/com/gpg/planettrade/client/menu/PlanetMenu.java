@@ -34,15 +34,19 @@ public class PlanetMenu extends Menu{
 
 	public Popup popup = null;
 	
+	private int xPos = 20;
+	private int yPos = 205;
+	
 	public PlanetMenu(Mouse mouse, Keyboard key, MainComponent main) {
 		super(mouse, key, main);
 		components = new ArrayList<Component> ();
 		components.add(new TextButton(10, 675, 50, 20, 0, "Back"));
-		components.add(new TextButton(425, 164, 94, 20, 1, "Build Factory"));
-		components.add(new TextButton(815, 164, 94, 20, 2, "Build Storage"));
+		components.add(new TextButton(425, yPos - 26, 94, 20, 1, "Build Factory"));
+		components.add(new TextButton(815, yPos - 26, 94, 20, 2, "Build Storage"));
+		components.add(new TextButton(815, 500, 94, 20, 3, "Marketplace"));
 		
 		for(int i = 0; i < Globals.currentPlanet.storage.size(); i++){
-			components.add(new TextButton(870, 203 + (i * 35), 50, 20, 100 + i, "Open"));
+			components.add(new TextButton(870, yPos + 7 + (i * 35), 50, 20, 100 + i, "Open"));
 		}
 	}
 
@@ -53,13 +57,16 @@ public class PlanetMenu extends Menu{
 			button.setMouse(mouse.getX(), mouse.getY(), mouse.getButton());
 			button.update();
 			
+			if(button.getId() == 3){
+				button.setPos(20, 138);
+			}
+			
 			if(popup == null){
 				if(button.isPressed()){
 					if(button.getId() == 0){
 						//Back button
 						
 						//MAYBE UPDATE PLANET INFO?
-						
 						main.switchState(1);
 					}
 					
@@ -70,6 +77,10 @@ public class PlanetMenu extends Menu{
 					
 					if(button.getId() == 2){
 						if(popup == null) popup = new BuildStoragePopup(410, 250, mouse, key, this);
+					}
+					
+					if(button.getId() == 3){
+						main.switchState(3);
 					}
 					
 					if(button.getId() >= 100){
@@ -84,11 +95,15 @@ public class PlanetMenu extends Menu{
 			}
 		}
 		
+		
+		
 		processResources();
 	}
 
 	@Override
 	public void render(Graphics g) {
+		xPos = 20;
+		yPos = 205;
 		for(Component c : components) c.render(g);
 		
 		Text.render(Globals.currentPlanet.name, 20, 75, 30, Font.BOLD, g);
@@ -97,12 +112,11 @@ public class PlanetMenu extends Menu{
 		Text.render("Worth", 19, 118, 22, Font.BOLD, g);
 		Text.render(Globals.toCredits(Globals.currentPlanet.getWorth()), 19, 132, 15, Font.BOLD, new Color(81, 151, 201), g);
 		
-		Text.render("Resources", 27, 180, 18, Font.BOLD, g);
-		Text.render("Factories", 325, 180, 18, Font.BOLD, g);
-		Text.render("Storage", 725, 180, 18, Font.BOLD, g);
+		Text.render("Resources", 27, yPos - 10, 18, Font.BOLD, g);
+		Text.render("Factories", 325, yPos - 10, 18, Font.BOLD, g);
+		Text.render("Storage", 725, yPos - 10, 18, Font.BOLD, g);
 		
-		int xPos = 20;
-		int yPos = 195;
+
 		
 		for(int i = 0; i < Globals.currentPlanet.resources.size(); i++){
 			Resource r = Globals.currentPlanet.resources.get(i);

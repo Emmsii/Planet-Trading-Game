@@ -144,6 +144,18 @@ public class Planet implements Serializable{
 		return 0;
 	}
 	
+	public int maxStorage(){
+		int result = 0;
+		for(Storage s : storage) result += s.maxStorage;
+		return result;
+	}
+	
+	public int storageLeft(){
+		int result = 0;
+		for(Storage s : storage) result += s.maxStorage - s.getStored();
+		return result;
+	}
+	
 	public boolean isStorageFull(){
 		for(Storage s : storage) if(s.getStored() != s.maxStorage) return false;
 		return true;

@@ -19,6 +19,7 @@ import com.gpg.planettrade.client.util.Mouse;
 import com.gpg.planettrade.client.util.Text;
 import com.gpg.planettrade.core.Globals;
 import com.gpg.planettrade.core.GoodsOffer;
+import com.gpg.planettrade.core.Network.BuyOffer;
 import com.gpg.planettrade.core.Network.MarketOffers;
 import com.gpg.planettrade.core.TradeOffer;
 
@@ -39,6 +40,7 @@ public class Marketplace extends Menu{
 		super(mouse, key, main);
 
 		components = new ArrayList<Component>();
+		components.add(new TextButton(50, 675, 50, 20, -9, "Back"));
 		components.add(new TextButton(xPos + 475, yPos + 550, 50, 20, -10, "Next"));
 		components.add(new TextButton(xPos + 10, yPos + 550, 49, 20, -11, "Prev"));
 		
@@ -82,7 +84,9 @@ public class Marketplace extends Menu{
 			button.update();
 			if(popup == null){
 				if(button.isPressed()){
-					if(button.getId() == -10){
+					if(button.getId() == -9){
+						main.switchState(2);
+					}else if(button.getId() == -10){
 						if(10 + (page * 10) <= tradeOffersCount){
 							page++;
 							changePage();
@@ -172,7 +176,7 @@ public class Marketplace extends Menu{
 		//Called when trade offers change
 		for(int i = components.size() - 1; i >= 0; i--){
 			Button button = (Button) components.get(i);
-			if(button.getId() == -10 || button.getId() == -11) continue;
+			if(button.getId() == -10 || button.getId() == -11 || button.getId() == -9) continue;
 			else components.remove(i);
 		}
 		for(int i = 0; i < offers.size(); i++) if(!offers.get(i).ended) components.add(new TextButton(xPos + 475, yPos + 8 + (i * 55), 43, 20, i, "Buy"));
@@ -183,6 +187,10 @@ public class Marketplace extends Menu{
 		MarketOffers mo = new MarketOffers();
 		mo.page = page;
 		main.gameClient.client.sendTCP(mo);
+	}
+	
+	public void sendBuyOffer(BuyOffer bo){
+		main.gameClient.client.sendTCP(bo);
 	}
 
 }

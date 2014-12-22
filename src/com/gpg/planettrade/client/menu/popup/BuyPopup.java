@@ -8,18 +8,23 @@ import com.gpg.planettrade.client.component.Button;
 import com.gpg.planettrade.client.component.Component;
 import com.gpg.planettrade.client.component.TextButton;
 import com.gpg.planettrade.client.component.TextField;
+import com.gpg.planettrade.client.menu.Marketplace;
 import com.gpg.planettrade.client.menu.Menu;
 import com.gpg.planettrade.client.util.Keyboard;
 import com.gpg.planettrade.client.util.Mouse;
 import com.gpg.planettrade.client.util.Text;
 import com.gpg.planettrade.core.Globals;
 import com.gpg.planettrade.core.GoodsOffer;
+import com.gpg.planettrade.core.Network.BuyOffer;
 import com.gpg.planettrade.core.TradeOffer;
 
 public class BuyPopup extends Popup{
 
 	private int amount;
 	private TradeOffer offer;
+	
+	private boolean noCredits = false;
+	private boolean noStorage = false;
 	
 	/*
 	 * TODO:
@@ -66,7 +71,21 @@ public class BuyPopup extends Popup{
 				
 				if(button.getId() == 0){
 					//Buy button is pressed!
-					closed = true;
+					
+					if(Globals.storedCredits >= ((GoodsOffer) offer).quantity + ((GoodsOffer) offer).priceEach){
+						//if(there is room in current planets storage)
+						if(Globals.currentPlanet.storageLeft() + ((GoodsOffer) offer).quantity <= Globals.currentPlanet.maxStorage()){
+							//send buy packet
+							BuyOffer bo = new BuyOffer();
+							bo.offer = offer;
+							bo.amount = amount;
+							((Marketplace) menu).sendBuyOffer(bo);
+						}else{
+							noStorage = true;
+						}
+					}else{
+						noCredits = true;
+					}
 					return;
 				}
 				
@@ -129,6 +148,9 @@ public class BuyPopup extends Popup{
 		Text.render("Can buy for:", x + 200, y + 150, 12, Font.BOLD, g);
 		Text.render(Globals.toCredits(amount * ((GoodsOffer)offer).priceEach), x + 200, y + 175, 25, Font.BOLD, new Color(81, 151, 201), g);
 		Text.render(Globals.toCredits(((GoodsOffer)offer).priceEach) + " each", x + 202, y + 188, 10, Font.BOLD, new Color(81, 151, 201), g);
+
+		if(noCredits) Text.render("Not enough credits.", x + 30, y + 350, 12, Font.BOLD, new Color(179, 27, 27), g);
+		if(noStorage) Text.render("Not enough storage.", x + 30, y + 362, 12, Font.BOLD, new Color(179, 27, 27), g);
 		
 		for(Component c : components) c.render(g);
 	}
