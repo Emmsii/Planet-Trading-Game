@@ -1,6 +1,8 @@
 Planet-Trading-Game
 ===================
 
+# Terraforming
+- TODO: explain teraforming...
 
 # Marketplace
 - The Marketplace Screen
