@@ -5,9 +5,11 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 import com.esotericsoftware.minlog.Log;
 import com.gpg.planettrade.core.Globals;
+import com.gpg.planettrade.core.Network.AddOffer;
 import com.gpg.planettrade.core.Network.ChatMessage;
 import com.gpg.planettrade.core.Network.Login;
 import com.gpg.planettrade.core.Network.MarketOffers;
+import com.gpg.planettrade.core.Network.MarketStats;
 import com.gpg.planettrade.core.Network.RemovePlayer;
 import com.gpg.planettrade.core.Network.StoredCredits;
 import com.gpg.planettrade.core.Network.TakeCredits;
@@ -15,6 +17,7 @@ import com.gpg.planettrade.core.Network.UpdatePlanet;
 import com.gpg.planettrade.core.Player;
 import com.gpg.planettrade.core.TradeOffer;
 import com.gpg.planettrade.server.GameServer.PlayerConnection;
+import com.gpg.planettrade.server.market.MarketplaceManager;
 
 public class ServerListener extends Listener{
 
@@ -84,14 +87,6 @@ public class ServerListener extends Listener{
 			return;
 		}
 		
-		if(o instanceof TradeOffer){
-			TradeOffer offer = (TradeOffer) o;
-			if(!FileHandler.saveTradeOffer(offer)){
-				Log.warn("Could not save trade offer to data folder.");
-			}
-			return;
-		}
-		
 		if(o instanceof ChatMessage){
 			ChatMessage msg = (ChatMessage) o;
 			//TODO: Chat channels
@@ -101,11 +96,57 @@ public class ServerListener extends Listener{
 			return;
 		}
 		
+		/** A new trade offer has been submitted, tell all other players to add to list.*/
+		if(o instanceof TradeOffer){
+			TradeOffer offer = (TradeOffer) o;
+			FileHandler.updateStat("trades", FileHandler.getStat("trades") + 1);
+			if(!FileHandler.saveTradeOffer(offer)) Log.warn("Could not save trade offer to data folder.");
+			AddOffer addOffer = new AddOffer();
+			addOffer.offer = offer;
+			addOffer.count = FileHandler.countTradeOffers();
+			updateStats(o);
+			server.sendToAllTCP(addOffer);
+			return;
+		}
+		
+		if(o instanceof MarketStats){
+			updateStats(o);
+			return;
+		}
+		
+		/** A player has gone onto the marketplace screen, give them the latest 10 offers, based off page number.*/
 		if(o instanceof MarketOffers){
 			MarketOffers mo = (MarketOffers) o;
-			mo.count = FileHandler.countTradeOffers();
-			mo.offers = FileHandler.loadTradeOffers(mo.page);
-			if(mo.offers == null || mo.offers.isEmpty())  return;
+			MarketplaceManager.checks();
+			
+			int page = mo.page;
+			int count = FileHandler.countTradeOffers();
+			int offersPerPage = mo.offersPerPage;
+			int pageOffset = page * offersPerPage;
+			
+			int startIndex = count - pageOffset;
+			int endIndex = (count - offersPerPage - pageOffset);
+			if(endIndex < 0) endIndex = 0;
+			
+			String[] files = FileHandler.loadTradeOfferFiles();
+			mo.offers = new TradeOffer[10];
+			int j = 0;
+			
+//			Log.info("-----------------------------------------------");
+//			Log.info("LOADING TRADE OFFERS");
+//			Log.info("Page: " + page);
+//			Log.info("Offers: " + count);
+//			Log.info("Page Offset: " + pageOffset + " (page * offersPerPage) = (" + page + " * " + offersPerPage + ")");
+//			Log.info("Starting Index: " + startIndex);
+//			Log.info("Ending Index: " + endIndex);
+			
+			for(int i = startIndex - 1; i >= endIndex; i--){
+				mo.offers[j] = FileHandler.loadTradeOffer(files[i]);
+				j++;
+			}
+
+			mo.count = count;
+			updateStats(o);
 			c.sendTCP(mo);
 			return;
 		}
@@ -132,5 +173,12 @@ public class ServerListener extends Listener{
 		if(value.length() == 0) return false;
 		return true;
 	}
-			
+		
+	
+	public void updateStats(Object o){
+		MarketStats ms = new MarketStats();
+		ms.total = FileHandler.getStat("trades");
+		ms.ended = FileHandler.getStat("ended");
+		server.sendToAllTCP(ms);
+	}
 }

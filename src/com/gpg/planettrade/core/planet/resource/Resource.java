@@ -9,7 +9,7 @@ public class Resource implements Serializable{
 	public String name;
 	public String description;
 	public String type;
-	public int value;
+	public long value;
 	public int[] spawnOn;
 	public int spawnChance;
 	

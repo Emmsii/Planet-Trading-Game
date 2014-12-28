@@ -11,6 +11,10 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import static java.nio.file.StandardCopyOption.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -56,6 +60,12 @@ public class FileHandler {
 		file = new File(DATA_FOLDER + "marketplace/");
 		if(!file.exists()){
 			Log.info("Marketplace folder doesn't exist, creating now.");
+			file.mkdirs();
+		}
+		
+		file = new File(DATA_FOLDER + "logs/marketplace/");
+		if(!file.exists()){
+			Log.info("Logs folder doesn't exist, creating now.");
 			file.mkdirs();
 		}
 		
@@ -274,12 +284,34 @@ public class FileHandler {
 	 * Market Methods
 	 */
 
+	public static void moveTradeOffer(String name){
+		Path source = Paths.get(name);
+		Path target = Paths.get(DATA_FOLDER + "/logs/marketplace/" + source.getFileName());
+		
+		try {
+			Files.move(source, target, ATOMIC_MOVE);
+			updateStat("ended", getStat("ended"));
+		} catch (IOException e) {
+			Log.warn("Could not move file [" + name + "] logs folder.");
+			e.printStackTrace();
+		}
+		
+//		try{
+//			if(!oldFile.renameTo(new File(DATA_FOLDER + "/logs/marketplace/" + name))) Log.warn("Could not move file " + name + " to logs folder.");
+//		}catch(Exception e){
+//			e.printStackTrace();
+//		}
+	}
 	
 	public static boolean saveTradeOffer(TradeOffer trade){
-		String name = Integer.toString(trade.hashCode());
-		if(trade instanceof GoodsOffer) name = "goods_" + name;
-		else if(trade instanceof PlanetOffer) name = "planet_" + name;
-		File file = new File(DATA_FOLDER + "marketplace/" + name + ".trade");		
+		int id = getStat("trades");
+		trade.id = id;
+		String idName = Integer.toString(id);
+		if(id < 10) idName = "0" + idName;
+		String name = idName + "_" + Integer.toString(trade.hashCode());
+		if(trade instanceof GoodsOffer) name = name + ".gt";
+		else if(trade instanceof PlanetOffer) name = name + ".pt";
+		File file = new File(DATA_FOLDER + "marketplace/" + name);		
 		try {
 			FileOutputStream out = new FileOutputStream(file);
 			if(!file.exists()) file.createNewFile();
@@ -298,9 +330,27 @@ public class FileHandler {
 		return false;
 	}
 	
-	public static int countTradeOffers(){
+	public static String[] loadTradeOfferFiles(){
 		File file = new File(DATA_FOLDER + "/marketplace/");
-		return file.listFiles().length;
+		if(!file.exists()){
+			Log.warn("Cannot find marketplace folder.");
+			return null;
+		}
+		
+		File[] filesFound = file.listFiles();
+		String[] result = new String[filesFound.length];
+		for(int i = 0; i < filesFound.length; i++){ 
+			if(filesFound[i].isFile())result[i] = filesFound[i].getPath();
+		}
+		return result;
+	}
+	
+	public static int countTradeOffers(){
+		int result = 0;
+		File file = new File(DATA_FOLDER + "/marketplace/");
+		File[] files = file.listFiles();
+		for(int i = 0; i < files.length; i++) if(files[i].isFile()) result++;
+		return result;
 	}
 	
 	public static List<TradeOffer> loadTradeOffers(int page){
@@ -452,6 +502,83 @@ public class FileHandler {
 		
 		Log.info("Loaded " + result.length + " resources.");
 		return result;
+	}
+	
+	/*
+	 * Stats Methods
+	 */
+	
+	public static Integer getStat(String key){
+		Properties stats = loadStatsFile();	
+		if(stats.containsKey(key)) return Integer.parseInt((String) stats.get(key));
+		return 0;
+	}
+	
+	public static void updateStat(String key, Integer value){
+		Properties stats = loadStatsFile();
+		String valueStr = value.toString();
+		
+		if(stats.containsKey(key)) stats.replace(key, valueStr);
+		else stats.put(key, valueStr);
+		
+		File file = new File(DATA_FOLDER + "/logs/marketplace/stats.dat");
+		if(!file.exists()){
+			Log.warn("Stats file doesn't exist, creating now.");
+			createStatsFile(false);
+		}
+		
+		try {
+			OutputStream out = new FileOutputStream(file);
+			stats.store(out, null);
+			out.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static Properties loadStatsFile(){
+		File file = new File(DATA_FOLDER + "/logs/marketplace/stats.dat");
+		if(!file.exists()){
+			Log.warn("Stats file doesn't exist, creating now.");
+			createStatsFile(false);
+		}
+		
+		Properties result = new Properties();
+		
+		try {
+			InputStream in = new FileInputStream(file);
+			result.load(in);
+			in.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public static void createStatsFile(boolean override){
+		Properties stats = new Properties();
+		OutputStream out = null;
+		
+		File file = new File(DATA_FOLDER + "/logs/marketplace/stats.dat");
+		if(file.exists()) return;
+		try {
+			out = new FileOutputStream(file);
+			stats.store(out, null);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}finally{
+			try {
+				out.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	/*

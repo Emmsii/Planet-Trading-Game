@@ -17,7 +17,6 @@ import com.gpg.planettrade.core.Network.Time;
 import com.gpg.planettrade.core.Player;
 import com.gpg.planettrade.core.planet.factory.FactoryManager;
 import com.gpg.planettrade.core.planet.resource.ResourceManager;
-import com.gpg.planettrade.server.market.MarketplaceManager;
 
 public class GameServer {
 
@@ -25,19 +24,24 @@ public class GameServer {
 	private Server server;
 	public HashSet<Player> players = new HashSet<Player>();
 	
+	
 	public static void main(String[] args) throws IOException{
-//		Log.set(Log.LEVEL_TRACE);
 		new GameServer();
 	}
 	
-	public GameServer() throws IOException{	
+	private void init(){
 		FileHandler.createPropertiesFile(false);
 		Globals.init(FileHandler.loadPropertiesFile());
 		ResourceManager.init();
 		FactoryManager.init();
-		MarketplaceManager.init();
 		FileHandler.createFolderStructure();
+		FileHandler.createStatsFile(false);
 		
+		Log.info("Found " + FileHandler.countTradeOffers() + " active trade offers out of " + FileHandler.getStat("trades") + ".");
+	}
+	
+	public GameServer() throws IOException{
+		init();
 		server = new Server(10250, 10250){
 			protected Connection newConnection(){
 				return new PlayerConnection();
@@ -48,6 +52,8 @@ public class GameServer {
 		server.addListener(new ServerListener(this, server));
 		server.bind(Network.PORT);
 		server.start();
+		
+		
 		
 		String command = "";
 		
@@ -192,7 +198,7 @@ public class GameServer {
 		c.sendTCP(ownedPlanets);
 	}
 	
-	public boolean takeCredits(Player player, int amount){
+	public boolean takeCredits(Player player, long amount){
 		Player p = FileHandler.loadPlayer(player.name);		
 		if(p.storedCredits - amount >= 0) p.storedCredits -= amount;
 		else return false;

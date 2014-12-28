@@ -183,7 +183,7 @@ public class PlanetMenu extends Menu{
 		}
 		
 		if(Globals.storedCredits >= s.price){
-			components.add(new TextButton(870, 203 + (Globals.currentPlanet.storage.size() * 35), 50, 20, 100 + Globals.currentPlanet.storage.size(), "Open"));
+			components.add(new TextButton(870, yPos + 7 + (Globals.currentPlanet.storage.size() * 35), 50, 20, 100 + Globals.currentPlanet.storage.size(), "Open"));
 			Globals.currentPlanet.addStorage(s);
 			
 			TakeCredits takeCredits = new TakeCredits();

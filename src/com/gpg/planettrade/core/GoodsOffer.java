@@ -8,6 +8,6 @@ public class GoodsOffer extends TradeOffer{
 	
 	//TODO Maybe use resource instead of string type.
 	public String type;
-	public int priceEach;
+	public long priceEach;
 
 }

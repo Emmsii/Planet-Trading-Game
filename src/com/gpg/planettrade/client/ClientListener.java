@@ -6,10 +6,12 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.minlog.Log;
 import com.gpg.planettrade.client.util.GameTime;
 import com.gpg.planettrade.core.Globals;
+import com.gpg.planettrade.core.Network.AddOffer;
 import com.gpg.planettrade.core.Network.AddPlayer;
 import com.gpg.planettrade.core.Network.ChatMessage;
 import com.gpg.planettrade.core.Network.Factories;
 import com.gpg.planettrade.core.Network.MarketOffers;
+import com.gpg.planettrade.core.Network.MarketStats;
 import com.gpg.planettrade.core.Network.OwnedPlanets;
 import com.gpg.planettrade.core.Network.RemovePlayer;
 import com.gpg.planettrade.core.Network.StoredCredits;
@@ -77,10 +79,22 @@ public class ClientListener extends Listener{
 			return;
 		}
 		
+		if(o instanceof MarketStats){
+			MarketStats ms = (MarketStats) o;
+			Globals.totalTrades = ms.total;
+			Globals.totalEndedTrades = ms.ended;
+			return;
+		}
+		
 		if(o instanceof MarketOffers){
 			MarketOffers mo = (MarketOffers) o;
-			main.initMarketplace(mo.offers, mo.count);
+			main.addTradeOffers(mo.offers, mo.count);
 			return;
+		}
+		
+		if(o instanceof AddOffer){
+			AddOffer addOffer = (AddOffer) o;
+			main.addTradeOffer(addOffer.offer, addOffer.count);
 		}
 	}
 	

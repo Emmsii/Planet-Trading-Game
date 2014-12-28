@@ -67,7 +67,7 @@ public class Planet implements Serializable{
 	}
 	
 	
-	public int getWorth(){
+	public long getWorth(){
 		worth = 0;
 		for(Resource r : resources) worth += r.value * r.amount;
 		for(Storage s : storage) worth += s.getWorthInt();

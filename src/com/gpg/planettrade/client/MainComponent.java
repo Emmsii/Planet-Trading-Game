@@ -8,7 +8,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferStrategy;
-import java.util.List;
 
 import javax.swing.JFrame;
 
@@ -99,7 +98,7 @@ public class MainComponent extends Canvas implements Runnable{
 		running = false;
 	}
 	
-	public void run() {
+	public void run(){
 		double uns = 1000000000.0 / 60.0;
 		long lastFrame = System.nanoTime();
 		double delta = 0;
@@ -189,7 +188,7 @@ public class MainComponent extends Canvas implements Runnable{
 		if(Globals.ownedPlanets != null) Text.render(Globals.ownedPlanets.size() + "", 509, 35, 19, Font.BOLD, new Color(150, 150, 150), g);
 		else Text.render("0", 509, 35, 19, Font.BOLD, new Color(150, 150, 150), g);
 		Text.render("Total Worth", 670, 17, 12, Font.BOLD, g);
-		if(Globals.ownedPlanets != null) Text.render(Globals.toCredits(Globals.getWorth()), 670, 35, 19, Font.BOLD, new Color(81, 151, 201), g);
+		Text.render(Globals.toCredits(Globals.getWorth()), 670, 35, 19, Font.BOLD, new Color(81, 151, 201), g);
 
 		g.drawRect(-1, -1, 325, 45);
 		g.drawRect(-1, -1, 1285, 45);
@@ -254,8 +253,13 @@ public class MainComponent extends Canvas implements Runnable{
 		}
 	}
 	
-	public void initMarketplace(List<TradeOffer> offers, int count){
-		marketplace.init(offers, count);
+	public void addTradeOffers(TradeOffer[] offers, int count){
+		marketplace.replaceOffers(offers, count);
+	}
+	
+	public void addTradeOffer(TradeOffer offer, int count){
+		if(marketplace == null) return;
+		marketplace.addOffer(offer, count);
 	}
 	
 	public void addMessage(ChatMessage msg){
@@ -266,3 +270,4 @@ public class MainComponent extends Canvas implements Runnable{
 		}
 	}
 }
+

@@ -12,12 +12,12 @@ public class Player implements Serializable{
 	
 	public int id;
 	public String name;
-	public int storedCredits;
+	public long storedCredits;
 	
 	//STORE LIST OF FILE PATHS, INSTEAD OF PLANET OBJECTS.
 	public List<String> ownedPlanets = new ArrayList<String>();
 	
-	public void init(int id, String name, int storedCredits){
+	public void init(int id, String name, long storedCredits){
 		this.id = id;
 		this.name = name;
 		this.storedCredits = storedCredits;
