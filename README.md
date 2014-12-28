@@ -1,6 +1,17 @@
 Planet-Trading-Game
 ===================
 
+# Ideas List
+- Systems have chance for no planets to spawn, just  star.
+- Generate stars in systems.
+- Stars have temperature and size values.
+- Advanced planet generation: generate planet types based of distance from star and sizes.
+- Load in planet types from file?
+- Define what makes a planet type (temp, composition), assign planet types based off those values.
+- Starting planets: When player is assigned a starting planet, the server picks a random planet and replaces the values with starting planet values.
+
+# Terraforming
+- TODO: explain teraforming...
 
 # Marketplace
 - The Marketplace Screen
