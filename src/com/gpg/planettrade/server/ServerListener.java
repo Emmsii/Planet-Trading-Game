@@ -5,7 +5,9 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 import com.esotericsoftware.minlog.Log;
 import com.gpg.planettrade.core.Globals;
+import com.gpg.planettrade.core.GoodsOffer;
 import com.gpg.planettrade.core.Network.AddOffer;
+import com.gpg.planettrade.core.Network.BuyOffer;
 import com.gpg.planettrade.core.Network.ChatMessage;
 import com.gpg.planettrade.core.Network.Login;
 import com.gpg.planettrade.core.Network.MarketOffers;
@@ -131,15 +133,7 @@ public class ServerListener extends Listener{
 			String[] files = FileHandler.loadTradeOfferFiles();
 			mo.offers = new TradeOffer[10];
 			int j = 0;
-			
-//			Log.info("-----------------------------------------------");
-//			Log.info("LOADING TRADE OFFERS");
-//			Log.info("Page: " + page);
-//			Log.info("Offers: " + count);
-//			Log.info("Page Offset: " + pageOffset + " (page * offersPerPage) = (" + page + " * " + offersPerPage + ")");
-//			Log.info("Starting Index: " + startIndex);
-//			Log.info("Ending Index: " + endIndex);
-			
+
 			for(int i = startIndex - 1; i >= endIndex; i--){
 				mo.offers[j] = FileHandler.loadTradeOffer(files[i]);
 				j++;
@@ -148,6 +142,18 @@ public class ServerListener extends Listener{
 			mo.count = count;
 			updateStats(o);
 			c.sendTCP(mo);
+			return;
+		}
+		
+		if(o instanceof BuyOffer){
+			BuyOffer buy = (BuyOffer) o;
+			String seller = buy.offer.placedBy;
+			String buyer = player.name;
+			Log.info(buyer + " just bought [" + buy.amount + "] " + ((GoodsOffer) buy.offer).type + " from " + seller + " for " + Globals.toCredits(((GoodsOffer)buy.offer).quantity * ((GoodsOffer) buy.offer).priceEach));
+			//C equals the person doing the buying.
+			//give C the contents of the trade offer.
+			//Give the seller (from the trade offer) credits.
+			//take credits from C.
 			return;
 		}
 	}

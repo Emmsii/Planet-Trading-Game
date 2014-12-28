@@ -69,6 +69,7 @@ public class SellPopup extends Popup{
 				if(button.getId() == -1) closed = true;
 				
 				if(button.getId() == 0){
+					if(amount == 0) continue;
 					GoodsOffer offer = new GoodsOffer();
 					offer.placedBy = Globals.username;
 					offer.timePlaced = GameTime.currentTimeSeconds;
@@ -144,7 +145,16 @@ public class SellPopup extends Popup{
 		Text.render(Globals.toCredits(amount * container.type.value), x + 200, y + 175, 25, Font.BOLD, new Color(81, 151, 201), g);
 		Text.render(Globals.toCredits(container.type.value) + " each", x + 202, y + 188, 10, Font.BOLD, new Color(81, 151, 201), g);
 		
-		for(Component c : components) c.render(g);
+		for(Component c : components){
+			if(c instanceof Button){
+				Button button = (Button) c;
+				if(button.getId() == 0){
+					if(amount > 0) button.render(g);
+				}else button.render(g);
+			}else{
+				c.render(g);
+			}
+		}
 	}
 
 }

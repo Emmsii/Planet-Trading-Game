@@ -63,9 +63,9 @@ public class Globals {
 		return "c" + formatInt(value);
 	}
 	
-	public static int getWorth(){
+	public static long getWorth(){
 		if(ownedPlanets == null || ownedPlanets.isEmpty()) return 0;
-		int worth = 0;
+		long worth = 0;
 		for(Planet p : ownedPlanets) worth += p.worth;
 		return worth;
 	}

@@ -152,7 +152,7 @@ public class Planet implements Serializable{
 	
 	public int storageLeft(){
 		int result = 0;
-		for(Storage s : storage) result += s.maxStorage - s.getStored();
+		for(Storage s : storage) result += (s.maxStorage - s.getStored());
 		return result;
 	}
 	

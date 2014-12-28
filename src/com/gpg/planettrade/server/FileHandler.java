@@ -486,7 +486,7 @@ public class FileHandler {
 				if(s.startsWith("name")) res.name = s.substring(5, s.length());
 				if(s.startsWith("description")) res.description = s.substring(12, s.length());
 				if(s.startsWith("type")) res.type = s.substring(5, s.length());
-				if(s.startsWith("value")) res.value = Integer.parseInt(s.substring(6, s.length()));
+				if(s.startsWith("value")) res.value = Long.parseLong(s.substring(6, s.length()));
 				if(s.startsWith("spawn_chance")) res.spawnChance = Integer.parseInt(s.substring(13, s.length()));
 				
 				//Gets list of planet type resource can spawn on.

@@ -27,8 +27,7 @@ import com.gpg.planettrade.core.TradeOffer;
 public class Marketplace extends Menu{
 
 	private SimpleDateFormat df = new SimpleDateFormat("dd:MM:yy @ HH:mm");
-	
-//	protected List<TradeOffer> offers = new ArrayList<TradeOffer>();
+
 	protected TradeOffer[] offers = new TradeOffer[10];
 	
 	private int xPos = 50;
@@ -56,39 +55,6 @@ public class Marketplace extends Menu{
 		main.gameClient.client.sendTCP(mo);
 		
 	}
-
-//	public void init(TradeOffer[] offersIn, int count){
-//		tradeOffersCount = count;
-//		this.offers = offersIn;
-//		//Load trade offers
-////		goods = FileHandler.loadGoodsOffers();
-////		planets = FileHandler.loadPlanetOffers();
-//		
-//		//Request Marketplace packets
-//		//Request trade offers by page.
-//		
-//		for(TradeOffer o : offers){
-//			if(o.timePlaced + o.length < GameTime.currentTimeSeconds){
-//				Log.info("Placed: " + o.timePlaced);
-//				Log.info("Length: " + o.length);
-//				Log.info("Cuttof: " + (o.timePlaced + o.length) + " is >= " + GameTime.currentTimeSeconds);
-//				Log.info("Trade has ended.");
-//				o.ended = true;
-//			}
-//			else o.ended = false;
-//		}
-//		
-//		for(int i = offers.length - 1; i >= 0; i--){
-//			if(offers[i].ended){
-//				Log.info("ENDED");
-//				offers[i] = null;
-////				offers.remove(i);
-////				initButtons();
-//			}
-//		}
-//		
-//		initButtons();
-//	}
 	
 	@Override
 	public void update() {
@@ -103,14 +69,12 @@ public class Marketplace extends Menu{
 					if(button.getId() == -9){
 						main.switchState(2);
 					}else if(button.getId() == -10){
-						//Next Page Button Pressed
 						if(waitTime != 0) continue;
 						if(offersPerPage + (page * offersPerPage) <= totalTradeOffers - 1){
 							page++;
 							changePage();
 						}
 					}else if(button.getId() == -11){
-						//Previous Page Button Pressed
 						if(waitTime != 0) continue;
 						if(page - 1 < 0) page = 0;
 						else{
@@ -118,7 +82,7 @@ public class Marketplace extends Menu{
 							changePage();
 						}
 					}else{
-						popup = new BuyPopup(410, 250, mouse, key, this, offers[button.getId()]);
+						popup = new BuyPopup(410, 240, mouse, key, this, offers[button.getId()]);
 					}
 					
 				}
@@ -138,18 +102,11 @@ public class Marketplace extends Menu{
 				initButtons();
 			}
 		}
-		
-//		if(GameTime.time % 120 == 0){
-//			MarketOffers mo = new MarketOffers();
-//			mo.page = page;
-//			main.gameClient.client.sendTCP(mo);
-//		}
 	}
 
 	@Override
 	public void render(Graphics g) {
 		if(components == null || offers == null) return;
-//		for(Component c : components) c.render(g);
 		for(int i = components.size() - 1; i >= 0; i--){
 			Button button = (Button) components.get(i);
 			if(button.getId() == -10){
@@ -161,7 +118,6 @@ public class Marketplace extends Menu{
 			}
 		}
 		
-//		Text.render("Page " + (page + 1) + "/" + ((tradeOffersCount / 10) + 1) + " (" + offers.length + "/" + tradeOffersCount + " total trade offers)", 10, 70, 15, Font.BOLD, g);
 		Text.render("Page " + (page + 1) + "/" + ((totalTradeOffers / offersPerPage) + 1), 10, 70, 15, Font.BOLD, g);
 		
 		for(int i = 0; i < offers.length; i++){
@@ -216,7 +172,9 @@ public class Marketplace extends Menu{
 			if(button.getId() == -10 || button.getId() == -11 || button.getId() == -9) continue;
 			else components.remove(i);
 		}
-		for(int i = 0; i < offers.length; i++) if(offers[i] != null && !offers[i].ended) components.add(new TextButton(xPos + 650, yPos + 8 + (i * 55), 43, 20, i, "Buy"));
+		for(int i = 0; i < offers.length; i++) if(offers[i] != null && !offers[i].ended){
+			if(!offers[i].placedBy.equalsIgnoreCase(Globals.username)) components.add(new TextButton(xPos + 650, yPos + 8 + (i * 55), 43, 20, i, "Buy"));
+		}
 	}
 	
 	private void changePage(){
@@ -248,5 +206,4 @@ public class Marketplace extends Menu{
 		offers[0] = offer;
 		initButtons();
 	}
-
 }

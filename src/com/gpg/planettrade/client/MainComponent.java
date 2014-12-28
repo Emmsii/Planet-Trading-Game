@@ -6,8 +6,12 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.RenderingHints;
+import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import javax.swing.JFrame;
 
@@ -56,6 +60,7 @@ public class MainComponent extends Canvas implements Runnable{
 	public final int STARTING_STATE = 1;
 	
 	public MainComponent(){
+		
 		gameClient = new GameClient(this);
 		mouse = new Mouse();
 		key = new Keyboard();
@@ -85,6 +90,15 @@ public class MainComponent extends Canvas implements Runnable{
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
+		
+		try {
+			URL url = new URL("http://giftedpineapples.com/favicon-192x192.png");
+			Toolkit kit = Toolkit.getDefaultToolkit();
+			Image image = kit.createImage(url);
+			frame.setIconImage(image);
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
 		
 		main.start();
 	}
