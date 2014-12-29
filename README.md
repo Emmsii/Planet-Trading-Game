@@ -13,6 +13,23 @@ Planet-Trading-Game
 # Terraforming
 - TODO: explain teraforming...
 
+# Servers
+- Server Lists
+  - Two possible ways to list servers.
+    - User manually adds server ip to server list.
+    - Client checks if server is online, server responds with server name, ping and player count.
+  - OR
+    - When a server is turned on, it tries to connect to a lobby server. 
+    - This lists all online servers.
+    - Client connects to lobby server and receives a list of all active servers.
+- Registration
+  - User registers username and password on website, stores info in database.
+  - Client requires username and password to login.
+  - Client checks with database (PHP POST/GET) to validate.
+  - If details are correct, player can join servers.
+- If two players with the same IP try and connect, do not allow the 2nd user to connect.
+- Message 1st user saying "Multiple logins from the same IP detected", or something like that.
+
 # Marketplace
 - The Marketplace Screen
   - This screen shows all trades.
