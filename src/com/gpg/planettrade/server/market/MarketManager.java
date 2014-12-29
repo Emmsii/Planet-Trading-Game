@@ -4,7 +4,7 @@ import com.gpg.planettrade.core.TradeOffer;
 import com.gpg.planettrade.server.FileHandler;
 
 
-public class MarketplaceManager {
+public class MarketManager {
 	
 	public static void checks(){
 		//Will check all files in the marketplace folder, if they have ended move them to log.

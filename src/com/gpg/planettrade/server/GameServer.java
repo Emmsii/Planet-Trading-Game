@@ -17,6 +17,7 @@ import com.gpg.planettrade.core.Network.Time;
 import com.gpg.planettrade.core.Player;
 import com.gpg.planettrade.core.planet.factory.FactoryManager;
 import com.gpg.planettrade.core.planet.resource.ResourceManager;
+import com.gpg.planettrade.server.market.MarketManager;
 
 public class GameServer {
 
@@ -36,6 +37,7 @@ public class GameServer {
 		FactoryManager.init();
 		FileHandler.createFolderStructure();
 		FileHandler.createStatsFile(false);
+		MarketManager.checks();
 		
 		Log.info("Found " + FileHandler.countTradeOffers() + " active trade offers out of " + FileHandler.getStat("trades") + ".");
 	}
@@ -204,6 +206,11 @@ public class GameServer {
 		else return false;
 		FileHandler.savePlayer(p);
 		return true;
+	}
+	
+	public void giveCredits(Player player, long amount){
+		player.storedCredits += amount;
+		FileHandler.savePlayer(player);
 	}
 	
 	static class PlayerConnection extends Connection{

@@ -122,7 +122,7 @@ public class BuyPopup extends Popup{
 				if(button.getId() == 9){
 					for(Component com : components)
 						if(com instanceof TextField){
-							if(((TextField) com).getText() == "") break;
+							if(((TextField) com).getText().trim().length() == 0) break;
 							int a = (int) Long.parseLong(((TextField) com).getText());
 							if(amount + a <= ((GoodsOffer)offer).quantity) amount = a;
 							else amount = ((GoodsOffer)offer).quantity;
@@ -160,10 +160,12 @@ public class BuyPopup extends Popup{
 		if(noStorage) Text.render("Not enough storage.", x + 30, y + 362, 12, Font.BOLD, new Color(179, 27, 27), g);
 		
 		for(Component c : components){
-			Button button = (Button) c;
-			if(button.getId() == 0){
-				if(amount > 0) button.render(g);
-			}else button.render(g);
+			if(c instanceof Button){
+				Button button = (Button) c;
+				if(button.getId() == 0){
+					if(amount > 0) button.render(g);
+				}else button.render(g);
+			}else c.render(g);
 		}
 	}
 

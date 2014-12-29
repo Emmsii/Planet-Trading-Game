@@ -94,14 +94,15 @@ public class Marketplace extends Menu{
 			if(popup.isClosed()) popup = null;
 		}
 
-		for(int i = offers.length - 1; i >= 0; i--){
-			if(offers[i] == null) continue;
-			if(offers[i].ended){
-				Log.info("ENDED");
-				offers[i] = null;
-				initButtons();
-			}
-		}
+		//TODO: Temp removed this, this will completely remove ended trades from list.
+//		for(int i = offers.length - 1; i >= 0; i--){
+//			if(offers[i] == null) continue;
+//			if(offers[i].ended){
+//				Log.info("ENDED");
+//				offers[i] = null;
+//				initButtons();
+//			}
+//		}
 	}
 
 	@Override
@@ -158,9 +159,13 @@ public class Marketplace extends Menu{
 		
 		Text.render("Stats", 800, 90, 20, Font.BOLD, g);
 		Text.render("Total Trades:", 800, 102, 12, Font.BOLD, g);
-		Text.render("" + Globals.totalTrades, 800, 120, 20, Font.BOLD, new Color(150, 150, 150), g);
-		Text.render("Trades Expired:", 800, 132, 12, Font.BOLD, g);
-		Text.render("" + Globals.totalEndedTrades, 800, 152, 20, Font.BOLD, new Color(179, 27, 27), g);
+		Text.render(Globals.formatInt(Globals.totalTrades), 800, 120, 20, Font.BOLD, new Color(150, 150, 150), g);
+		Text.render("Trades Completed:", 800, 132, 12, Font.BOLD, g);
+		Text.render(Globals.formatInt(Globals.totalSold), 800, 152, 20, Font.BOLD, new Color(120, 209, 69), g);
+		Text.render("Resources Exchanged:", 800, 165, 12, Font.BOLD, g);
+		Text.render(Globals.formatInt(Globals.quantity) + " units", 800, 182, 20, Font.BOLD, new Color(150, 150, 150), g);
+		Text.render("Credits Exchanged:", 800, 195, 12, Font.BOLD, g);
+		Text.render(Globals.toCredits(Globals.creditsExchanged), 800, 215, 20, Font.BOLD, new Color(81, 151, 201), g);
 		
 		if(popup != null) popup.render(g);
 	}
@@ -205,5 +210,20 @@ public class Marketplace extends Menu{
 		for(int i = offers.length - 2; i >= 0; i--) offers[i + 1] = offers[i];
 		offers[0] = offer;
 		initButtons();
+	}
+	
+	public void updateOffer(TradeOffer offer, boolean sold){
+		if(offer == null){
+			Log.warn("Trade offer is null. [Marketplace Class - updateTradeOffer()]");
+			return;
+		}
+		for(int i = 0 ; i < offers.length; i++){
+			if(offers[i].id == offer.id){
+				offers[i] = offer;
+				if(sold) offers[i].ended = true;
+				initButtons();
+				return;
+			}
+		}
 	}
 }

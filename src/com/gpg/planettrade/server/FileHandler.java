@@ -290,31 +290,25 @@ public class FileHandler {
 		
 		try {
 			Files.move(source, target, ATOMIC_MOVE);
-			updateStat("ended", getStat("ended"));
 		} catch (IOException e) {
 			Log.warn("Could not move file [" + name + "] logs folder.");
 			e.printStackTrace();
 		}
-		
-//		try{
-//			if(!oldFile.renameTo(new File(DATA_FOLDER + "/logs/marketplace/" + name))) Log.warn("Could not move file " + name + " to logs folder.");
-//		}catch(Exception e){
-//			e.printStackTrace();
-//		}
 	}
 	
-	public static boolean saveTradeOffer(TradeOffer trade){
+	public static boolean saveTradeOffer(TradeOffer trade, boolean override){
 		int id = getStat("trades");
 		trade.id = id;
 		String idName = Integer.toString(id);
 		if(id < 10) idName = "0" + idName;
-		String name = idName + "_" + Integer.toString(trade.hashCode());
+		String name = idName + "_type_here";
 		if(trade instanceof GoodsOffer) name = name + ".gt";
 		else if(trade instanceof PlanetOffer) name = name + ".pt";
 		File file = new File(DATA_FOLDER + "marketplace/" + name);		
 		try {
 			FileOutputStream out = new FileOutputStream(file);
-			if(!file.exists()) file.createNewFile();
+			//TODO: THIS ISN'T OVERRIDING THE OLD FILE, IT MAKES A NEW ONE CAUSE THE HASHCODE IS DIFFERENT.
+			if(!override) if(!file.exists()) file.createNewFile();
 			ObjectOutputStream oos = new ObjectOutputStream(out);
 			oos.writeObject(trade);
 			oos.flush();

@@ -16,6 +16,7 @@ import com.gpg.planettrade.core.Network.OwnedPlanets;
 import com.gpg.planettrade.core.Network.RemovePlayer;
 import com.gpg.planettrade.core.Network.StoredCredits;
 import com.gpg.planettrade.core.Network.Time;
+import com.gpg.planettrade.core.Network.UpdateOffer;
 import com.gpg.planettrade.core.planet.factory.FactoryManager;
 
 public class ClientListener extends Listener{
@@ -56,7 +57,10 @@ public class ClientListener extends Listener{
 		}
 		
 		if(o instanceof StoredCredits){
+			Log.info("[Client] UPDATING STORED CREDITS FOR: " + Globals.username);
 			StoredCredits storedCredits = (StoredCredits) o;
+			Log.info("[Client] Current Credits: " + Globals.storedCredits);
+			Log.info("[Client] New Credits: " + storedCredits.credits);
 			Globals.storedCredits = storedCredits.credits;
 			return;
 		}
@@ -82,7 +86,9 @@ public class ClientListener extends Listener{
 		if(o instanceof MarketStats){
 			MarketStats ms = (MarketStats) o;
 			Globals.totalTrades = ms.total;
-			Globals.totalEndedTrades = ms.ended;
+			Globals.totalSold = ms.sold;
+			Globals.quantity = ms.quantity;
+			Globals.creditsExchanged = ms.creditsExchanged;
 			return;
 		}
 		
@@ -95,6 +101,11 @@ public class ClientListener extends Listener{
 		if(o instanceof AddOffer){
 			AddOffer addOffer = (AddOffer) o;
 			main.addTradeOffer(addOffer.offer, addOffer.count);
+		}
+		
+		if(o instanceof UpdateOffer){
+			UpdateOffer update = (UpdateOffer) o;
+			main.updateTradeOffer(update.offer, update.sold);
 		}
 	}
 	

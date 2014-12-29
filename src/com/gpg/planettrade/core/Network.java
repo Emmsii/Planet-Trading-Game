@@ -37,6 +37,7 @@ public class Network {
 		k.register(AddOffer.class);
 		k.register(RemoveOffer.class);
 		k.register(MarketStats.class);
+		k.register(UpdateOffer.class);
 		
 		//Register classes
 		k.register(Player.class);
@@ -142,7 +143,9 @@ public class Network {
 	
 	public static class MarketStats{
 		public int total;
-		public int ended;
+		public int sold;
+		public int quantity;
+		public long creditsExchanged;
 	}
 	
 	/** Returns amount of active trade offers (have not ended).*/
@@ -174,6 +177,12 @@ public class Network {
 	public static class BuyOffer{
 		public TradeOffer offer;
 		public int amount;
+	}
+	
+	/** Update a specific trade offer, used when a small part of the offer has been bought*/
+	public static class UpdateOffer{
+		public TradeOffer offer;
+		public boolean sold;
 	}
 }
 

@@ -57,7 +57,9 @@ public class Globals {
 	 */
 	
 	public static int totalTrades;
-	public static int totalEndedTrades;
+	public static int totalSold;
+	public static int quantity;
+	public static long creditsExchanged;
 	
 	public static String toCredits(long value){
 		return "c" + formatInt(value);

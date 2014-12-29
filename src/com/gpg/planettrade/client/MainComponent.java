@@ -103,6 +103,7 @@ public class MainComponent extends Canvas implements Runnable{
 		main.start();
 	}
 	
+	
 	public void start(){
 		running = true;
 		new Thread(this, "main").start();
@@ -263,17 +264,22 @@ public class MainComponent extends Canvas implements Runnable{
 			default:
 				loadingMenu = new LoadingMenu(this);
 				break;
-					
 		}
 	}
 	
 	public void addTradeOffers(TradeOffer[] offers, int count){
+		if(marketplace == null) return;
 		marketplace.replaceOffers(offers, count);
 	}
 	
 	public void addTradeOffer(TradeOffer offer, int count){
 		if(marketplace == null) return;
 		marketplace.addOffer(offer, count);
+	}
+	
+	public void updateTradeOffer(TradeOffer offer, boolean sold){
+		if(marketplace == null) return;
+		marketplace.updateOffer(offer, sold);
 	}
 	
 	public void addMessage(ChatMessage msg){
