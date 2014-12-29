@@ -3,6 +3,7 @@ package com.gpg.planettrade.client.component;
 import java.awt.Font;
 import java.awt.Graphics;
 
+import com.esotericsoftware.minlog.Log;
 import com.gpg.planettrade.client.util.Keyboard;
 import com.gpg.planettrade.client.util.Text;
 
@@ -21,6 +22,7 @@ public class TextField extends Component{
 		this.x = x;
 		this.y = y;
 		this.maxLength = maxLength;
+		this.type = type;
 		this.key = key;
 	}
 	
@@ -32,10 +34,21 @@ public class TextField extends Component{
 
 	@Override
 	public void update() {
-		//Cannot be else if.
-		if(type == JUST_LETTERS) doLetters();
-		if(type == JUST_NUMBERS) doNumbers();
-		if(type == JUST_NUMBERS) doBoth();
+		Log.info("type: " + type);
+		switch(type){
+			case JUST_NUMBERS:
+				doNumbers();
+				break;
+			case JUST_LETTERS:
+				doLetters();
+				break;
+			case BOTH:
+				doBoth();
+				break;
+			default:
+				doBoth();
+				break;
+		}
 							
 		if(text.length() > 0) if(key.backSpace.pressed) text = text.substring(0, text.length() - 1);
 			
@@ -129,6 +142,7 @@ public class TextField extends Component{
 	}
 	
 	private void press(String msg){
+		if(key.shift.down) msg = msg.toUpperCase();
 		if(text.length() >= maxLength) return;
 		text = text + msg;
 	}

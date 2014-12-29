@@ -177,6 +177,7 @@ public class ServerListener extends Listener{
 				//Remove the offer.
 				update.sold = true;
 				buy.offer.ended = true;
+				Log.info("TRADE HAS ENDED, PLEASE MOVE ME " + buy.offer.id);
 				FileHandler.updateStat("sold", FileHandler.getStat("sold") + 1);
 			}else{
 				//Only remove the int quantity amount from the offer
@@ -185,8 +186,6 @@ public class ServerListener extends Listener{
 			
 			update.offer = buy.offer;
 			server.sendToAllTCP(update);
-			FileHandler.saveTradeOffer(buy.offer, true);
-
 			gameServer.giveCredits(seller, credits);
 			gameServer.takeCredits(buyer, credits);
 			
@@ -200,7 +199,8 @@ public class ServerListener extends Listener{
 			c.sendTCP(buyerCredits);
 			sendToNameTCP(seller.name, sellerCredits);
 			updateStats();
-						
+			FileHandler.saveTradeOffer(buy.offer, true);
+			MarketManager.checks();
 			//C equals the person doing the buying.
 			//give C the contents of the trade offer.
 			//Give the seller (from the trade offer) credits.

@@ -57,10 +57,7 @@ public class ClientListener extends Listener{
 		}
 		
 		if(o instanceof StoredCredits){
-			Log.info("[Client] UPDATING STORED CREDITS FOR: " + Globals.username);
 			StoredCredits storedCredits = (StoredCredits) o;
-			Log.info("[Client] Current Credits: " + Globals.storedCredits);
-			Log.info("[Client] New Credits: " + storedCredits.credits);
 			Globals.storedCredits = storedCredits.credits;
 			return;
 		}

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 
+import com.esotericsoftware.minlog.Log;
 import com.gpg.planettrade.client.component.Button;
 import com.gpg.planettrade.client.component.Component;
 import com.gpg.planettrade.client.component.TextButton;
@@ -72,7 +73,7 @@ public class BuyPopup extends Popup{
 				if(button.getId() == 0){
 					//Buy button is pressed!
 					if(amount == 0) continue;
-					if(Globals.storedCredits >= ((GoodsOffer) offer).quantity + ((GoodsOffer) offer).priceEach){
+					if(Globals.storedCredits - ((GoodsOffer) offer).quantity * ((GoodsOffer) offer).priceEach >= 0){
 						//if(there is room in current planets storage)
 						if((Globals.currentPlanet.maxStorage() - Globals.currentPlanet.storageLeft()) + ((GoodsOffer) offer).quantity <= Globals.currentPlanet.maxStorage()){
 							//send buy packet

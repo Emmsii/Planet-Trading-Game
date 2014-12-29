@@ -308,7 +308,7 @@ public class FileHandler {
 		try {
 			FileOutputStream out = new FileOutputStream(file);
 			//TODO: THIS ISN'T OVERRIDING THE OLD FILE, IT MAKES A NEW ONE CAUSE THE HASHCODE IS DIFFERENT.
-			if(!override) if(!file.exists()) file.createNewFile();
+			if(override) if(!file.exists()) file.createNewFile();
 			ObjectOutputStream oos = new ObjectOutputStream(out);
 			oos.writeObject(trade);
 			oos.flush();
