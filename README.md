@@ -36,6 +36,30 @@ Planet-Trading-Game
 - trades_quantity: The total amount of resources sold.
 - credits_exchanged: The total amount of credits exchanged between players.
 
+# Maps
+- Map Types
+  - Star System Map - Shows planets around a star.
+  - Sector Map - Shows systems in a sector.
+  - Region - Shows sectors in region.
+  - Galaxy - Shows regions in galaxy.
+- Access the map screen from a planet menu, like the marketplace.
+- Start on local map, press buttons to "zoom out".
+- Star System Map
+  - Client sends request to server.
+  - Server finds all planets in star system, sends back to client.
+  - Client puts them onto map.
+  - When client hovers over a planet, request planet data from server.
+- Client side saving
+  - More efficient way to load maps.
+  - Does not apply for star system maps.
+  - When loading large map, save data to folder in APPDATA location.
+  - Tell server that player has map, don't downlaod again.
+- Scanning
+  - All objects in the galaxy have to be scanned to be identified.
+  - Basic scanners obtain basic information.
+  - Advanced scanners retreve more information can can discoverrare objects like wormholes.
+  - If a player tries to look at a planet, they see "Unscanned". Given the option to scan it.
+
 # Marketplace
 - The Marketplace Screen
   - This screen shows all trades.
