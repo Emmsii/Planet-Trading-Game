@@ -1,7 +1,6 @@
 package com.gpg.planettrade.core;
 
 import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.Random;
@@ -15,9 +14,7 @@ public class Globals {
 	/*
 	 * Server Locals
 	 */
-	
-	public static List<String> currentTrades;
-	
+		
 	public static int galaxySize;
 	public static int regionSize;
 	public static int sectorSize;
@@ -28,9 +25,7 @@ public class Globals {
 	
 	public static int resourceMultiplier;
 	
-	public static void init(Properties prop){
-		currentTrades = new ArrayList<String>();
-		
+	public static void init(Properties prop){		
 		galaxySize = Integer.parseInt(prop.getProperty("galaxy_size"));
 		regionSize = Integer.parseInt(prop.getProperty("region_size"));
 		sectorSize = Integer.parseInt(prop.getProperty("sector_size"));
@@ -62,7 +57,7 @@ public class Globals {
 	public static long creditsExchanged;
 	
 	public static String toCredits(long value){
-		return "c" + formatInt(value);
+		return "c" + formatNumber(value);
 	}
 	
 	public static long getWorth(){
@@ -73,7 +68,7 @@ public class Globals {
 	}
 	
 	//TODO: Replace all NumberFormat bits with this method.
-	public static String formatInt(long value){
+	public static String formatNumber(long value){
 		return NumberFormat.getIntegerInstance().format(value);
 	}
 }

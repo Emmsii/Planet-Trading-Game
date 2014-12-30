@@ -14,6 +14,7 @@ import com.gpg.planettrade.core.Network.MarketOffers;
 import com.gpg.planettrade.core.Network.MarketStats;
 import com.gpg.planettrade.core.Network.OwnedPlanets;
 import com.gpg.planettrade.core.Network.RemovePlayer;
+import com.gpg.planettrade.core.Network.SendResources;
 import com.gpg.planettrade.core.Network.StoredCredits;
 import com.gpg.planettrade.core.Network.Time;
 import com.gpg.planettrade.core.Network.UpdateOffer;
@@ -98,11 +99,23 @@ public class ClientListener extends Listener{
 		if(o instanceof AddOffer){
 			AddOffer addOffer = (AddOffer) o;
 			main.addTradeOffer(addOffer.offer, addOffer.count);
+			return;
 		}
 		
 		if(o instanceof UpdateOffer){
 			UpdateOffer update = (UpdateOffer) o;
 			main.updateTradeOffer(update.offer, update.sold);
+			return;
+		}
+		
+		if(o instanceof SendResources){
+			SendResources send = (SendResources) o;
+			if(Globals.currentPlanet == null) Log.warn("Current planet == null");
+			Log.info("Received send resources packet");
+			Log.info("amount: " + send.container.amount);
+			Log.info("Current planet: " + Globals.currentPlanet.name);
+			Globals.currentPlanet.addToStorage(send.container.amount, send.container.type);
+			return;
 		}
 	}
 	

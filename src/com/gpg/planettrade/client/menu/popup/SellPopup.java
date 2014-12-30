@@ -76,7 +76,7 @@ public class SellPopup extends Popup{
 					offer.length = GameTime.HOUR * (Globals.random.nextInt(2) + 1); 
 					offer.priceEach = container.type.value;
 					offer.quantity = amount;
-					offer.type = container.type.name;
+					offer.type = container.type;
 					((PlanetMenu) menu).newGoodsOffer(offer, storage);
 					closed = true;
 					return;
@@ -137,10 +137,10 @@ public class SellPopup extends Popup{
 		
 		Text.render("Sell Goods", x + 20, y + 25, 18, Font.BOLD, g);
 		
-		Text.render(Globals.formatInt(amount) + " units", x + 84, y + 150, 15, Font.BOLD, new Color(150, 150, 150), g); 
+		Text.render(Globals.formatNumber(amount) + " units", x + 84, y + 150, 15, Font.BOLD, new Color(150, 150, 150), g); 
 		
 		Text.render(container.type.name, x + 20, y + 50, 15, Font.BOLD, g);
-		Text.render(Globals.formatInt(container.amount) + " units", x + 20, y + 65, 15, Font.BOLD, new Color(150, 150, 150), g);
+		Text.render(Globals.formatNumber(container.amount) + " units", x + 20, y + 65, 15, Font.BOLD, new Color(150, 150, 150), g);
 		Text.render("Can sell for:", x + 200, y + 150, 12, Font.BOLD, g);
 		Text.render(Globals.toCredits(amount * container.type.value), x + 200, y + 175, 25, Font.BOLD, new Color(81, 151, 201), g);
 		Text.render(Globals.toCredits(container.type.value) + " each", x + 202, y + 188, 10, Font.BOLD, new Color(81, 151, 201), g);

@@ -132,11 +132,11 @@ public class Marketplace extends Menu{
 			Text.render(o.placedBy, xPos + 4, yPos + 30 + (i * 55), 15, Font.BOLD, new Color(150, 150, 150), g);
 			
 			Text.render("Goods", xPos + 100, yPos + 15 + (i * 55), 12, Font.BOLD, g);
-			Text.render(((GoodsOffer) o).type, xPos + 98, yPos + 30 + (i * 55), 15, Font.BOLD, new Color(150, 150, 150), g);
+			Text.render(((GoodsOffer) o).type.name, xPos + 98, yPos + 30 + (i * 55), 15, Font.BOLD, new Color(150, 150, 150), g);
 			
 			//TODO: Change based of instanceof type thing
 			Text.render("Quantity", xPos + 180, yPos + 15 + (i * 55), 12, Font.BOLD, g);
-			Text.render(Globals.formatInt(((GoodsOffer) o).quantity), xPos + 180, yPos + 30 + (i * 55), 15, Font.BOLD, new Color(150, 150, 150), g);
+			Text.render(Globals.formatNumber(((GoodsOffer) o).quantity), xPos + 180, yPos + 30 + (i * 55), 15, Font.BOLD, new Color(150, 150, 150), g);
 			
 			Text.render("Placed On", xPos + 280, yPos + 15 + (i * 55), 12, Font.BOLD, g);
 						
@@ -159,11 +159,11 @@ public class Marketplace extends Menu{
 		
 		Text.render("Stats", 800, 90, 20, Font.BOLD, g);
 		Text.render("Total Trades:", 800, 102, 12, Font.BOLD, g);
-		Text.render(Globals.formatInt(Globals.totalTrades), 800, 120, 20, Font.BOLD, new Color(150, 150, 150), g);
+		Text.render(Globals.formatNumber(Globals.totalTrades), 800, 120, 20, Font.BOLD, new Color(150, 150, 150), g);
 		Text.render("Trades Completed:", 800, 132, 12, Font.BOLD, g);
-		Text.render(Globals.formatInt(Globals.totalSold), 800, 152, 20, Font.BOLD, new Color(120, 209, 69), g);
+		Text.render(Globals.formatNumber(Globals.totalSold), 800, 152, 20, Font.BOLD, new Color(120, 209, 69), g);
 		Text.render("Resources Exchanged:", 800, 165, 12, Font.BOLD, g);
-		Text.render(Globals.formatInt(Globals.quantity) + " units", 800, 182, 20, Font.BOLD, new Color(150, 150, 150), g);
+		Text.render(Globals.formatNumber(Globals.quantity) + " units", 800, 182, 20, Font.BOLD, new Color(150, 150, 150), g);
 		Text.render("Credits Exchanged:", 800, 195, 12, Font.BOLD, g);
 		Text.render(Globals.toCredits(Globals.creditsExchanged), 800, 215, 20, Font.BOLD, new Color(81, 151, 201), g);
 		

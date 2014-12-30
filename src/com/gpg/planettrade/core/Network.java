@@ -38,6 +38,7 @@ public class Network {
 		k.register(RemoveOffer.class);
 		k.register(MarketStats.class);
 		k.register(UpdateOffer.class);
+		k.register(SendResources.class);
 		
 		//Register classes
 		k.register(Player.class);
@@ -140,6 +141,11 @@ public class Network {
 	/*
 	 * Marketplace Packets
 	 */
+	
+	
+	public static class SendResources{
+		public Container container;
+	}
 	
 	public static class MarketStats{
 		public int total;

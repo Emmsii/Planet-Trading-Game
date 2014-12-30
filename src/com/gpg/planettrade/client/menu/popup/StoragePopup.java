@@ -58,7 +58,7 @@ public class StoragePopup extends Popup{
 		g.drawRect(x,  y, 400, 430);
 				
 		Text.render("Small Storage Depo", x + 20, y + 25, 18, Font.BOLD, g);
-		Text.render(Globals.formatInt(storage.getStored()) + "/" + Globals.formatInt(storage.maxStorage), x + 23, y + 47, 15, Font.BOLD, new Color(150, 150, 150), g);
+		Text.render(Globals.formatNumber(storage.getStored()) + "/" + Globals.formatNumber(storage.maxStorage), x + 23, y + 47, 15, Font.BOLD, new Color(150, 150, 150), g);
 		
 		int xPos = 40;
 		int yPos = 70;
@@ -67,7 +67,7 @@ public class StoragePopup extends Popup{
 			Container c = storage.containers.get(i);
 			g.drawRect(x + xPos, y + yPos + (i * 35), 200, 35);
 			Text.render(c.type.name, x + xPos + 5, y + yPos + 18+ (i * 35), 15, Font.BOLD, g);
-			Text.render(Globals.formatInt(c.amount) + " units", x + xPos + 5, y + yPos + 29 + (i * 35), 11, Font.BOLD, new Color(150, 150, 150), g);
+			Text.render(Globals.formatNumber(c.amount) + " units", x + xPos + 5, y + yPos + 29 + (i * 35), 11, Font.BOLD, new Color(150, 150, 150), g);
 			
 			TextButton button = (TextButton) components.get(i);
 			if(button.getId() == -1) continue;

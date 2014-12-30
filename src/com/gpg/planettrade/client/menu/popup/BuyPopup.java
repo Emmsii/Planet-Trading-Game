@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 
-import com.esotericsoftware.minlog.Log;
 import com.gpg.planettrade.client.component.Button;
 import com.gpg.planettrade.client.component.Component;
 import com.gpg.planettrade.client.component.TextButton;
@@ -98,10 +97,12 @@ public class BuyPopup extends Popup{
 
 					}
 					if(button.getId() == 3){
-
+						if(amount + 100 < ((GoodsOffer) offer).quantity) amount += 100;
+						else amount = ((GoodsOffer) offer).quantity;
 					}
 					if(button.getId() == 5){
-
+						if(amount + 1000 < ((GoodsOffer) offer).quantity) amount += 1000;
+						else amount = ((GoodsOffer) offer).quantity;
 					}
 					
 					if(button.getId() == 2) {
@@ -145,12 +146,12 @@ public class BuyPopup extends Popup{
 		
 		Text.render("Buy Goods", x + 20, y + 25, 18, Font.BOLD, g);
 		
-		Text.render(((GoodsOffer) offer).type, x + 20, y + 50, 15, Font.BOLD, g);
-		Text.render(Globals.formatInt(((GoodsOffer) offer).quantity) + " units", x + 20, y + 65, 15, Font.BOLD, new Color(150, 150, 150), g);
+		Text.render(((GoodsOffer) offer).type.name, x + 20, y + 50, 15, Font.BOLD, g);
+		Text.render(Globals.formatNumber(((GoodsOffer) offer).quantity) + " units", x + 20, y + 65, 15, Font.BOLD, new Color(150, 150, 150), g);
 		Text.render("Used Storage", x + 20, y + 80, 15, Font.BOLD, g);
-		Text.render(Globals.formatInt(Globals.currentPlanet.maxStorage() - Globals.currentPlanet.storageLeft()) + "/" + Globals.formatInt(Globals.currentPlanet.maxStorage()) + " units", x + 20, y + 95, 15, Font.BOLD, new Color(150, 150, 150), g);
+		Text.render(Globals.formatNumber(Globals.currentPlanet.maxStorage() - Globals.currentPlanet.storageLeft()) + "/" + Globals.formatNumber(Globals.currentPlanet.maxStorage()) + " units", x + 20, y + 95, 15, Font.BOLD, new Color(150, 150, 150), g);
 		
-		Text.render(Globals.formatInt(amount) + " units", x + 84, y + 150, 15, Font.BOLD, new Color(150, 150, 150), g); 
+		Text.render(Globals.formatNumber(amount) + " units", x + 84, y + 150, 15, Font.BOLD, new Color(150, 150, 150), g); 
 		
 		
 		Text.render("Can buy for:", x + 200, y + 150, 12, Font.BOLD, g);

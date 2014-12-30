@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.esotericsoftware.minlog.Log;
 import com.gpg.planettrade.core.Globals;
 import com.gpg.planettrade.core.planet.factory.Factory;
 import com.gpg.planettrade.core.planet.resource.Resource;
@@ -70,7 +71,7 @@ public class Planet implements Serializable{
 	public long getWorth(){
 		worth = 0;
 		for(Resource r : resources) worth += r.value * r.amount;
-		for(Storage s : storage) worth += s.getWorthInt();
+		for(Storage s : storage) worth += s.getWorthLong();
 		return worth;
 	}
 	

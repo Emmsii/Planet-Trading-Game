@@ -13,12 +13,14 @@ import com.gpg.planettrade.core.Network.Login;
 import com.gpg.planettrade.core.Network.MarketOffers;
 import com.gpg.planettrade.core.Network.MarketStats;
 import com.gpg.planettrade.core.Network.RemovePlayer;
+import com.gpg.planettrade.core.Network.SendResources;
 import com.gpg.planettrade.core.Network.StoredCredits;
 import com.gpg.planettrade.core.Network.TakeCredits;
 import com.gpg.planettrade.core.Network.UpdateOffer;
 import com.gpg.planettrade.core.Network.UpdatePlanet;
 import com.gpg.planettrade.core.Player;
 import com.gpg.planettrade.core.TradeOffer;
+import com.gpg.planettrade.core.planet.storage.Container;
 import com.gpg.planettrade.server.GameServer.PlayerConnection;
 import com.gpg.planettrade.server.market.MarketManager;
 
@@ -148,31 +150,25 @@ public class ServerListener extends Listener{
 		
 		if(o instanceof BuyOffer){
 			BuyOffer buy = (BuyOffer) o;
-			
-//			String seller = buy.offer.placedBy;
-//			String buyer = player.name;
-			
-			/*
-			 * The buyer is the player who sent this packet.
-			 * The seller is the player name contained in the buy offer packet.
-			 */
-			
+			GoodsOffer offer = (GoodsOffer) buy.offer;
 			Player buyer = player;
 			Player seller = FileHandler.loadPlayer(buy.offer.placedBy);
 			
 			int quantity = buy.amount;
-			long priceEach = ((GoodsOffer) buy.offer).priceEach;
+			long priceEach = offer.priceEach;
 			long credits = quantity * priceEach;
 
-			Log.info(buyer.name + " just bought [" + quantity + "] " + ((GoodsOffer) buy.offer).type + " from " + seller.name + " for " + Globals.toCredits(quantity * priceEach));
+			Log.info(buyer.name + " just bought [" + quantity + "] " + offer.type.name + " from " + seller.name + " for " + Globals.toCredits(quantity * priceEach));
 			
+			//Update local stats file.
 			FileHandler.updateStat("quantity_sold", FileHandler.getStat("quantity_sold") + quantity);
 			FileHandler.updateStat("credits_exchanged", (int) (FileHandler.getStat("credits_exchanged") + credits));
 			
-			((GoodsOffer) buy.offer).quantity -= quantity;
-			UpdateOffer update = new UpdateOffer();
+			offer.quantity -= quantity;			
 						
-			if(quantity >= ((GoodsOffer) buy.offer).quantity){
+			//Check if trade offer has completely finished.
+			UpdateOffer update = new UpdateOffer();
+			if(quantity >= offer.quantity){
 				//The amount in the trade offer is the total amount.
 				//Remove the offer.
 				update.sold = true;
@@ -184,27 +180,34 @@ public class ServerListener extends Listener{
 				update.sold = false;
 			}
 			
+			//Update all clients marketplace with the different trade offer.
 			update.offer = buy.offer;
 			server.sendToAllTCP(update);
+			
+			//Update the local server files with the new credits amount.
 			gameServer.giveCredits(seller, credits);
 			gameServer.takeCredits(buyer, credits);
 			
+			//Create and send packets that tell users to either add or remove credits.
 			StoredCredits buyerCredits = new StoredCredits();
 			StoredCredits sellerCredits = new StoredCredits();
-			
-//			buyerCredits.credits = player.storedCredits - credits;
 			buyerCredits.credits = FileHandler.loadPlayer(player.name).storedCredits - credits;
 			sellerCredits.credits = FileHandler.loadPlayer(seller.name).storedCredits + credits;
-			
 			c.sendTCP(buyerCredits);
 			sendToNameTCP(seller.name, sellerCredits);
+			
+			//Send resources to the buyer
+			SendResources sendResources = new SendResources();
+			Container container = new Container();
+			container.amount = quantity;
+			container.type = offer.type;
+			sendResources.container = container;
+			c.sendTCP(sendResources);
+			
+			//Save local trade files, check marketplace for ended offers, send updates stats to clients.
 			updateStats();
 			FileHandler.saveTradeOffer(buy.offer, true);
 			MarketManager.checks();
-			//C equals the person doing the buying.
-			//give C the contents of the trade offer.
-			//Give the seller (from the trade offer) credits.
-			//take credits from C.
 			return;
 		}
 	}

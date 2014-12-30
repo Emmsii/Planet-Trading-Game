@@ -34,7 +34,6 @@ public class TextField extends Component{
 
 	@Override
 	public void update() {
-		Log.info("type: " + type);
 		switch(type){
 			case JUST_NUMBERS:
 				doNumbers();

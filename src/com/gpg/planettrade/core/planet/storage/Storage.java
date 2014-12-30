@@ -45,8 +45,8 @@ public class Storage implements Serializable{
 		return result;
 	}
 	
-	public int getWorthInt(){
-		int worth = 0;
+	public long getWorthLong(){
+		long worth = 0;
 		for(Container c : containers) worth += c.type.value * c.amount;
 		return worth;
 	}

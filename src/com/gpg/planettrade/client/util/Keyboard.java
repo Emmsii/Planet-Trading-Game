@@ -25,7 +25,6 @@ public class Keyboard implements KeyListener{
 				absorbs++;
 				pressed = true;
 			}else pressed = false;
-			
 		}		
 	}
 	
@@ -135,14 +134,13 @@ public class Keyboard implements KeyListener{
 		if(keyCode == KeyEvent.VK_8 || keyCode == KeyEvent.VK_NUMPAD8) eight.toggle(isPressed);
 		if(keyCode == KeyEvent.VK_9 || keyCode == KeyEvent.VK_NUMPAD9) nine.toggle(isPressed);
 		
-//		if(keyCode == KeyEvent.VK_PERIOD) period.toggle(isPressed);
-//		if(keyCode == KeyEvent.VK_COMMA) comma.toggle(isPressed);
-//		if(keyCode == KeyEvent.VK_EXCLAMATION_MARK) exclamation.toggle(isPressed);
-		
 		if(keyCode == KeyEvent.VK_SHIFT) shift.toggle(isPressed);
 		if(keyCode == KeyEvent.VK_SPACE) space.toggle(isPressed);
 		if(keyCode == KeyEvent.VK_BACK_SPACE) backSpace.toggle(isPressed);
 		if(keyCode == KeyEvent.VK_ENTER) enter.toggle(isPressed);
+		
+		//TODO: Do stuff like . , ! ? ( )
+//		if(keyCode == KeyEvent.VK_SHIFT) if(keyCode == KeyEvent.VK_BACK_SLASH) questionmark.togggle(isPressed);
 	}
 	
 }
