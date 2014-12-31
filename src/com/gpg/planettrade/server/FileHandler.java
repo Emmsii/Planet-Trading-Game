@@ -48,6 +48,10 @@ public class FileHandler {
 	private static int desert;
 	private static int gas;
 	
+	private static int tilesInSector;
+	private static int tilesInRegion;
+	private static int tilesInGalaxy;
+	
 	private static int foldersCreated;
 	private static double size = 0;
 	
@@ -83,6 +87,10 @@ public class FileHandler {
 		}else return;	
 		
 		imageId = new int[Globals.sectorSize * Globals.regionSize * Globals.galaxySize][Globals.sectorSize * Globals.regionSize * Globals.galaxySize];
+		
+		tilesInSector = Globals.sectorSize;
+		tilesInRegion = (Globals.regionSize * tilesInSector);
+		tilesInGalaxy = (Globals.galaxySize * tilesInRegion);
 		
 		for(int y = 0; y < Globals.galaxySize; y++){
 			for(int x = 0; x < Globals.galaxySize; x++){
@@ -135,11 +143,10 @@ public class FileHandler {
 			for(int ssX = 0; ssX < Globals.sectorSize; ssX++){
 				imageId[ssX * x * regionX][ssY * y * regionY] = 0;
 				totalTiles++;
-				
-				if(Globals.random.nextInt(30) <= Globals.systemFactor){
-					createSystem(location + "s" + sx + "_" + sy + "/", ssX, ssY, x, y, regionX, regionY);
-					imageId[ssX + (x * Globals.sectorSize) + (regionX * Globals.regionSize) * Globals.sectorSize][ssY + (y * Globals.sectorSize) + (regionY * Globals.regionSize) * Globals.sectorSize] = 1;
-				}
+//				if(Globals.random.nextInt(30) <= Globals.systemFactor){
+//					createSystem(location + "s" + sx + "_" + sy + "/", ssX, ssY, x, y, regionX, regionY);
+//					imageId[(tilesInRegion * regionX) + (tilesInSector * x) + ssX][(tilesInRegion * regionY) + (tilesInSector * y) + ssY] = 1;
+//				}
 				
 			}
 		}
@@ -178,11 +185,10 @@ public class FileHandler {
 		String sectorString = "";
 		String systemString = "";
 		
-		for(int i = 0; i < splitLocation.length; i++){
-			if(splitLocation[i].startsWith("r")) regionString = splitLocation[i].replaceAll("[a-z]", "");
-			if(splitLocation[i].startsWith("s")) sectorString = splitLocation[i].replaceAll("[a-z]", "");
-			if(splitLocation[i].startsWith("ss")) systemString = splitLocation[i].replaceAll("[a-z]", "");
-		}
+		regionString = splitLocation[2].replaceAll("[a-z]", "");
+		sectorString = splitLocation[3].replaceAll("[a-z]", "");
+		systemString = splitLocation[4].replaceAll("[a-z]", "");
+		
 		
 		int regionX = Integer.parseInt(regionString.split("_")[0]); //Position of region in galaxy.
 		int regionY = Integer.parseInt(regionString.split("_")[1]);
@@ -191,25 +197,32 @@ public class FileHandler {
 		int systemX = Integer.parseInt(systemString.split("_")[0]); //Position of system in sector.
 		int systemY = Integer.parseInt(systemString.split("_")[1]);
 
-		int tilesInSector = Globals.sectorSize;
-		int tilesInRegion = (Globals.regionSize * tilesInSector);
-		int tilesInGalaxy = (Globals.galaxySize * tilesInRegion);
+//		Log.info("RegionX: " + regionX);
+//		Log.info("RegionY: " + regionY);
+//		Log.info("SectorX: " + sectorX);
+//		Log.info("SectorY: " + sectorY);
+//		Log.info("SystemX: " + systemX);
+//		Log.info("SystemY: " + systemY);
+//		
+//		Log.info("Tiles In Region: " + tilesInRegion);
+//		Log.info("Tiles In Sector: " + tilesInSector);
 		
-		Log.info("Tiles In Sector: " + tilesInSector);
-		Log.info("Tiles In Region: " + tilesInRegion);
-		Log.info("Tiles In Galaxy: " + tilesInGalaxy);
 		
-		Log.info("Region X: " + (regionX * tilesInRegion) + " (" + regionX + ")");
-		Log.info("Region Y: " + (regionY * tilesInRegion) + " (" + regionY + ")");
+		int rx = (tilesInRegion * regionX);
+		int ry = (tilesInRegion * regionY);
+		int sx = (tilesInSector * sectorX);
+		int sy = (tilesInSector * sectorY);
 		
-		Log.info("Sector X: " + (sectorX * tilesInSector) + " (" + sectorX + ")");
-		Log.info("Sector Y: " + (sectorY * tilesInSector) + " (" + sectorY + ")");
+//		Log.info("RX: " + rx);
+//		Log.info("RY: " + ry);
+//		Log.info("SX: " + sx);
+//		Log.info("SY: " + sy);
 		
-		int x = ((sectorX * tilesInSector) + (regionX * tilesInRegion));
-		int y = ((sectorY * tilesInSector) + (regionY * tilesInRegion));
-
-		Log.info("System X: " + x + "/45 (" + systemX + ")");
-		Log.info("System Y: " + y + "/45 (" + systemY + ")");
+		int x = rx + sx + systemX; 
+		int y = ry + sy + systemY;
+		
+		Log.info("Global X: " + x + "/44");
+		Log.info("Global Y: " + y + "/44");
 		
 		Planet planet = new Planet();
 		planet.init(id, x, y, -1, getRandomPlanetName(), subname + "-" + Math.abs(subname.hashCode()), Globals.random.nextInt(4) + 1, file.getPath());
