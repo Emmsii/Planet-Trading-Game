@@ -3,7 +3,6 @@ package com.gpg.planettrade.client.component;
 import java.awt.Font;
 import java.awt.Graphics;
 
-import com.esotericsoftware.minlog.Log;
 import com.gpg.planettrade.client.util.Keyboard;
 import com.gpg.planettrade.client.util.Text;
 
@@ -84,6 +83,18 @@ public class TextField extends Component{
 		
 		if(key.space.pressed) press(" ");
 		
+		if(key.questionmark.pressed) press("?");
+		if(key.exclametionmark.pressed) press("!");
+		if(key.comma.pressed) press(",");
+		if(key.peroid.pressed) press(".");
+		if(key.openBracket.pressed) press("(");
+		if(key.closeBracket.pressed) press(")");
+		if(key.plus.pressed) press("+");
+		if(key.minus.pressed) press("-");
+		if(key.equals.pressed) press("=");
+		if(key.backSlash.pressed) press("/");
+		if(key.asterisk.pressed) press("*");
+		
 		if(key.zero.pressed) press("0");
 		if(key.one.pressed) press("1");
 		if(key.two.pressed) press("2");
@@ -125,6 +136,18 @@ public class TextField extends Component{
 		if(key.z.pressed) press("z");	
 		
 		if(key.space.pressed) press(" ");
+		
+		if(key.questionmark.pressed) press("?");
+		if(key.exclametionmark.pressed) press("!");
+		if(key.comma.pressed) press(",");
+		if(key.peroid.pressed) press(".");
+		if(key.openBracket.pressed) press("(");
+		if(key.closeBracket.pressed) press(")");
+		if(key.plus.pressed) press("+");
+		if(key.minus.pressed) press("-");
+		if(key.equals.pressed) press("=");
+		if(key.backSlash.pressed) press("/");
+		if(key.asterisk.pressed) press("*");
 	}
 	
 	private void doNumbers(){

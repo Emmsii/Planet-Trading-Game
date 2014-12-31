@@ -130,7 +130,7 @@ public class ServerListener extends Listener{
 			int pageOffset = page * offersPerPage;
 			
 			int startIndex = count - pageOffset;
-			int endIndex = (count - offersPerPage - pageOffset);
+			int endIndex = count - offersPerPage - pageOffset;
 			if(endIndex < 0) endIndex = 0;
 			
 			String[] files = FileHandler.loadTradeOfferFiles();
@@ -158,7 +158,7 @@ public class ServerListener extends Listener{
 			long priceEach = offer.priceEach;
 			long credits = quantity * priceEach;
 
-			Log.info(buyer.name + " just bought [" + quantity + "] " + offer.type.name + " from " + seller.name + " for " + Globals.toCredits(quantity * priceEach));
+//			Log.info(buyer.name + " just bought [" + quantity + "] " + offer.type.name + " from " + seller.name + " for " + Globals.toCredits(quantity * priceEach));
 			
 			//Update local stats file.
 			FileHandler.updateStat("quantity_sold", FileHandler.getStat("quantity_sold") + quantity);
@@ -173,7 +173,6 @@ public class ServerListener extends Listener{
 				//Remove the offer.
 				update.sold = true;
 				buy.offer.ended = true;
-				Log.info("TRADE HAS ENDED, PLEASE MOVE ME " + buy.offer.id);
 				FileHandler.updateStat("sold", FileHandler.getStat("sold") + 1);
 			}else{
 				//Only remove the int quantity amount from the offer

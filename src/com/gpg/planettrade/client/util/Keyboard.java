@@ -73,6 +73,18 @@ public class Keyboard implements KeyListener{
 	public Key backSpace = new Key();
 	public Key enter = new Key();
 	
+	public Key questionmark = new Key();
+	public Key comma = new Key();
+	public Key peroid = new Key();
+	public Key exclametionmark = new Key();
+	public Key openBracket = new Key();
+	public Key closeBracket = new Key();
+	public Key plus = new Key();
+	public Key minus = new Key();
+	public Key backSlash = new Key();
+	public Key asterisk = new Key();
+	public Key equals = new Key();
+		
 	public void update(){
 		for(Key key : keys) key.update();
 	}
@@ -140,7 +152,19 @@ public class Keyboard implements KeyListener{
 		if(keyCode == KeyEvent.VK_ENTER) enter.toggle(isPressed);
 		
 		//TODO: Do stuff like . , ! ? ( )
-//		if(keyCode == KeyEvent.VK_SHIFT) if(keyCode == KeyEvent.VK_BACK_SLASH) questionmark.togggle(isPressed);
+		//TODO: Commented out lines don't work.
+//		if(keyCode == KeyEvent.VK_SHIFT) if(keyCode == KeyEvent.VK_BACK_SLASH) questionmark.toggle(isPressed);
+//		if(keyCode == KeyEvent.VK_EXCLAMATION_MARK) exclametionmark.toggle(isPressed);
+		if(keyCode == KeyEvent.VK_COMMA) comma.toggle(isPressed);
+		if(keyCode == KeyEvent.VK_PERIOD) peroid.toggle(isPressed);
+//		if(keyCode == KeyEvent.VK_OPEN_BRACKET) openBracket.toggle(isPressed);
+//		if(keyCode == KeyEvent.VK_CLOSE_BRACKET) closeBracket.toggle(isPressed);
+//		if(keyCode == KeyEvent.VK_PLUS) plus.toggle(isPressed);
+//		if(keyCode == KeyEvent.VK_MINUS) minus.toggle(isPressed);
+//		if(keyCode == KeyEvent.VK_EQUALS) equals.toggle(isPressed);
+//		if(keyCode == KeyEvent.VK_BACK_SLASH) backSlash.toggle(isPressed);
+//		if(keyCode == KeyEvent.VK_ASTERISK) asterisk.toggle(isPressed);
+		
 	}
 	
 }

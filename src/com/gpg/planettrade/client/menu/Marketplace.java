@@ -26,7 +26,7 @@ import com.gpg.planettrade.core.TradeOffer;
 
 public class Marketplace extends Menu{
 
-	private SimpleDateFormat df = new SimpleDateFormat("dd:MM:yy @ HH:mm");
+	private SimpleDateFormat df = new SimpleDateFormat("dd/MM/yy - hh:mm a");
 
 	protected TradeOffer[] offers = new TradeOffer[10];
 	
@@ -139,8 +139,7 @@ public class Marketplace extends Menu{
 			Text.render(Globals.formatNumber(((GoodsOffer) o).quantity), xPos + 180, yPos + 30 + (i * 55), 15, Font.BOLD, new Color(150, 150, 150), g);
 			
 			Text.render("Placed On", xPos + 280, yPos + 15 + (i * 55), 12, Font.BOLD, g);
-						
-			Text.render(df.format(new Date(o.timePlaced * 1000)) + "", xPos + 280, yPos + 30 + (i * 55), 15, Font.BOLD, new Color(150, 150, 150), g);
+			Text.render(df.format(new Date(o.timePlaced * 1000)) + "", xPos + 280, yPos + 28 + (i * 55), 12, Font.BOLD, new Color(150, 150, 150), g);
 			
 			Text.render("Time Left", xPos + 420, yPos + 15 + (i * 55), 12, Font.BOLD, g);
 			long time = Math.abs(GameTime.currentTimeSeconds - (o.timePlaced + o.length));

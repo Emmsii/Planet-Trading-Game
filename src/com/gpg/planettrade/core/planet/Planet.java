@@ -4,19 +4,19 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.esotericsoftware.minlog.Log;
 import com.gpg.planettrade.core.Globals;
 import com.gpg.planettrade.core.planet.factory.Factory;
 import com.gpg.planettrade.core.planet.resource.Resource;
 import com.gpg.planettrade.core.planet.resource.ResourceManager;
 import com.gpg.planettrade.core.planet.storage.Storage;
 
-
 public class Planet implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
 	public String filePath;
+	
+	public int x, y;
 	
 	public int id;
 	public int ownerId;
@@ -31,8 +31,10 @@ public class Planet implements Serializable{
 	public List<Factory> factories = new ArrayList<Factory>(); 
 	public List<Storage> storage = new ArrayList<Storage>();
 	
-	public void init(int id, int ownerId, String name, String subname, int size, String filePath){
+	public void init(int id, int x, int y, int ownerId, String name, String subname, int size, String filePath){
 		this.id = id;
+		this.x = x;
+		this.y = y;
 		this.ownerId = ownerId;
 		this.name = name;
 		this.subname = subname;

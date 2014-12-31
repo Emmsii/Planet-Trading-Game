@@ -237,7 +237,6 @@ public class MainComponent extends Canvas implements Runnable{
 		RenderingHints rh = new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 		rh.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g2d.setRenderingHints(rh);
-		
 	}
 	
 	public void switchState(int state){

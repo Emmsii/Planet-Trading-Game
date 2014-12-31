@@ -1,5 +1,9 @@
 package com.gpg.planettrade.server;
 
+import static java.nio.file.StandardCopyOption.ATOMIC_MOVE;
+
+import java.awt.Color;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,10 +18,11 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import static java.nio.file.StandardCopyOption.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+
+import javax.imageio.ImageIO;
 
 import com.esotericsoftware.minlog.Log;
 import com.gpg.planettrade.core.Globals;
@@ -45,6 +50,8 @@ public class FileHandler {
 	
 	private static int foldersCreated;
 	private static double size = 0;
+	
+	private static int[][] imageId;
 	
 	private static final String DATA_FOLDER = "data/";
 	
@@ -75,11 +82,16 @@ public class FileHandler {
 			file.mkdirs();
 		}else return;	
 		
+		imageId = new int[Globals.sectorSize * Globals.regionSize * Globals.galaxySize][Globals.sectorSize * Globals.regionSize * Globals.galaxySize];
+		
 		for(int y = 0; y < Globals.galaxySize; y++){
 			for(int x = 0; x < Globals.galaxySize; x++){
 				createRegion(x, y);
 			}
 		}
+				
+		saveImage(imageId, "map");
+
 		
 		Log.info("-------------------------------------------------------------------------------------------------------");
 		Log.info("Created " + foldersCreated + " folders in " + ((System.currentTimeMillis() - start) / 1000) + " seconds. (" + String.format("%.2f", size) + "mb)");
@@ -121,10 +133,14 @@ public class FileHandler {
 		
 		for(int ssY = 0; ssY < Globals.sectorSize; ssY++){
 			for(int ssX = 0; ssX < Globals.sectorSize; ssX++){
+				imageId[ssX * x * regionX][ssY * y * regionY] = 0;
 				totalTiles++;
+				
 				if(Globals.random.nextInt(30) <= Globals.systemFactor){
 					createSystem(location + "s" + sx + "_" + sy + "/", ssX, ssY, x, y, regionX, regionY);
+					imageId[ssX + (x * Globals.sectorSize) + (regionX * Globals.regionSize) * Globals.sectorSize][ssY + (y * Globals.sectorSize) + (regionY * Globals.regionSize) * Globals.sectorSize] = 1;
 				}
+				
 			}
 		}
 		sectors++;
@@ -141,7 +157,7 @@ public class FileHandler {
 		
 		int r = Globals.random.nextInt(7) + 1;
 		for(int i = 0; i < r; i++){
-			createPlanet(location + "/ss" + sx + "_" + sy + "/p" + i + ".dat", i, "r0" + regionX + "0" + regionY + "_s0" + sectorX + "0" + sectorY + "_s0" + sx + "0" + sy + "_p" + i);
+			createPlanet(location + "ss" + sx + "_" + sy + "/p" + i + ".dat", i, "r0" + regionX + "0" + regionY + "_s0" + sectorX + "0" + sectorY + "_s0" + sx + "0" + sy + "_p" + i);
 		}
 		
 		systemsCreated++;
@@ -155,8 +171,48 @@ public class FileHandler {
 		File file = new File(location);
 		ObjectOutputStream oos = null;
 		
+		Log.info("Location: " + location);
+		String[] splitLocation = location.split("/");
+		
+		String regionString = "";
+		String sectorString = "";
+		String systemString = "";
+		
+		for(int i = 0; i < splitLocation.length; i++){
+			if(splitLocation[i].startsWith("r")) regionString = splitLocation[i].replaceAll("[a-z]", "");
+			if(splitLocation[i].startsWith("s")) sectorString = splitLocation[i].replaceAll("[a-z]", "");
+			if(splitLocation[i].startsWith("ss")) systemString = splitLocation[i].replaceAll("[a-z]", "");
+		}
+		
+		int regionX = Integer.parseInt(regionString.split("_")[0]); //Position of region in galaxy.
+		int regionY = Integer.parseInt(regionString.split("_")[1]);
+		int sectorX = Integer.parseInt(sectorString.split("_")[0]); //Position of sector in region.
+		int sectorY = Integer.parseInt(sectorString.split("_")[1]);
+		int systemX = Integer.parseInt(systemString.split("_")[0]); //Position of system in sector.
+		int systemY = Integer.parseInt(systemString.split("_")[1]);
+
+		int tilesInSector = Globals.sectorSize;
+		int tilesInRegion = (Globals.regionSize * tilesInSector);
+		int tilesInGalaxy = (Globals.galaxySize * tilesInRegion);
+		
+		Log.info("Tiles In Sector: " + tilesInSector);
+		Log.info("Tiles In Region: " + tilesInRegion);
+		Log.info("Tiles In Galaxy: " + tilesInGalaxy);
+		
+		Log.info("Region X: " + (regionX * tilesInRegion) + " (" + regionX + ")");
+		Log.info("Region Y: " + (regionY * tilesInRegion) + " (" + regionY + ")");
+		
+		Log.info("Sector X: " + (sectorX * tilesInSector) + " (" + sectorX + ")");
+		Log.info("Sector Y: " + (sectorY * tilesInSector) + " (" + sectorY + ")");
+		
+		int x = ((sectorX * tilesInSector) + (regionX * tilesInRegion));
+		int y = ((sectorY * tilesInSector) + (regionY * tilesInRegion));
+
+		Log.info("System X: " + x + "/45 (" + systemX + ")");
+		Log.info("System Y: " + y + "/45 (" + systemY + ")");
+		
 		Planet planet = new Planet();
-		planet.init(id, -1, getRandomPlanetName(), subname + "-" + Math.abs(subname.hashCode()), Globals.random.nextInt(4) + 1, file.getPath());
+		planet.init(id, x, y, -1, getRandomPlanetName(), subname + "-" + Math.abs(subname.hashCode()), Globals.random.nextInt(4) + 1, file.getPath());
 		
 		if(planet.type == 0) terran++;
 		else if(planet.type == 1) water++;
@@ -724,6 +780,7 @@ public class FileHandler {
 	}
 	
 	private static float calcPer(int a){
+		if(planetsCreated == 0) return 0;
 		return (float) ((a * 100) / planetsCreated);
 	}
 	
@@ -733,6 +790,27 @@ public class FileHandler {
 			double kilobytes = (bytes / 1024);
 			double megabytes = (kilobytes / 1024);
 			size += megabytes;
+		}
+	}
+
+	private static void saveImage(int[][] array, String name){
+		BufferedImage image = new BufferedImage(array.length, array.length, BufferedImage.TYPE_INT_RGB);
+		for(int i = 0; i < array.length; i++){
+			for(int j = 0; j < array.length; j++){
+				if(array[i][j] == 0){
+					int c = new Color(10, 10, 10).getRGB();
+					image.setRGB(i, j, c);
+				}else if(array[i][j] == 1){
+					int c = new Color(200, 200, 200).getRGB();
+					image.setRGB(i, j, c);
+				}
+			}
+		}
+		File file = new File("images/" + name + ".png");
+		try {
+			ImageIO.write(image, "png", file);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 }
