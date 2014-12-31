@@ -30,6 +30,9 @@ Planet-Trading-Game
 - If two players with the same IP try and connect, do not allow the 2nd user to connect.
 - Message 1st user saying "Multiple logins from the same IP detected", or something like that.
 
+# Ships
+- 
+
 # Stats
 - total_trades: The total amount of trades placed
 - total_trades_sold: The total amount of trades that have completely sold, doesn't count portions of a trade being sold.
