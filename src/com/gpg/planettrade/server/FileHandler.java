@@ -125,7 +125,6 @@ public class FileHandler {
 		if(!file.exists()){
 			file.mkdirs();
 			foldersCreated++;
-			Log.info("Creating region " + rx + "_" + ry + " [" + foldersCreated + " folders created. " + systemsCreated + " systems created with " + planetsCreated + " planets created] Total size: " + String.format("%.2f", size) + "mb");
 		}
 		
 		for(int sy = 0; sy < Globals.regionSize; sy++){
@@ -133,6 +132,8 @@ public class FileHandler {
 				createSector(DATA_FOLDER + "galaxy/r" + rx + "_" + ry + "/", sx, sy, x, y);
 			}
 		}
+		
+		Log.info("Created region " + rx + "_" + ry + " [" + foldersCreated + " folders created. " + systemsCreated + " systems created with " + planetsCreated + " planets created] Total size: " + String.format("%.2f", size) + "mb");
 		regions++;
 	}
 	
@@ -574,7 +575,10 @@ public class FileHandler {
 		Properties stats = loadStatsFile();
 		String valueStr = value.toString();
 		
-		if(stats.containsKey(key)) stats.replace(key, valueStr);
+		if(stats.containsKey(key)){
+//			stats.replace(key, valueStr);
+			stats.setProperty(key, valueStr);
+		}
 		else stats.put(key, valueStr);
 		
 		File file = new File(DATA_FOLDER + "/logs/marketplace/stats.dat");
