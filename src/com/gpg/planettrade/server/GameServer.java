@@ -55,7 +55,8 @@ public class GameServer {
 		server.bind(Network.PORT);
 		server.start();
 		
-		
+		server.close();
+		System.exit(0);
 		
 		String command = "";
 		

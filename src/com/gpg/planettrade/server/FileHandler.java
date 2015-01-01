@@ -51,6 +51,8 @@ public class FileHandler {
 	private static int tilesInSector;
 	private static int tilesInRegion;
 	private static int tilesInGalaxy;
+	private static int centerX;
+	private static int centerY;
 	
 	private static int foldersCreated;
 	private static double size = 0;
@@ -85,12 +87,17 @@ public class FileHandler {
 			Log.info("Data folder doesn't exist, creating now.");
 			file.mkdirs();
 		}else return;	
-		
-		imageId = new int[Globals.sectorSize * Globals.regionSize * Globals.galaxySize][Globals.sectorSize * Globals.regionSize * Globals.galaxySize];
-		
+				
 		tilesInSector = Globals.sectorSize;
 		tilesInRegion = (Globals.regionSize * tilesInSector);
 		tilesInGalaxy = (Globals.galaxySize * tilesInRegion);
+		
+		imageId = new int[tilesInGalaxy][tilesInGalaxy];
+		
+		for(int i = 0; i < tilesInGalaxy; i++) for(int j = 0; j < tilesInGalaxy; j++) imageId[i][j] = -1;
+		
+		centerX = tilesInGalaxy / 2;
+		centerY = tilesInGalaxy / 2;
 		
 		for(int y = 0; y < Globals.galaxySize; y++){
 			for(int x = 0; x < Globals.galaxySize; x++){
@@ -100,12 +107,11 @@ public class FileHandler {
 				
 		saveImage(imageId, "map");
 
-		
 		Log.info("-------------------------------------------------------------------------------------------------------");
 		Log.info("Created " + foldersCreated + " folders in " + ((System.currentTimeMillis() - start) / 1000) + " seconds. (" + String.format("%.2f", size) + "mb)");
 		Log.info("Regions: " + regions + " | Sectors: " + sectors + " | Systems: " + systemsCreated + " | Planets: " + planetsCreated + " | Chance for system: " + Globals.systemFactor + " out of 30.");
 		Log.info("Planet Types - Terran: " + terran + " (" + calcPer(terran) + "%)" +
-				            " | Water: " + water + " ("+ calcPer(water) + "%)" +
+				             " | Water: " + water + " ("+ calcPer(water) + "%)" +
 				             " | Lava: " + lava + " (" + calcPer(lava) + "%)" +
 				             " | Desert: " + desert + " (" + calcPer(desert) + "%)" +
 				             " | Gas: " + gas + " (" + calcPer(gas) + "%)");
@@ -139,17 +145,31 @@ public class FileHandler {
 			foldersCreated++;
 		}
 		
+		int xp = 0;
+		int yp = 0;
+		
 		for(int ssY = 0; ssY < Globals.sectorSize; ssY++){
 			for(int ssX = 0; ssX < Globals.sectorSize; ssX++){
-				imageId[ssX * x * regionX][ssY * y * regionY] = 0;
+				imageId[(tilesInRegion * regionX) + (tilesInSector * x) + ssX][(tilesInRegion * regionY) + (tilesInSector * y) + ssY] = 0;
 				totalTiles++;
-//				if(Globals.random.nextInt(30) <= Globals.systemFactor){
-//					createSystem(location + "s" + sx + "_" + sy + "/", ssX, ssY, x, y, regionX, regionY);
-//					imageId[(tilesInRegion * regionX) + (tilesInSector * x) + ssX][(tilesInRegion * regionY) + (tilesInSector * y) + ssY] = 1;
-//				}
+				xp = (tilesInRegion * regionX) + (tilesInSector * x) + ssX;
+				yp = (tilesInRegion * regionY) + (tilesInSector * y) + ssY;
 				
+				int distance = getDistance(xp, yp, centerX, centerY);			
+				
+				if((int) (tilesInGalaxy * 0.5) > distance){
+					if(Globals.random.nextInt((tilesInGalaxy / 2) - distance) - Globals.random.nextInt(Globals.systemSpacing) + Globals.random.nextInt(5) >= Globals.random.nextInt(Globals.systemSpacing * 3)){
+						createSystem(location + "s" + sx + "_" + sy + "/", ssX, ssY, x, y, regionX, regionY);
+						imageId[(tilesInRegion * regionX) + (tilesInSector * x) + ssX][(tilesInRegion * regionY) + (tilesInSector * y) + ssY] = 1;
+					}
+				}
 			}
 		}
+		
+		imageId[tilesInSector * x + (regionX * tilesInRegion)][tilesInSector * y + (regionY * tilesInRegion)] = -3;
+		imageId[regionX * tilesInRegion][regionY * tilesInRegion] = -2;
+		
+		saveImage(imageId, "map_" + sectors + ".png");
 		sectors++;
 	}
 	
@@ -177,10 +197,8 @@ public class FileHandler {
 	private static void createPlanet(String location, int id, String subname){
 		File file = new File(location);
 		ObjectOutputStream oos = null;
-		
-		Log.info("Location: " + location);
+
 		String[] splitLocation = location.split("/");
-		
 		String regionString = "";
 		String sectorString = "";
 		String systemString = "";
@@ -189,7 +207,6 @@ public class FileHandler {
 		sectorString = splitLocation[3].replaceAll("[a-z]", "");
 		systemString = splitLocation[4].replaceAll("[a-z]", "");
 		
-		
 		int regionX = Integer.parseInt(regionString.split("_")[0]); //Position of region in galaxy.
 		int regionY = Integer.parseInt(regionString.split("_")[1]);
 		int sectorX = Integer.parseInt(sectorString.split("_")[0]); //Position of sector in region.
@@ -197,33 +214,9 @@ public class FileHandler {
 		int systemX = Integer.parseInt(systemString.split("_")[0]); //Position of system in sector.
 		int systemY = Integer.parseInt(systemString.split("_")[1]);
 
-//		Log.info("RegionX: " + regionX);
-//		Log.info("RegionY: " + regionY);
-//		Log.info("SectorX: " + sectorX);
-//		Log.info("SectorY: " + sectorY);
-//		Log.info("SystemX: " + systemX);
-//		Log.info("SystemY: " + systemY);
-//		
-//		Log.info("Tiles In Region: " + tilesInRegion);
-//		Log.info("Tiles In Sector: " + tilesInSector);
-		
-		
-		int rx = (tilesInRegion * regionX);
-		int ry = (tilesInRegion * regionY);
-		int sx = (tilesInSector * sectorX);
-		int sy = (tilesInSector * sectorY);
-		
-//		Log.info("RX: " + rx);
-//		Log.info("RY: " + ry);
-//		Log.info("SX: " + sx);
-//		Log.info("SY: " + sy);
-		
-		int x = rx + sx + systemX; 
-		int y = ry + sy + systemY;
-		
-		Log.info("Global X: " + x + "/44");
-		Log.info("Global Y: " + y + "/44");
-		
+		int x = (tilesInRegion * regionX) + (tilesInSector * sectorX) + systemX; 
+		int y = (tilesInRegion * regionY) + (tilesInSector * sectorY) + systemY;
+
 		Planet planet = new Planet();
 		planet.init(id, x, y, -1, getRandomPlanetName(), subname + "-" + Math.abs(subname.hashCode()), Globals.random.nextInt(4) + 1, file.getPath());
 		
@@ -661,7 +654,8 @@ public class FileHandler {
 			prop.setProperty("galaxy_size", "3");
 			prop.setProperty("region_size", "3");
 			prop.setProperty("sector_size", "5");
-			prop.setProperty("system_factor", "3");
+			prop.setProperty("system_factor", "10");
+			prop.setProperty("system_spacing", "30");
 			prop.setProperty("starting_credits", "50000");
 			prop.setProperty("starting_planets", "10");
 			prop.setProperty("resource_multiplier", "4");
@@ -810,6 +804,18 @@ public class FileHandler {
 		BufferedImage image = new BufferedImage(array.length, array.length, BufferedImage.TYPE_INT_RGB);
 		for(int i = 0; i < array.length; i++){
 			for(int j = 0; j < array.length; j++){
+				if(array[i][j] == -3){
+					int c = new Color(0, 0, 255).getRGB();
+					image.setRGB(i, j, c);
+				}
+				if(array[i][j] == -2){
+					int c = new Color(0, 255, 0).getRGB();
+					image.setRGB(i, j, c);
+				}
+				if(array[i][j] == -1){
+					int c = new Color(190, 10, 10).getRGB();
+					image.setRGB(i, j, c);
+				}
 				if(array[i][j] == 0){
 					int c = new Color(10, 10, 10).getRGB();
 					image.setRGB(i, j, c);
@@ -825,5 +831,9 @@ public class FileHandler {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private static int getDistance(int xa, int ya, int xb, int yb){
+		return (int) Math.sqrt((xa - xb) * (xa - xb) + (ya - yb) * (ya - yb));
 	}
 }

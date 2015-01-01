@@ -19,6 +19,7 @@ public class Globals {
 	public static int regionSize;
 	public static int sectorSize;
 	public static int systemFactor;
+	public static int systemSpacing;
 	
 	public static long startingCredits;
 	public static int startingPlanets;
@@ -30,6 +31,7 @@ public class Globals {
 		regionSize = Integer.parseInt(prop.getProperty("region_size"));
 		sectorSize = Integer.parseInt(prop.getProperty("sector_size"));
 		systemFactor = Integer.parseInt(prop.getProperty("system_factor"));
+		systemSpacing = Integer.parseInt(prop.getProperty("system_spacing"));
 		
 		startingCredits = Integer.parseInt(prop.getProperty("starting_credits"));
 		startingPlanets = Integer.parseInt(prop.getProperty("starting_planets"));
