@@ -31,7 +31,10 @@ Planet-Trading-Game
 - Message 1st user saying "Multiple logins from the same IP detected", or something like that.
 
 # Ships
-- 
+- Build ships at ship yards/hangars.
+- Put ships into fleets or keep them solo.
+  - Fleets
+    - Fleets move at the speed of the slowest ship in the fleet.
 
 # Stats
 - total_trades: The total amount of trades placed
