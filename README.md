@@ -30,6 +30,9 @@ Planet-Trading-Game
 - If two players with the same IP try and connect, do not allow the 2nd user to connect.
 - Message 1st user saying "Multiple logins from the same IP detected", or something like that.
 
+# Dynamics
+- Load all planet types, items, etc through files.
+
 # Ships
 - Build ships at ship yards/hangars.
 - Put ships into fleets or keep them solo.
